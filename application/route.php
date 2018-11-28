@@ -9,6 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use think\Route;
+Route::rule('checkLogin/:module','index/:module.User/checkLogin');
 Route::rule('login/:module/:username/:password','index/:module.User/login');
 Route::rule('register/:module/:username/:password','index/:module.User/register');
 return [

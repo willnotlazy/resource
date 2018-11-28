@@ -23,4 +23,10 @@ class User extends Controller
         $result = UserModel::registerUser($params);
         return json_message(format($result,[404,201]));
     }
+    public function checkLogin(Request $request)
+    {
+        $params = $request->param();
+        $result = UserModel::loginIn($params);
+        return json_message(format($result,[404,201]));
+    }
 }

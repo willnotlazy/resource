@@ -5,6 +5,9 @@
  * Date: 2018/11/28
  * Time: 9:02
  */
+/*
+ *  return json
+ */
 function json_message($message)
 {
     return json_encode($message);
@@ -21,3 +24,4 @@ function format($data,Array $code)
     }
     return $message;
 }
+
