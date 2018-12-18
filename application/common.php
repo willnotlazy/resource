@@ -41,6 +41,7 @@ pZlFBPOSGg5y/eCjxKrB2xSZ3ZC+yQdPKDtgA49ZTBzNlBo7nbKixC5taryqaTVY
 EOD
 );
 
+define('PASSWORD_PREFIX','resource_519');
 /*
  * checkToken
  */
