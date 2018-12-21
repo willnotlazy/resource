@@ -75,8 +75,55 @@ function createToken($data, Array $param)
  */
 function decrypt($data)
 {
-    openssl_private_decrypt(base64_decode($data['key']),$decryptData,PRIVATEKEY);
-    $data['username'] = openssl_decrypt(base64_decode($data['username']),'AES-128-CBC',$decryptData,true,$decryptData);
-    $data['password'] = md5(openssl_decrypt(base64_decode($data['password']),'AES-128-CBC',$decryptData,true,$decryptData));
+    openssl_private_decrypt(base64_decode($data),$decryptData,PRIVATEKEY);
+//    openssl_private_decrypt(base64_decode($data['key']),$decryptData,PRIVATEKEY);
+    $data = openssl_decrypt(base64_decode($data),'AES-128-CBC',$decryptData,true,$decryptData);
     return $data;
+//    $data['password'] = md5(PASSWORD_PREFIX . openssl_decrypt(base64_decode($data['password']),'AES-128-CBC',$decryptData,true,$decryptData));
+//    return $data;
+}
+
+// 获取用户真实ip
+function getIp()
+{
+    if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown"))
+        $ip = getenv("HTTP_CLIENT_IP");
+    else if (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown"))
+        $ip = getenv("HTTP_X_FORWARDED_FOR");
+    else if (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown"))
+        $ip = getenv("REMOTE_ADDR");
+    else if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], "unknown"))
+        $ip = $_SERVER['REMOTE_ADDR'];
+    else
+        $ip = "unknown";
+    return ($ip);
+}
+// 获取用户真实ip
+function get_real_ip()
+{
+    $ip=false;
+    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+        $ip=$_SERVER['HTTP_CLIENT_IP'];
+    }
+    if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        $ips=explode (', ', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        if($ip){ array_unshift($ips, $ip); $ip=FALSE; }
+        for ($i=0; $i < count($ips); $i++){
+            if(!eregi ('^(10│172.16│192.168).', $ips[$i])){
+                $ip=$ips[$i];
+                break;
+            }
+        }
+    }
+    return ($ip ? $ip : $_SERVER['REMOTE_ADDR']);
+}
+
+function getSalt()
+{
+    $str = '';
+    $str .= getIp();
+    $str .= uniqid();
+    $str .= time();
+    $salt = hash('md5',$str);
+    return $salt;
 }

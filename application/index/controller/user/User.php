@@ -6,34 +6,28 @@
  * Time: 10:53
  */
 namespace app\index\controller\user;
-use think\Controller;
+use app\index\controller\user\Base;
 use think\Facade;
-use think\Request;
-use app\index\model\user\User as UserModel;
-class User extends Controller
-{
-    public $user_model;
-    public function __construct()
-    {
-        $this->user_model = new UserModel();
-    }
 
-    public function login(Request $request)
+class User extends Base
+{
+    public function login()
     {
-        $param = $request->param();
+        $param = $this->request->param();
+        $token = $this->request->header('token');
         $result = $this->user_model->LoginCheck($param);
         return json_message(format($result,[404,200]));
     }
-    public function register(Request $request)
+    public function register()
     {
-        $params = $request->param();
+        $params = $this->request->param();
         $result = UserModel::registerUser($params);
-        return json_message(format($result,[404,201]));
+        return json_message(format($this->result,[404,201]));
     }
-//    public function checkLogin(Request $request)
-//    {
-//        $params = $request->param();
-//        $result = UserModel::loginIn($params);
-//        return json_message(format($result,[404,201]));
-//    }
+
+    public function showLevel($id)
+    {
+        return json_encode($this->user_model->islevelUp($id));
+    }
+
 }

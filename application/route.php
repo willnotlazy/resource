@@ -10,8 +10,10 @@
 // +----------------------------------------------------------------------
 use think\Route;
 Route::rule('checkLogin/:module','index/:module.User/checkLogin');
-Route::post('login/:module','index/:module.User/login');
+Route::post('login','index/user.User/login');
 Route::rule('register/:module/:username/:password','index/:module.User/register');
+Route::rule('level/:module/:id','index/:module.User/showLevel');
+
 return [
     '__pattern__' => [
         'name' => '\w+',
