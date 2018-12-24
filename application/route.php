@@ -11,9 +11,9 @@
 use think\Route;
 Route::rule('checkLogin/:module','index/:module.User/checkLogin');
 Route::post('login','index/user.User/login');
-Route::rule('register/:module/:username/:password','index/:module.User/register');
+Route::post('register','index/user.User/register');
 Route::rule('level/:module/:id','index/:module.User/showLevel');
-
+Route::post('createpost','index/action.Action/postSomething');
 return [
     '__pattern__' => [
         'name' => '\w+',

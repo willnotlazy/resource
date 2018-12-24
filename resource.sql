@@ -52,3 +52,20 @@ CREATE TABLE `res_user_token`(
   `limit` DATETIME NOT NULL COMMENT 'token过期时间',
   `clientIp` VARCHAR(256) NOT NULL COMMENT '客户端ip'
 )ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+/*
+  帖子表
+ */
+CREATE TABLE `res_user_post`(
+  `postID` int UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '帖子id',
+  `authorID` int UNSIGNED NOT NULL COMMENT '作者',
+  `title` VARCHAR(256) NOT NULL COMMENT '标题',
+  `content` text NOT NULL COMMENT '内容',
+  `postAddress` VARCHAR(256) COMMENT '帖子地址',
+  `classify` VARCHAR(64) NOT NULL COMMENT '分类',
+  `postTime` int NOT NULL COMMENT '发帖时间',
+  `couldPost` tinyint NOT NULL DEFAULT 0 COMMENT '是否允许发布',
+  `isEffective` tinyint NOT NULL DEFAULT 0 COMMENT '是否有效',
+  `checked` VARCHAR(64) COMMENT '审核者',
+  `checkStatus` VARCHAR(16) COMMENT '审核状态'
+)ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;

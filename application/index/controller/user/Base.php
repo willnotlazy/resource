@@ -10,7 +10,6 @@ use think\Controller;
 use think\Facade;
 use think\Request;
 use app\index\model\user\User as UserModel;
-
 class Base extends Controller
 {
     public $user_model;
@@ -21,7 +20,7 @@ class Base extends Controller
 
     public function _initialize()
     {
-        $this->user_model = new UserModel();
+        $this->user_model =  UserModel::getInstance();
     }
 }
 ?>
