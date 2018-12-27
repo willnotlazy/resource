@@ -17,7 +17,7 @@ class User extends Base
         $param = $this->request->param();
         $token = $this->request->header('token');
         $result = $this->user_model->LoginCheck($param);
-        return json_message(format($result,[404,200]));
+        return json_encode($result);
     }
 
     // 注册

@@ -10,10 +10,12 @@ use think\Db;
 use think\Model;
 use Firebase\JWT\JWT;
 use think\Request;
+use app\index\model\action\Action;
 use app\index\model\experience\Experience;
 
 class User extends Model
 {
+    // 返回 User model 单例
     private static $_user = null;
     public static function getInstance()
     {
@@ -23,32 +25,62 @@ class User extends Model
         }
         return self::$_user;
     }
+
     // 检查用户登录信息并返回用户信息
     public function LoginCheck($data)
     {
         // 用户验证
         $user = $data['username'];
         $password = $data['password'];
-        $result = Db::table('res_user')->where('username',$user)->select();
-        if (empty($result)) return $result;
+
+        // 用户是否存在
+        $result = Db::table('res_user')->where('username',$user)->find();
+        if (empty($result)) return ['code' => USER_NOT_FOUND,'msg' => map[USER_NOT_FOUND]];
+
+        // 用户是否可登录
+        if (!$this->cloudUserLogin($user) && Action::getInstance()->getLoginFailTimesByUser($user))
+        {
+            $data = [
+                'code' => LIMIT_LOGIN_FAIL_TIMES,
+                'msg'  => map[LIMIT_LOGIN_FAIL_TIMES]
+            ];
+            return $data;
+        }
 
         // 密码验证
-        $password .= $result[0]['salt'];
-        if (hash('md5',$password) !== $result[0]['password']) return null;
+        $password .= $result['salt'];
+        if (hash('md5',$password) !== $result['password'])
+        {
+            $surplus = Action::getInstance()->logLoginFailAction($result['id']);
+            // 不可登录
+            if ($surplus['surplus'] == 0)
+            {
+                Db::name('user')->where('username',$user)->update(['couldLogin'=>0]);
+                return [
+                    'code'  => LIMIT_LOGIN_FAIL_TIMES,
+                    'msg'   => map[LIMIT_LOGIN_FAIL_TIMES]
+                ];
+            }
+            return [
+                'code'  => PASSWORD_ERROR,
+                'msg'   => map[PASSWORD_ERROR],
+                'data'  => $surplus
+            ];
+        }
 
         // 登录经验增加判断
         Experience::getInstance()->addExperienceBylogin($result);
 
         // 返回token
-        $userInfo = $this->getUserInfo($result[0]['id']);
-        unset($userInfo[0]['password']);
+        $userInfo = $this->getUserInfo($result['id']);
+        unset($userInfo['password']);
         $request = Request::instance();
-        $token = createToken($result[0]['id'],array(
+        $token = createToken($result['id'],array(
             'iss' => $request->domain(),
             'aud' => $request->baseUrl(true)
         ));
         unset($userInfo);
-        return $token;
+        return ['code' => LOGIN_SUCCESS, 'msg' => map[LOGIN_SUCCESS], 'data' => $token];
     }
 
     // 用户注册
@@ -104,5 +136,13 @@ class User extends Model
     {
         $user = Db::table('res_user')->where('email',$email)->find();
         return empty($user);
+    }
+
+    // 判断用户是否可以登录
+    public function cloudUserLogin($user)
+    {
+        $status = Db::name('user')->where('username',$user)->find();
+        if ((int)$status['couldLogin'] === 0) return false;
+        return true;
     }
 }

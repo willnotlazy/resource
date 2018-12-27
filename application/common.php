@@ -41,7 +41,35 @@ pZlFBPOSGg5y/eCjxKrB2xSZ3ZC+yQdPKDtgA49ZTBzNlBo7nbKixC5taryqaTVY
 EOD
 );
 
-define('PASSWORD_PREFIX','resource_519');
+/*
+ *  定义返回的状态码
+ */
+define('LOGIN_SUCCESS',210);
+define('USER_NOT_FOUND',424);
+define('PASSWORD_ERROR',426);
+define('LIMIT_LOGIN_FAIL_TIMES',429);
+
+/*
+ *  定义状态码对应的返回信息   PHP VERSION >= 7.0.0
+ */
+define('map',[
+    LOGIN_SUCCESS               => '登录成功',
+    USER_NOT_FOUND              => '用户名不存在',
+    PASSWORD_ERROR              => '密码错误',
+    LIMIT_LOGIN_FAIL_TIMES      => '您已累计登录失败5次,请一小时后重试'
+]);
+
+
+define('PWDERROR','pwdError');
+
+
+
+
+/*
+ *  return json
+ */
+
+
 /*
  * checkToken
  */
@@ -83,6 +111,10 @@ function decrypt($data)
 //    return $data;
 }
 
+
+/*
+ *  get real ip
+ */
 // 获取用户真实ip
 function getIp()
 {

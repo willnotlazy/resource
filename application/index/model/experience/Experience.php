@@ -27,31 +27,37 @@ class Experience extends Model
     // 每日登录经验增加
     public function addExperienceBylogin($result)
     {
-        $lastLoginDate = Db::table('res_user_login_log')->where("uid=".$result[0]['id'])->order('id desc')->limit(1)->select();
+        $lastLoginDate = Db::table('res_user_login_log')->where("uid=".$result['id'])->order('id desc')->limit(1)->select();
         if (!$lastLoginDate || date('Y-m-d',strtotime($lastLoginDate[0]['signIn'] . " +1 days")) === date('Y-m-d',time())) {
             $userData = [
-                'id'                   => $result[0]['id'],
-                'accumulatedLoginDays' => $result[0]['accumulatedLoginDays'] + 1,
-                'consecutiveLoginDays' => $result[0]['consecutiveLoginDays'] + 1,
-                'experience'           => $result[0]['experience'] + 10 + $result[0]['consecutiveLoginDays']
+                'id'                   => $result['id'],
+                'accumulatedLoginDays' => $result['accumulatedLoginDays'] + 1,
+                'consecutiveLoginDays' => $result['consecutiveLoginDays'] + 1,
+                'experience'           => $result['experience'] + 10 + $result['consecutiveLoginDays'],
+                'couldLogin'           => 1
             ];
             Db::table('res_user')->update($userData);
-            $this->islevelUp($result[0]['id'],$result[0]['experience'] + 10 + $result[0]['consecutiveLoginDays']);
+            $this->islevelUp($result['id'],$result['experience'] + 10 + $result['consecutiveLoginDays']);
         }else if(date('Y-m-d',strtotime($lastLoginDate[0]['signIn'])) === date('Y-m-d',time())){
-
+            $userData = [
+                'id'                   => $result['id'],
+                'couldLogin'           => 1
+            ];
+            Db::table('res_user')->update($userData);
         }else {
             $userData = [
-                'id'                   => $result[0]['id'],
-                'accumulatedLoginDays' => $result[0]['accumulatedLoginDays'] + 1,
+                'id'                   => $result['id'],
+                'accumulatedLoginDays' => $result['accumulatedLoginDays'] + 1,
                 'consecutiveLoginDays' => 1,
-                'experience'           => $result[0]['experience'] + 10
+                'experience'           => $result['experience'] + 10,
+                'couldLogin'           => 1
             ];
             Db::table('res_user')->update($userData);
-            $this->islevelUp($result[0]['id'],$result[0]['experience'] + 10);
+            $this->islevelUp($result['id'],$result['experience'] + 10);
         }
         $data = [
             'id'    =>  null,
-            'uid'   =>  $result[0]['id'],
+            'uid'   =>  $result['id'],
             'signIn'=>  date('Y-m-d H:i:s',time())
         ];
         Db::table('res_user_login_log')->insert($data);
@@ -80,13 +86,13 @@ class Experience extends Model
             ->join('res_user_level l','u.level = l.level')
             ->field('u.level,l.experience')
             ->where('u.id',$uid)
-            ->select();
-        if ($experience >= $result[0]['experience'])
+            ->find();
+        if ($experience >= $result['experience'])
         {
             $data = [
                 'id'         => $uid,
-                'level'      => $result[0]['level'] + 1,
-                'experience' => $experience - $result[0]['experience']
+                'level'      => $result['level'] + 1,
+                'experience' => $experience - $result['experience']
             ];
             $this->table('res_user')->update($data);
         }
