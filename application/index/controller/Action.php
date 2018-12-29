@@ -6,8 +6,6 @@
  * Time: 16:41
  */
 namespace app\index\controller;
-use think\Controller;
-use think\Facade;
 use think\Request;
 use app\index\model\Action as ActionModel;
 class Action extends Base

@@ -14,6 +14,10 @@ class User extends Base
     public function login()
     {
         $param = $this->request->param();
+        session_start();
+        if (isset($_SESSION['name'])) {
+            $this->success($_SESSION['name'],'/info');
+        }
         if(empty($param)) return $this->fetch('login');
         $userModel = $this->getModelInstance('User');
         $token = $this->request->header('token');
@@ -21,9 +25,22 @@ class User extends Base
         if($result['code'] == USER_NOT_FOUND) $this->error($result['msg'],'/login','','1');
         if($result['code'] == LIMIT_LOGIN_FAIL_TIMES) $this->error($result['msg'],'/login','','1');
         if($result['code'] == PASSWORD_ERROR) $this->error($result['msg'],'/login','','1');
-        if($result['code'] == LOGIN_SUCCESS) $this->success($result['msg'],'/login',$result['data'],'1');
+        if($result['code'] == LOGIN_SUCCESS) $this->success($result['msg'],'/login',$result['data'],'1000');
         if($result['code'] == ALREADY_LOGIN) $this->error($result['msg'],'/login','','1');
         return json_encode($result);
+    }
+
+    // 展示个人信息
+    public function info()
+    {
+
+        session_start();
+        if (!empty($_POST))
+        {
+            session_destroy();
+        }
+        $this->assign('name',$_SESSION['name']);
+        return $this->fetch();
     }
 
     // 注册
@@ -61,8 +78,7 @@ class User extends Base
     // ajax 判断邮箱是否合法且是否以被注册
     public function ajaxJudgeEmail()
     {
-
+        $param = $this->request->param('email');
+        echo $this->getModelInstance('User')->getFromUserEmail($param);
     }
-
-    // ajax 判断密码是否符合要求
 }

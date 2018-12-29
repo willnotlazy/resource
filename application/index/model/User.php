@@ -78,6 +78,8 @@ class User extends Base
         ];
         Db::name('user_token')->insert($tokenInfo);
 
+        $_SESSION['id'] = $result['id'];
+        $_SESSION['name'] = $result['username'];
         return ['code' => LOGIN_SUCCESS, 'msg' => map[LOGIN_SUCCESS], 'data' => $token];
     }
 

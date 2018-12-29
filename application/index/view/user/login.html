@@ -8,20 +8,30 @@
 	<link rel="stylesheet" href="/static/index/css/login.css">
 </head>
 <body>
-	<div></div>
 	<div class="l-form">
-		<form class="" action="">
-			<div>
-				<label for="username">用户名</label>
-				<input id="username"type="text" name="username" autocomplete="off"/>
-			</div>
-			<div>
-				<label for="password">密码</label>
-				<input style="margin-left:1em;margin-top: 2em" type="password" name="password" id="password"/>
-			</div>
-		</form>
+		<div class="choose-form">
+			<div id="choose-login">登录</div>
+			<div id="choose-register">注册</div>
+		</div>
+		<div class="">
+			<form method="post">
+				<table>
+					<tr>
+						<th>用户名</th>
+						<td><input type="text" name="username"></td>
+					</tr>
+					<tr>
+						<th>密码</th>
+						<td><input type="password" name="password"></td>
+					</tr>
+				</table>
+					<div>
+						<input type="submit" name="" id="bu1" value="进入本站" />
+					</div>
+			</form>
+		</div>
 	</div>
-	<script src="/static/index/js/login.js"></script>
-	<div></div>
 </body>
+<script src="/static/index/js/jquery-3.3.1.js"></script>
+<script src="/static/index/js/login.js"></script>
 </html>

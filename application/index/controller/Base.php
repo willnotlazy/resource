@@ -17,6 +17,7 @@ class Base extends Controller
     public function _initialize()
     {
         deleteOutTimeToken();
+        session_set_save_handler(new \app\extra\Session);
     }
 
     // 获取模型的唯一实例
