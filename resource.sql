@@ -21,7 +21,9 @@ CREATE TABLE `res_user`(
   `level` tinyint DEFAULT 1 COMMENT '用户等级',
   `accumulatedLoginDays` mediumint UNSIGNED DEFAULT 0 COMMENT '累计登录天数',
   `consecutiveLoginDays` mediumint UNSIGNED DEFAULT 0 COMMENT '连续登录天数',
-  `experience` mediumint UNSIGNED COMMENT '当前经验'
+  `experience` mediumint UNSIGNED COMMENT '当前经验',
+  `couldLogin` tinyint NOT NULL DEFAULT 1 COMMENT '是否可以登录',
+  `isLogin` tinyint NOT NULL DEFAULT 0 COMMENT '是否已经登录'
 )ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 /*

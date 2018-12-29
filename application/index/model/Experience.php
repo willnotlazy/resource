@@ -5,24 +5,12 @@
  * Date: 2018/12/24
  * Time: 15:43
  */
-namespace app\index\model\experience;
+namespace app\index\model;
 
-use app\index\model\user\User;
-use think\Model;
 use think\Db;
-use app\index\model\user\User as UserModel;
 
-class Experience extends Model
+class Experience extends Base
 {
-    private static $_experience = null;
-    public static function getInstance()
-    {
-        if (is_null(self::$_experience))
-        {
-            self::$_experience = new Experience();
-        }
-        return self::$_experience;
-    }
 
     // 每日登录经验增加
     public function addExperienceBylogin($result)
@@ -73,7 +61,7 @@ class Experience extends Model
     // 发帖增加经验
     public function addExperienceByPost($id)
     {
-        $user = UserModel::getInstance()->get($id);
+        $user = $this->getModelInstance('User')->get($id);
         $user->experience += 6;
         $user->isUpdate()->save();
     }

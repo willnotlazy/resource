@@ -44,11 +44,15 @@ EOD
 /*
  *  定义返回的状态码
  */
-define('LOGIN_SUCCESS',210);
-define('USER_NOT_FOUND',424);
-define('PASSWORD_ERROR',426);
-define('LIMIT_LOGIN_FAIL_TIMES',429);
+define('LOGIN_SUCCESS',20210);
+define('USER_NOT_FOUND',40424);
+define('PASSWORD_ERROR',40426);
+define('LIMIT_LOGIN_FAIL_TIMES',40429);
+define('ALREADY_LOGIN',40428);
+define('INVALID_TOKEN',40427);
 
+define('REGISTER_USER_EXIST',40413);
+define('REGISTER_EMAIL_EXIST',40414);
 /*
  *  定义状态码对应的返回信息   PHP VERSION >= 7.0.0
  */
@@ -56,7 +60,11 @@ define('map',[
     LOGIN_SUCCESS               => '登录成功',
     USER_NOT_FOUND              => '用户名不存在',
     PASSWORD_ERROR              => '密码错误',
-    LIMIT_LOGIN_FAIL_TIMES      => '您已累计登录失败5次,请一小时后重试'
+    LIMIT_LOGIN_FAIL_TIMES      => '您已累计登录失败5次,请一小时后重试',
+    ALREADY_LOGIN               => '该用户已在其他浏览器登录',
+    INVALID_TOKEN               => '无效的登录状态',
+    REGISTER_USER_EXIST         => '用户名已存在',
+    REGISTER_EMAIL_EXIST        => '邮箱已被注册'
 ]);
 
 
@@ -158,4 +166,16 @@ function getSalt()
     $str .= time();
     $salt = hash('md5',$str);
     return $salt;
+}
+
+// 删除过期的token
+function deleteOutTimeToken()
+{
+    $out = time() - 2;
+    $user = \think\Db::name('user_token')->where('limit','<=',$out)->column('userID');
+    foreach ($user as $key => $value)
+    {
+        \think\Db::name('user')->where('id',$value)->update(['isLogin'=>0]);
+    }
+    \think\Db::name('user_token')->where('limit','<=',$out)->delete();
 }

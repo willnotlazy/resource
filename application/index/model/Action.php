@@ -5,14 +5,12 @@
  * Date: 2018/12/24
  * Time: 17:17
  */
-namespace app\index\model\action;
+namespace app\index\model;
 
-use think\Model;
 use think\Db;
 use think\Request;
-use app\index\model\experience\Experience;
 
-class Action extends Model
+class Action extends Base
 {
     // 返回 Action 单例
     private static $_action = null;

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 use think\Route;
 Route::rule('checkLogin/:module','index/:module.User/checkLogin');
-Route::post('login','index/user.User/login');
+Route::rule('login','index/User/login');
 Route::post('register','index/user.User/register');
 Route::rule('level/:module/:id','index/:module.User/showLevel');
 Route::post('createpost','index/action.Action/postSomething');

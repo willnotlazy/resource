@@ -5,27 +5,13 @@
  * Date: 2018/11/27
  * Time: 11:01
  */
-namespace app\index\model\user;
+namespace app\index\model;
 use think\Db;
-use think\Model;
 use Firebase\JWT\JWT;
 use think\Request;
-use app\index\model\action\Action;
-use app\index\model\experience\Experience;
 
-class User extends Model
+class User extends Base
 {
-    // 返回 User model 单例
-    private static $_user = null;
-    public static function getInstance()
-    {
-        if (is_null(self::$_user))
-        {
-            self::$_user = new User();
-        }
-        return self::$_user;
-    }
-
     // 检查用户登录信息并返回用户信息
     public function LoginCheck($data)
     {
@@ -38,7 +24,7 @@ class User extends Model
         if (empty($result)) return ['code' => USER_NOT_FOUND,'msg' => map[USER_NOT_FOUND]];
 
         // 用户是否可登录
-        if (!$this->cloudUserLogin($user) && Action::getInstance()->getLoginFailTimesByUser($user))
+        if (!$this->cloudUserLogin($user) && Base::getModelInstance('Action')->getLoginFailTimesByUser($user))
         {
             $data = [
                 'code' => LIMIT_LOGIN_FAIL_TIMES,
@@ -46,12 +32,11 @@ class User extends Model
             ];
             return $data;
         }
-
         // 密码验证
         $password .= $result['salt'];
         if (hash('md5',$password) !== $result['password'])
         {
-            $surplus = Action::getInstance()->logLoginFailAction($result['id']);
+            $surplus = Base::getModelInstance('Action')->logLoginFailAction($result['id']);
             // 不可登录
             if ($surplus['surplus'] == 0)
             {
@@ -68,8 +53,12 @@ class User extends Model
             ];
         }
 
+        if ($this->isAlreadyLogin($user)) return ['code'=>ALREADY_LOGIN,'msg'=>map[ALREADY_LOGIN]];
+        // 更改用户登录状态
+        Db::name('user')->where('id',$result['id'])->update(['isLogin'=>1]);
+
         // 登录经验增加判断
-        Experience::getInstance()->addExperienceBylogin($result);
+        Base::getModelInstance('Experience')->addExperienceBylogin($result);
 
         // 返回token
         $userInfo = $this->getUserInfo($result['id']);
@@ -80,6 +69,15 @@ class User extends Model
             'aud' => $request->baseUrl(true)
         ));
         unset($userInfo);
+
+        $tokenInfo = [
+            'userID'   => $result['id'],
+            'token'    => $token,
+            'limit'    => time() + 1800,
+            'clientIp' => getIp()
+        ];
+        Db::name('user_token')->insert($tokenInfo);
+
         return ['code' => LOGIN_SUCCESS, 'msg' => map[LOGIN_SUCCESS], 'data' => $token];
     }
 
@@ -104,7 +102,7 @@ class User extends Model
         $result = Db::table('res_user')->where('id',$id)->select();
 
         // 获得首次登录经验
-        Experience::getInstance()->addExperienceBylogin($result);
+        Base::getModelInstance('Experience')->addExperienceBylogin($result);
 
         // 返回token
         $userInfo = (new self)->getUserInfo($result[0]['id']);
@@ -145,4 +143,13 @@ class User extends Model
         if ((int)$status['couldLogin'] === 0) return false;
         return true;
     }
+
+    // 判断本次登录之前用户是否已登录
+    private function isAlreadyLogin($user)
+    {
+        $isLogin = Db::name('user')->where('username',$user)->find()['isLogin'];
+        return (int)$isLogin === 0 ? false : true;
+    }
+
+
 }
