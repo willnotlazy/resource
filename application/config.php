@@ -95,7 +95,7 @@ return [
     // 路由配置文件（支持配置多个）
     'route_config_file'      => ['route'],
     // 是否强制使用路由
-    'url_route_must'         => true,
+    'url_route_must'         => false,
     // 域名部署
     'url_domain_deploy'      => false,
     // 域名根，如thinkphp.cn
@@ -168,7 +168,7 @@ return [
         // 日志保存目录
         'path'  => LOG_PATH,
         // 日志记录级别
-        'level' => [],
+        'level' => ['log', 'error', 'info', 'sql', 'notice', 'alert', 'debug'],
     ],
 
     // +----------------------------------------------------------------------
@@ -200,13 +200,13 @@ return [
 
     'session'                => [
         'id'             => '',
-        // SESSION_ID的提交变量,解决flash上传跨域
+//        // SESSION_ID的提交变量,解决flash上传跨域
         'var_session_id' => '',
-        // SESSION 前缀
-        'prefix'         => 'think',
+//        // SESSION 前缀
+        'prefix'         => '',
         // 驱动方式 支持redis memcache memcached
-        'type'           => '',
-        // 是否自动开启 SESSION
+        'type'           => "Mysql",
+//        // 是否自动开启 SESSION
         'auto_start'     => true,
     ],
 

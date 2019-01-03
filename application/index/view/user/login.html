@@ -4,34 +4,67 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>登录页</title>
+	<title>登录-注册页</title>
 	<link rel="stylesheet" href="/static/index/css/login.css">
 </head>
+
 <body>
-	<div class="l-form">
-		<div class="choose-form">
-			<div id="choose-login">登录</div>
-			<div id="choose-register">注册</div>
+	<div class="rl-model">
+		<div class="rl-model-header">
+			<h1>
+				<span class="active">登陆</span>
+				<span>注册</span>
+			</h1>
 		</div>
-		<div class="">
-			<form method="post">
-				<table>
-					<tr>
-						<th>用户名</th>
-						<td><input type="text" name="username"></td>
-					</tr>
-					<tr>
-						<th>密码</th>
-						<td><input type="password" name="password"></td>
-					</tr>
-				</table>
-					<div>
-						<input type="submit" name="" id="bu1" value="进入本站" />
-					</div>
-			</form>
+
+		<div class="rl-model-body show" spellcheck="false">
+			<div class="rl-username">
+				<input
+					type="text"
+					name="username"
+					id="username"
+					placeholder="请输入用户名"
+				/>
+			</div>
+			<div class="rl-password">
+				<input
+					type="password"
+					name="password"
+					id="password"
+					placeholder="请输入密码"
+				/>
+			</div>
+			<div class="rl-model-footer">
+				<span>登陆</span>
+			</div>
+		</div>
+
+		<div class="rl-model-body" spellcheck="false">
+			<div class="rl-username">
+				<input
+					type="text"
+					placeholder="请输入注册邮箱"
+				/>
+			</div>
+			<div class="rl-username">
+					<input
+						type="text"
+						placeholder="请输入注册用户名"
+					/>
+				</div>
+			<div class="rl-password">
+				<input
+					type="password"
+					placeholder="请输入密码"
+				/>
+			</div>
+			<div class="rl-model-footer">
+				<span>注册</span>
+			</div>
 		</div>
 	</div>
+
+	<script src="/static/index/js/jquery-3.3.1.js"></script>
+	<script src="/static/index/js/login.js"></script>
 </body>
-<script src="/static/index/js/jquery-3.3.1.js"></script>
-<script src="/static/index/js/login.js"></script>
 </html>

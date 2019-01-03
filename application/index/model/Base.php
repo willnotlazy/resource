@@ -13,7 +13,6 @@ class Base extends Model
     public function initialize()
     {
         deleteOutTimeToken();
-        session_set_save_handler(new \app\extra\Session);
     }
 
     // 返回模型单例

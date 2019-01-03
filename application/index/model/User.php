@@ -9,6 +9,7 @@ namespace app\index\model;
 use think\Db;
 use Firebase\JWT\JWT;
 use think\Request;
+use think\Session;
 
 class User extends Base
 {
@@ -78,8 +79,8 @@ class User extends Base
         ];
         Db::name('user_token')->insert($tokenInfo);
 
-        $_SESSION['id'] = $result['id'];
-        $_SESSION['name'] = $result['username'];
+        Session::set('id',$result['id']);
+        Session::set('name',$result['username']);
         return ['code' => LOGIN_SUCCESS, 'msg' => map[LOGIN_SUCCESS], 'data' => $token];
     }
 

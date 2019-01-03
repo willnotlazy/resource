@@ -7,39 +7,48 @@
  */
 namespace app\index\controller;
 use think\Facade;
-
+use think\Request;
+use think\Config;
+use think\Session;
 class User extends Base
 {
     // 登录
     public function login()
     {
         $param = $this->request->param();
-        session_start();
-        if (isset($_SESSION['name'])) {
-            $this->success($_SESSION['name'],'/info');
+        $name = Session::get('name');
+        if (!empty($name)) {
+            $this->success($name,'/info');
         }
         if(empty($param)) return $this->fetch('login');
         $userModel = $this->getModelInstance('User');
         $token = $this->request->header('token');
         $result = $userModel->LoginCheck($param);
+//        $config = Config::get('session');
+//        $class = $config['type'];
+//        var_dump(class_exists($class));
+//        $s = new $class();
+//        var_dump($s);
+//        var_dump($userModel);
+//        die;
+        return json_encode($result);
         if($result['code'] == USER_NOT_FOUND) $this->error($result['msg'],'/login','','1');
         if($result['code'] == LIMIT_LOGIN_FAIL_TIMES) $this->error($result['msg'],'/login','','1');
         if($result['code'] == PASSWORD_ERROR) $this->error($result['msg'],'/login','','1');
-        if($result['code'] == LOGIN_SUCCESS) $this->success($result['msg'],'/login',$result['data'],'1000');
+        if($result['code'] == LOGIN_SUCCESS) $this->success($result['msg'],'/info',$result['data'],'1');
         if($result['code'] == ALREADY_LOGIN) $this->error($result['msg'],'/login','','1');
-        return json_encode($result);
+
     }
 
     // 展示个人信息
     public function info()
     {
 
-        session_start();
         if (!empty($_POST))
         {
             session_destroy();
         }
-        $this->assign('name',$_SESSION['name']);
+        $this->assign('name',Session::get('name'));
         return $this->fetch();
     }
 
