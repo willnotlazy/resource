@@ -50,9 +50,18 @@ define('PASSWORD_ERROR',40426);
 define('LIMIT_LOGIN_FAIL_TIMES',40429);
 define('ALREADY_LOGIN',40428);
 define('INVALID_TOKEN',40427);
+define('REGISTER_SUCCESS',20200);
+
 
 define('REGISTER_USER_EXIST',40413);
 define('REGISTER_EMAIL_EXIST',40414);
+
+define('EMAIL_ERROR',40412);
+define('EMAIL_NOTNULL',40407);
+define('USERNAME_TOSHORT',40411);
+define('USERNAME_NOTNULL',40410);
+define('PASSWORD_TOSHORT',40409);
+define('PASSWORD_NOTNULL',40408);
 /*
  *  定义状态码对应的返回信息   PHP VERSION >= 7.0.0
  */
@@ -64,7 +73,14 @@ define('map',[
     ALREADY_LOGIN               => '该用户已在其他浏览器登录',
     INVALID_TOKEN               => '无效的登录状态',
     REGISTER_USER_EXIST         => '用户名已存在',
-    REGISTER_EMAIL_EXIST        => '邮箱已被注册'
+    REGISTER_EMAIL_EXIST        => '邮箱已被注册',
+    REGISTER_SUCCESS            => '注册成功',
+    EMAIL_ERROR                 => '邮箱格式不正确',
+    EMAIL_NOTNULL               => '邮箱不能为空',
+    USERNAME_TOSHORT            => '用户名不能短于5个字符',
+    USERNAME_NOTNULL            => '用户名不能为空',
+    PASSWORD_TOSHORT            => '密码不能短于6个字符',
+    PASSWORD_NOTNULL            => '密码不能为空'
 ]);
 
 

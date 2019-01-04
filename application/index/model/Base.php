@@ -17,7 +17,7 @@ class Base extends Model
 
     // 返回模型单例
     private static $model = [];
-    public function getModelInstance($name)
+    public static function getModelInstance($name)
     {
         if (isset(self::$model[$name])) return self::$model[$name];
         $modelName = "app\\index\\model\\$name";

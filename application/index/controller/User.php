@@ -8,8 +8,8 @@
 namespace app\index\controller;
 use think\Facade;
 use think\Request;
-use think\Config;
 use think\Session;
+use think\Cookie;
 class User extends Base
 {
     // 登录
@@ -17,38 +17,31 @@ class User extends Base
     {
         $param = $this->request->param();
         $name = Session::get('name');
-        if (!empty($name)) {
-            $this->success($name,'/info');
-        }
+        if (!empty($name)) $this->success($name,'/info');
         if(empty($param)) return $this->fetch('login');
         $userModel = $this->getModelInstance('User');
         $token = $this->request->header('token');
         $result = $userModel->LoginCheck($param);
-//        $config = Config::get('session');
-//        $class = $config['type'];
-//        var_dump(class_exists($class));
-//        $s = new $class();
-//        var_dump($s);
-//        var_dump($userModel);
-//        die;
         return json_encode($result);
-        if($result['code'] == USER_NOT_FOUND) $this->error($result['msg'],'/login','','1');
-        if($result['code'] == LIMIT_LOGIN_FAIL_TIMES) $this->error($result['msg'],'/login','','1');
-        if($result['code'] == PASSWORD_ERROR) $this->error($result['msg'],'/login','','1');
-        if($result['code'] == LOGIN_SUCCESS) $this->success($result['msg'],'/info',$result['data'],'1');
-        if($result['code'] == ALREADY_LOGIN) $this->error($result['msg'],'/login','','1');
+//        if($result['code'] == USER_NOT_FOUND) $this->error($result['msg'],'/login','','1');
+//        if($result['code'] == LIMIT_LOGIN_FAIL_TIMES) $this->error($result['msg'],'/login','','1');
+//        if($result['code'] == PASSWORD_ERROR) $this->error($result['msg'],'/login','','1');
+//        if($result['code'] == LOGIN_SUCCESS) $this->success($result['msg'],'/info',$result['data'],'1');
+//        if($result['code'] == ALREADY_LOGIN) $this->error($result['msg'],'/login','','1');
 
     }
 
     // 展示个人信息
     public function info()
     {
-
+        $name = Session::get('name');
         if (!empty($_POST))
         {
             session_destroy();
+            $this->success('您已退出登录','/login');
         }
-        $this->assign('name',Session::get('name'));
+        if (empty($name)) $this->success('您已退出登录','/login');
+        $this->assign('name',$name);
         return $this->fetch();
     }
 
@@ -56,10 +49,12 @@ class User extends Base
     public function register()
     {
         $params = $this->request->param();
-        if ($this->isUserExist($params['username'],$params['email']) === 'email exist') return json_message(format('该邮箱已注册',[404,201]));
-        if ($this->isUserExist($params['username'],$params['email']) === 'username exist') return json_message(format('用户名已存在',[404,201]));
+        $result =  $this->validate($params,'User');
+        if ($result !== true) return $result;
+        if ($this->isUserExist($params['username'],$params['email']) === 'email exist') return json_encode(['code'=>REGISTER_EMAIL_EXIST,'msg'=>map[REGISTER_EMAIL_EXIST]]);
+        if ($this->isUserExist($params['username'],$params['email']) === 'username exist') return json_encode(['code'=>REGISTER_USER_EXIST,'msg'=>map[REGISTER_USER_EXIST]]);
         $result = $this->getModelInstance('User')->registerUser($params);
-        return json_message(format($result,[404,201]));
+        return json_encode($result);
     }
 
     // 判断注册账号是否存在  不存在返回true

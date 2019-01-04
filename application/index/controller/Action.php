@@ -15,6 +15,7 @@ class Action extends Base
     public function postSomething()
     {
         $token = $this->request->header('token');
+        if (empty($_POST)) return $this->fetch('createpost');
         if (!checkToken($token)) return json_encode(['code'=>INVALID_TOKEN,'msg'=>map[INVALID_TOKEN]]);
         $params = $this->request->param();
         $id = checkToken($token)->data;

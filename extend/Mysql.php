@@ -5,12 +5,12 @@
  * Date: 2018/12/29
  * Time: 14:47
  */
-namespace driver\session;
+namespace think\session\driver;
 
 use SessionHandler;
 use think\Db;
 
-class Session extends SessionHandler
+class Mysql extends SessionHandler
 {
     private $link;
     public function open($savePath, $sessionName)

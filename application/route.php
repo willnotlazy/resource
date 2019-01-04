@@ -9,12 +9,11 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use think\Route;
-Route::rule('checkLogin/:module','index/:module.User/checkLogin');
+Route::rule('checkLogin','index/User/checkLogin');
 Route::rule('login','index/User/login');
 Route::rule('info','index/user/info');
-Route::post('register','index/user.User/register');
-Route::rule('level/:module/:id','index/:module.User/showLevel');
-Route::post('createpost','index/action.Action/postSomething');
+Route::post('register','index/User/register');
+Route::post('createpost','index/Action/postSomething');
 return [
     '__pattern__' => [
         'name' => '\w+',

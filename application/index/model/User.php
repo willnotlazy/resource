@@ -74,11 +74,13 @@ class User extends Base
         $tokenInfo = [
             'userID'   => $result['id'],
             'token'    => $token,
-            'limit'    => time() + 1800,
+            'limit'    => time() + 1440,
             'clientIp' => getIp()
         ];
         Db::name('user_token')->insert($tokenInfo);
 
+        $_SESSION['id'] = $result['id'];
+        $_SESSION['name'] = $result['username'];
         Session::set('id',$result['id']);
         Session::set('name',$result['username']);
         return ['code' => LOGIN_SUCCESS, 'msg' => map[LOGIN_SUCCESS], 'data' => $token];
@@ -96,7 +98,15 @@ class User extends Base
         $data = array();
         $data = ['id'=>null,'username'=>$user,'password'=>hash('md5',$password . $salt),'email'=>$email,'salt'=>$salt,'join'=>$now,'level'=>1,'experience'=>null,'accumulatedLoginDays'=>0,'consecutiveLoginDays'=>0];
         User::name('user')->insert($data);
-        return User::registerLogin(Db::name('user')->getLastInsID());
+
+        Session::set('id',Db::name('user')->getLastInsID());
+        Session::set('name',$user);
+        $token =  User::registerLogin(Db::name('user')->getLastInsID());
+        return array(
+          'code'    =>   REGISTER_SUCCESS,
+          'msg'     =>   map[REGISTER_SUCCESS],
+          'token'   =>   $token
+        );
     }
 
     // 注册后登录

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e32f409c515adf1d9261efe16ef944a",
+    "content-hash": "52824ba03b519b0b4b84ec88f8d29623",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -59,6 +59,52 @@
                 "instantiate"
             ],
             "time": "2017-07-22T11:58:36+00:00"
+        },
+        {
+            "name": "firebase/php-jwt",
+            "version": "v5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+                "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": " 4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Firebase\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "time": "2017-06-27T22:17:23+00:00"
         },
         {
             "name": "php-angular/php-angular",
@@ -1295,32 +1341,36 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v5.1.32",
+            "version": "v5.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "88a2ab625b35e047896718db320e08375cf021da"
+                "reference": "4cbc0b5e93314446243ebc7d5f005f9c32864737"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/88a2ab625b35e047896718db320e08375cf021da",
-                "reference": "88a2ab625b35e047896718db320e08375cf021da",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/4cbc0b5e93314446243ebc7d5f005f9c32864737",
+                "reference": "4cbc0b5e93314446243ebc7d5f005f9c32864737",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6.0",
-                "topthink/think-installer": "2.*"
+                "php": ">=5.4.0",
+                "topthink/think-installer": "~1.0"
             },
             "require-dev": {
                 "johnkary/phpunit-speedtrap": "^1.0",
                 "mikey179/vfsstream": "~1.6",
                 "phpdocumentor/reflection-docblock": "^2.0",
                 "phploc/phploc": "2.*",
-                "phpunit/phpunit": "^5.0|^6.0",
-                "sebastian/phpcpd": "2.*",
-                "squizlabs/php_codesniffer": "2.*"
+                "phpunit/phpunit": "4.8.*",
+                "sebastian/phpcpd": "2.*"
             },
             "type": "think-framework",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "library/think"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
@@ -1329,10 +1379,6 @@
                 {
                     "name": "liu21st",
                     "email": "liu21st@gmail.com"
-                },
-                {
-                    "name": "yunwuxin",
-                    "email": "448901948@qq.com"
                 }
             ],
             "description": "the new thinkphp framework",
@@ -1342,7 +1388,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2018-12-23T13:42:11+00:00"
+            "time": "2018-12-09T12:40:40+00:00"
         },
         {
             "name": "topthink/think-angular",
@@ -1496,16 +1542,16 @@
         },
         {
             "name": "topthink/think-installer",
-            "version": "v2.0.0",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-installer.git",
-                "reference": "f5400a12c60e513911aef41fe443fa6920952675"
+                "reference": "1be326e68f63de4e95977ed50f46ae75f017556d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-installer/zipball/f5400a12c60e513911aef41fe443fa6920952675",
-                "reference": "f5400a12c60e513911aef41fe443fa6920952675",
+                "url": "https://api.github.com/repos/top-think/think-installer/zipball/1be326e68f63de4e95977ed50f46ae75f017556d",
+                "reference": "1be326e68f63de4e95977ed50f46ae75f017556d",
                 "shasum": ""
             },
             "require": {
@@ -1533,7 +1579,7 @@
                     "email": "448901948@qq.com"
                 }
             ],
-            "time": "2018-05-11T06:45:42+00:00"
+            "time": "2017-05-27T06:58:09+00:00"
         },
         {
             "name": "topthink/think-migration",
@@ -1692,23 +1738,23 @@
         },
         {
             "name": "topthink/think-testing",
-            "version": "v1.0.2",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-testing.git",
-                "reference": "6749ff69319109d2e073d13b6f5d8f922043d429"
+                "reference": "e89794e5c58aa5587f7b08038e9468150870b185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-testing/zipball/6749ff69319109d2e073d13b6f5d8f922043d429",
-                "reference": "6749ff69319109d2e073d13b6f5d8f922043d429",
+                "url": "https://api.github.com/repos/top-think/think-testing/zipball/e89794e5c58aa5587f7b08038e9468150870b185",
+                "reference": "e89794e5c58aa5587f7b08038e9468150870b185",
                 "shasum": ""
             },
             "require": {
                 "phpunit/phpunit": "^4.8.26",
                 "symfony/dom-crawler": "^2.8.8",
                 "topthink/think-helper": "~1.0",
-                "topthink/think-installer": ">=1.0.3"
+                "topthink/think-installer": "~1.0"
             },
             "type": "think-testing",
             "autoload": {
@@ -1729,7 +1775,7 @@
                     "email": "448901948@qq.com"
                 }
             ],
-            "time": "2016-07-29T09:49:22+00:00"
+            "time": "2016-08-08T09:43:56+00:00"
         },
         {
             "name": "topthink/think-worker",

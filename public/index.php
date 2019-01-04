@@ -14,5 +14,6 @@
 // 定义应用目录
 define('APP_PATH', __DIR__ . '/../application/');
 ini_set('session.save_handler','user');
+register_shutdown_function('session_write_close');
 // 加载框架引导文件
 require __DIR__ . '/../thinkphp/start.php';
