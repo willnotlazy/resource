@@ -64,26 +64,12 @@ class User extends Base
         // 返回token
         $userInfo = $this->getUserInfo($result['id']);
         unset($userInfo['password']);
-        $request = Request::instance();
-        $token = createToken($result['id'],array(
-            'iss' => $request->domain(),
-            'aud' => $request->baseUrl(true)
-        ));
-        unset($userInfo);
-
-        $tokenInfo = [
-            'userID'   => $result['id'],
-            'token'    => $token,
-            'limit'    => time() + 1440,
-            'clientIp' => getIp()
-        ];
-        Db::name('user_token')->insert($tokenInfo);
 
         $_SESSION['id'] = $result['id'];
         $_SESSION['name'] = $result['username'];
         Session::set('id',$result['id']);
         Session::set('name',$result['username']);
-        return ['code' => LOGIN_SUCCESS, 'msg' => map[LOGIN_SUCCESS], 'data' => $token];
+        return ['code' => LOGIN_SUCCESS, 'msg' => map[LOGIN_SUCCESS]];
     }
 
     // 用户注册
@@ -101,11 +87,10 @@ class User extends Base
 
         Session::set('id',Db::name('user')->getLastInsID());
         Session::set('name',$user);
-        $token =  User::registerLogin(Db::name('user')->getLastInsID());
+        User::registerLogin(Db::name('user')->getLastInsID());
         return array(
           'code'    =>   REGISTER_SUCCESS,
-          'msg'     =>   map[REGISTER_SUCCESS],
-          'token'   =>   $token
+          'msg'     =>   map[REGISTER_SUCCESS]
         );
     }
 
@@ -116,17 +101,7 @@ class User extends Base
 
         // 获得首次登录经验
         Base::getModelInstance('Experience')->addExperienceBylogin($result);
-
-        // 返回token
-        $userInfo = (new self)->getUserInfo($result[0]['id']);
-        unset($userInfo[0]['password']);
-        $request = Request::instance();
-        $token = createToken($result[0]['id'],array(
-            'iss' => $request->domain(),
-            'aud' => $request->baseUrl(true)
-        ));
-        unset($userInfo);
-        return $token;
+        return true;
     }
 
     // 获取用户信息
@@ -164,5 +139,10 @@ class User extends Base
         return (int)$isLogin === 0 ? false : true;
     }
 
+
+    public function resetUserLoginStatus($id)
+    {
+        Db::name('user')->where('id',$id)->update(['isLogin'=>0]);
+    }
 
 }

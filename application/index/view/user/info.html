@@ -6,9 +6,12 @@
 </head>
 <body>
 {$name}
-<form action="" method="post">
-    <input style="display: none;" type="text" name="username" value="{$name}">
-    <input type="submit" value="登出">
-</form>
+    <div>
+        <input style="display: none;" type="text" name="username" value="{$name}" id="user">
+        <input type="hidden" name="__token__" id="token" value="{$Request.token}">
+        <button onclick="layout()"></button>
+    </div>
+<script src="/static/index/js/jquery-3.3.1.js"></script>
+<script src="/static/index/js/info.js"></script>
 </body>
 </html>

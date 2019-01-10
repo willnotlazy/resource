@@ -7,30 +7,31 @@
  */
 namespace app\index\controller;
 use think\Request;
-use app\index\model\Action as ActionModel;
+use think\Session;
 class Action extends Base
 {
 
     // 发帖
     public function postSomething()
     {
-        $token = $this->request->header('token');
-        if (empty($_POST)) return $this->fetch('createpost');
-        if (!checkToken($token)) return json_encode(['code'=>INVALID_TOKEN,'msg'=>map[INVALID_TOKEN]]);
-        $params = $this->request->param();
-        $id = checkToken($token)->data;
-        $ip = getIp();
-        $now = time() - 2;
-        $postID = ActionModel::getInstance()->addPost($params,$id);
-        $data['postID'] = $postID;
-        $data['token'] = $token;
-        return json($data);
+        if (empty(Session::get('id')))
+        {
+            $this->error('请先登录','/login');
+            exit;
+        }
+        return $this->fetch('createpost');
     }
 
-    // 获取token
-    public function getToken($id)
+
+
+    // 添加发布的帖子
+    public function addPost()
     {
-//        return Db::name('user_token')->
+
+        $params = $this->request->param();
+        $postID = Action::getModelInstance('Action')->addPost($params);
+        $data['postID'] = $postID;
+        return json($data);
     }
 }
 ?>

@@ -7,12 +7,13 @@
  */
 namespace app\index\model;
 
+use think\Db;
 use think\Model;
 class Base extends Model
 {
     public function initialize()
     {
-        deleteOutTimeToken();
+
     }
 
     // 返回模型单例
@@ -23,6 +24,17 @@ class Base extends Model
         $modelName = "app\\index\\model\\$name";
         self::$model[$name] = new $modelName;
         return self::$model[$name];
+    }
+
+
+    public function checkTokenTrueAndFalse($token)
+    {
+        $tokenInfo = Db::name('user_token')->where('userID',$token->data)->find();
+        $ip = getIp();
+        $now = time() - 2;
+        if ($ip != $tokenInfo['clientIp'] || $now < ($tokenInfo['limit']) - 1440 || ($now > $tokenInfo['limit'] - 1440)) return false;
+        return true;
+
     }
 }
 ?>

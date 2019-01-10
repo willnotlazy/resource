@@ -16,7 +16,6 @@ class Base extends Controller
 
     public function _initialize()
     {
-        deleteOutTimeToken();
     }
 
     // 获取模型的唯一实例
@@ -27,5 +26,6 @@ class Base extends Controller
         self::$__ModelInstance[$model] = new $modelclass;
         return self::$__ModelInstance[$model];
     }
+
 }
 ?>

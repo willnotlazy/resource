@@ -10,6 +10,7 @@ use think\Facade;
 use think\Request;
 use think\Session;
 use think\Cookie;
+
 class User extends Base
 {
     // 登录
@@ -20,27 +21,42 @@ class User extends Base
         if (!empty($name)) $this->success($name,'/info');
         if(empty($param)) return $this->fetch('login');
         $userModel = $this->getModelInstance('User');
-        $token = $this->request->header('token');
         $result = $userModel->LoginCheck($param);
         return json_encode($result);
-//        if($result['code'] == USER_NOT_FOUND) $this->error($result['msg'],'/login','','1');
-//        if($result['code'] == LIMIT_LOGIN_FAIL_TIMES) $this->error($result['msg'],'/login','','1');
-//        if($result['code'] == PASSWORD_ERROR) $this->error($result['msg'],'/login','','1');
-//        if($result['code'] == LOGIN_SUCCESS) $this->success($result['msg'],'/info',$result['data'],'1');
-//        if($result['code'] == ALREADY_LOGIN) $this->error($result['msg'],'/login','','1');
 
     }
+
+    // 登出
+    public function layout()
+    {
+        $id = Session::get('id');
+        if (empty($id))
+        {
+            $this->error(map[NOTLOGIN],'login');
+            exit;
+        }
+        $token = $this->request->post();
+        $result = $this->validate($token,'Layout');
+        if ($result !== true)
+        {
+            return $result;
+            exit;
+        }
+        $this->getModelInstance('User')->resetUserLoginStatus($id);
+        Session::destroy();
+        $this->success(map[EXIT_LOGIN],'/login');
+    }
+
 
     // 展示个人信息
     public function info()
     {
-        $name = Session::get('name');
-        if (!empty($_POST))
+        if (empty(Session::get('id')))
         {
-            session_destroy();
-            $this->success('您已退出登录','/login');
+            $this->error(map[NOTLOGIN],'/login');
+            exit;
         }
-        if (empty($name)) $this->success('您已退出登录','/login');
+        $name = Session::get('name');
         $this->assign('name',$name);
         return $this->fetch();
     }
@@ -49,7 +65,7 @@ class User extends Base
     public function register()
     {
         $params = $this->request->param();
-        $result =  $this->validate($params,'User');
+        $result =  $this->validate($params,'Register');
         if ($result !== true) return $result;
         if ($this->isUserExist($params['username'],$params['email']) === 'email exist') return json_encode(['code'=>REGISTER_EMAIL_EXIST,'msg'=>map[REGISTER_EMAIL_EXIST]]);
         if ($this->isUserExist($params['username'],$params['email']) === 'username exist') return json_encode(['code'=>REGISTER_USER_EXIST,'msg'=>map[REGISTER_USER_EXIST]]);
@@ -65,12 +81,6 @@ class User extends Base
         if ($this->getModelInstance('User')->getFromUserEmail($email) === false) return  'email exist';
     }
 
-
-    // 展示等级测试方法
-    public function showLevel($id)
-    {
-        return json_encode($this->getModelInstance('User')->islevelUp($id));
-    }
 
     // ajax 判断用户名是否存在
     public function ajaxJudgeUserName()

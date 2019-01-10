@@ -13,7 +13,9 @@ Route::rule('checkLogin','index/User/checkLogin');
 Route::rule('login','index/User/login');
 Route::rule('info','index/user/info');
 Route::post('register','index/User/register');
-Route::post('createpost','index/Action/postSomething');
+Route::rule('createpost','index/Action/postSomething');
+Route::post('addpost','index/Action/addPost');
+Route::post('layout','index/User/layout');
 return [
     '__pattern__' => [
         'name' => '\w+',

@@ -149,29 +149,18 @@ class Mysql extends SessionHandler
         $where = [
             'session_id' => $this->config['session_prefix'] . $session_id
         ];
-        $whereID = [
-          'id'  => Session::get('id')
-        ];
-        $userToken = [
-          'userID'  => Session::get('id')
-        ];
         $sql = 'DELETE FROM ' . $this->table_name . ' WHERE session_id = :session_id';
-        $upSql = 'UPDATE res_user SET isLogin=0 WHERE id = :id';
-        $tokenSql = 'DELETE FROM res_user_token WHERE userID=:userID';
         // if_exist session
         $exSql = 'SELECT * FROM ' . $this->table_name . ' WHERE session_id = :session_id';
         $exist = $this->handler->query($exSql,$where);
         if (empty($exist)) return true;
 
         // 删除session
-        $result1 = $this->handler->execute($sql, $where);
+        $result = $this->handler->execute($sql, $where);
         
         // 初始化用户登陆状态
-        if (empty($whereID['id'])) return $result1 ? true : false;
-        $result2 = $this->handler->execute($upSql, $whereID);
-        $result3 = $this->handler->execute($tokenSql, $userToken);
+        return $result ? true : false;
 
-        return $result2 && $result1 ? true : false;
     }
 
     /**
