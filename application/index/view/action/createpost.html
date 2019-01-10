@@ -5,18 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-    <form>
-        title<input type="text" name="title" class="title" autocomplete="off"><br>
-        content<input type="text" name="content" class="content" autocomplete="off"><br>
-        postAddress<input type="text" name="postAddress" class="postAddress" autocomplete="off"><br>
-        classify<input type="text" name="classify" class="classify" autocomplete="off"><br>
-        couldPost<input type="text" name="couldPost" class="couldPost" autocomplete="off"><br>
-        isEffective<input type="text" name="isEffective" class="isEffective" autocomplete="off"><br>
-        checkStatus<input type="text" name="checkStatus" class="checkStatus" autocomplete="off"><br>
-        checked<input type="text" name="checked" class="checked"><br>
-        <input type="hidden" name="__token__" class="__token__" value="{$Request.token}">
+        <div><span>title</span><input type="text" name="title" class="title" autocomplete="off"></div>
+        <div><span>content</span><input type="text" name="content" class="content" autocomplete="off"></div>
+        <div><span>postAddress</span><input type="text" name="postAddress" class="postAddress" autocomplete="off"></div>
+        <div><span>classify</span><input type="text" name="classify" class="classify" autocomplete="off"></div>
+        <div><span>couldPost</span><input type="text" name="couldPost" class="couldPost" autocomplete="off"></div>
+        <div><span>isEffective</span><input type="text" name="isEffective" class="isEffective" autocomplete="off"></div>
+        <div><span>checkStatus</span><input type="text" name="checkStatus" class="checkStatus" autocomplete="off"></div>
+        <div><span>checked</span><input type="text" name="checked" class="checked"></div>
+        <!--<input type="hidden" name="__token__" class="__token__" value="{$Request.token}">-->
         <input type="submit" onclick="addPost()">
-    </form>
+        <script src="/static/index/js/jquery-3.3.1.js"></script>
     <script src="/static/index/js/createpost.js"></script>
 </body>
 </html>

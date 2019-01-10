@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>个人信息</title>
 </head>
 <body>
-{$name}
+<p>昵称:{$name}</p>
+<button onclick="createpost()">发布</button>
     <div>
         <input style="display: none;" type="text" name="username" value="{$name}" id="user">
         <input type="hidden" name="__token__" id="token" value="{$Request.token}">
-        <button onclick="layout()"></button>
+        <button onclick="layout()">退出</button>
     </div>
 <script src="/static/index/js/jquery-3.3.1.js"></script>
 <script src="/static/index/js/info.js"></script>

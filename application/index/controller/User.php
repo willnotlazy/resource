@@ -39,12 +39,12 @@ class User extends Base
         $result = $this->validate($token,'Layout');
         if ($result !== true)
         {
+            $this->request->token();
             return $result;
-            exit;
         }
         $this->getModelInstance('User')->resetUserLoginStatus($id);
         Session::destroy();
-        $this->success(map[EXIT_LOGIN],'/login');
+        return json_encode(['code'=>EXIT_LOGIN,'msg'=>map[EXIT_LOGIN]]);
     }
 
 
@@ -66,7 +66,10 @@ class User extends Base
     {
         $params = $this->request->param();
         $result =  $this->validate($params,'Register');
-        if ($result !== true) return $result;
+        if ($result !== true) {
+            $this->request->token();
+            return $result;
+        }
         if ($this->isUserExist($params['username'],$params['email']) === 'email exist') return json_encode(['code'=>REGISTER_EMAIL_EXIST,'msg'=>map[REGISTER_EMAIL_EXIST]]);
         if ($this->isUserExist($params['username'],$params['email']) === 'username exist') return json_encode(['code'=>REGISTER_USER_EXIST,'msg'=>map[REGISTER_USER_EXIST]]);
         $result = $this->getModelInstance('User')->registerUser($params);

@@ -22,14 +22,13 @@ class Action extends Base
         return $this->fetch('createpost');
     }
 
-
-
     // 添加发布的帖子
     public function addPost()
     {
-
-        $params = $this->request->param();
-        $postID = Action::getModelInstance('Action')->addPost($params);
+        if (empty(Session::get('id'))) exit;
+        $authorID = Session::get('id');
+        $params = $this->request->post();
+        $postID = Action::getModelInstance('Action')->addPost($params,$authorID);
         $data['postID'] = $postID;
         return json($data);
     }

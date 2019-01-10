@@ -30,7 +30,7 @@ class Action extends Base
         $param['postID'] = null;
         $param['postTime'] = time();
         $this->table('res_user_post')->insert($param);
-        Experience::getInstance()->addExperienceByPost($id);
+        Base::getModelInstance('Experience')->addExperienceByPost($id);
         return $this->getInsertPostID($id);
     }
 
