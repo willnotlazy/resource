@@ -1,6 +1,10 @@
-.container
+.header
 {
     margin-top: 2em;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 70px;
 }
 
 .header-text > .name > a
@@ -72,9 +76,7 @@
 }
 
 /* 导航栏设置 */
-.navbar
+.navbar-static-top
 {
-    border: 1px solid #E7E7E7;
-    margin-bottom: 35px;
-    min-height: 42px;
+    border: 1px solid #e7e7e7;
 }
