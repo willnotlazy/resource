@@ -1,0 +1,104 @@
+/*
+  login.css
+*/
+body {
+  color: rgb(28, 31, 33);
+}
+
+.rl-model {
+  overflow: auto;
+  margin: 100px auto;
+  width: 384px;
+  padding: 10px 0 30px 0;
+  box-shadow: 0 2px 24px 0 rgba(28,31,33,.1);
+  background: #fff;
+  border-radius: 12px;
+}
+
+/* header */
+.rl-model-header {
+  padding: 0 20px 25px;
+}
+
+.rl-model-header h1 {
+  overflow: auto;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #787d82;
+}
+
+.rl-model-header h1 span {
+  float: left;
+  width: 80px;
+  text-align: center;
+  cursor: pointer;
+  line-height: 2;
+}
+
+.rl-model-header h1 span::after {
+  display: none;
+  margin: auto;
+  width: 30%;
+  content: '';
+  height: 3px;
+  background: #f20d0d;
+}
+
+.rl-model-header h1 span:hover,
+.rl-model-header h1 span.active {
+  color: #f20d0d;
+}
+
+.rl-model-header h1 span:hover::after,
+.rl-model-header h1 span.active::after {
+  display: block;
+}
+
+
+/* body */
+.rl-model-body {
+  padding: 0 32px;
+  display: none;
+}
+
+.rl-model-body.show { display: block; }
+
+.rl-model-body > div {
+  margin: 20px auto;
+}
+
+.rl-model-body input {
+  width: 100%;
+  height: 48px;
+  line-height: 20px;
+  box-sizing: border-box;
+  padding: 14px;
+  box-shadow: 2px 0 5px 0 #fff;
+  background: rgba(28,31,33,.06);
+  border-radius: 8px;
+  border: 0;
+  outline: none;
+}
+
+
+/* footer */
+.rl-model-footer span {
+  display: block;
+  font-size: 16px;
+  line-height: 48px;
+  border-radius: 24px;
+  transition: all .3s;
+  color: #fff;
+  background-color: #f20d0d;
+  opacity: 1;
+  letter-spacing: 2px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.rl-model-footer span:hover {
+  color: #fff;
+  border-color: #c20a0a;
+  background: #c20a0a;
+  opacity: 1;
+}

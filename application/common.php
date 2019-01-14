@@ -134,4 +134,3 @@ function getSalt()
     $salt = hash('md5',$str);
     return $salt;
 }
-

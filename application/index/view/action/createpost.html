@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{include file='common/header'}
         <div><span>title</span><input type="text" name="title" class="title" autocomplete="off"></div>
         <div><span>content</span><input type="text" name="content" class="content" autocomplete="off"></div>
         <div><span>postAddress</span><input type="text" name="postAddress" class="postAddress" autocomplete="off"></div>
@@ -15,7 +9,5 @@
         <div><span>checked</span><input type="text" name="checked" class="checked"></div>
         <!--<input type="hidden" name="__token__" class="__token__" value="{$Request.token}">-->
         <input type="submit" onclick="addPost()">
-        <script src="/static/index/js/jquery-3.3.1.js"></script>
-    <script src="/static/index/js/createpost.js"></script>
-</body>
-</html>
+
+{include file='common/footer'}

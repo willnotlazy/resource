@@ -2,20 +2,17 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
+
 class Index extends Controller
 {
     public function index()
     {
-        return '<style type="text/css">*{ padding: 0; margin: 0; } .think_default_text{ padding: 4px 48px;} a{color:#2E5CD5;cursor: pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family: "Century Gothic","Microsoft yahei"; color: #333;font-size:18px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }</style><div style="padding: 24px 48px;"> <h1>:)</h1><p> ThinkPHP V5<br/><span style="font-size:30px">十年磨一剑 - 为API开发设计的高性能框架</span></p><span style="font-size:22px;">[ V5.0 版本由 <a href="http://www.qiniu.com" target="qiniu">七牛云</a> 独家赞助发布 ]</span></div><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_bd568ce7058a1091"></thinkad>';
-    }
-    public function getDate()
-    {
-        $data = Db::name('user_login_log')->select();
-        var_dump($data);
-    }
-    public function sqlDate()
-    {
-        $userInfo = Db::query("SELECT * FROM RES_USER WHERE ID = ?",[1]);
-        var_dump($userInfo);
+        $week = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
+        $name = empty(Session::get('name')) ? '' : Session::get('name');
+        $date = '今天是' . date('Y年m月d') . ','.$week[date('w',time())];
+        $this->assign('name',$name);
+        $this->assign('date',$date);
+        return $this->fetch();
     }
 }

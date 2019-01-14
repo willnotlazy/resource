@@ -42,7 +42,6 @@ class User extends Base
             $this->request->token();
             return $result;
         }
-        $this->getModelInstance('User')->resetUserLoginStatus($id);
         Session::destroy();
         return json_encode(['code'=>EXIT_LOGIN,'msg'=>map[EXIT_LOGIN]]);
     }

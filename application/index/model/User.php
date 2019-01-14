@@ -18,7 +18,7 @@ class User extends Base
     {
         // 用户验证
         $user = $data['username'];
-        $password = $data['password'];
+        $password = base64_decode($data['password']);
 
         // 用户是否存在
         $result = Db::table('res_user')->where('username',$user)->find();
@@ -53,10 +53,6 @@ class User extends Base
                 'data'  => $surplus
             ];
         }
-
-        if ($this->isAlreadyLogin($user)) return ['code'=>ALREADY_LOGIN,'msg'=>map[ALREADY_LOGIN]];
-        // 更改用户登录状态
-        Db::name('user')->where('id',$result['id'])->update(['isLogin'=>1]);
 
         // 登录经验增加判断
         Base::getModelInstance('Experience')->addExperienceBylogin($result);
@@ -132,17 +128,5 @@ class User extends Base
         return true;
     }
 
-    // 判断本次登录之前用户是否已登录
-    private function isAlreadyLogin($user)
-    {
-        $isLogin = Db::name('user')->where('username',$user)->find()['isLogin'];
-        return (int)$isLogin === 0 ? false : true;
-    }
-
-
-    public function resetUserLoginStatus($id)
-    {
-        Db::name('user')->where('id',$id)->update(['isLogin'=>0]);
-    }
 
 }

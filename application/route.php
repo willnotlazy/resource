@@ -16,6 +16,7 @@ Route::post('register','index/User/register');
 Route::rule('createpost','index/Action/postSomething');
 Route::post('addpost','index/Action/addPost');
 Route::post('layout','index/User/layout');
+Route::rule('/','index/Index/index');
 return [
     '__pattern__' => [
         'name' => '\w+',

@@ -1,0 +1,80 @@
+.container
+{
+    margin-top: 2em;
+}
+
+.header-text > .name > a
+{
+    text-underline: none;
+    color: #000;
+    font-size: 1.5em;
+}
+
+
+.user-profile
+{
+    list-style: none;
+    color: #666;
+}
+
+.user-login
+{
+    list-style: none;
+    color: #666;
+}
+
+.date
+{
+    border-bottom: 1px solid #666;
+}
+
+
+
+/* header右部分布局 */
+
+.header-text
+{
+    position: relative;
+}
+.thumbnail > img
+{
+    height: auto;
+}
+
+.thumbnail
+{
+    width: 20%;
+    height: 20%;
+    border: 1px solid #e7e7e7;
+}
+
+.user-profile
+{
+    width: 80%;
+    position: absolute;
+    left: 90px;
+    top: 0;
+}
+
+.header-profile .user-profile{padding-left: 0;}
+.header-profile .user-profile li:first-child {
+    border-bottom: 1px solid #eee;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(238, 238, 238);
+}
+.header-profile .user-profile li a{margin:0 5px;}
+.header-profile .user-profile li {
+    width: 360px;
+    line-height: 32px;
+    height: 32px;
+    font-size: 13px;
+}
+
+/* 导航栏设置 */
+.navbar
+{
+    border: 1px solid #E7E7E7;
+    margin-bottom: 35px;
+    min-height: 42px;
+}

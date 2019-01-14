@@ -19,6 +19,7 @@ class Action extends Base
             $this->error('请先登录','/login');
             exit;
         }
+        $this->assign('name',Session::get('name'));
         return $this->fetch('createpost');
     }
 

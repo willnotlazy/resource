@@ -16,6 +16,7 @@ class Base extends Controller
 
     public function _initialize()
     {
+
     }
 
     // 获取模型的唯一实例

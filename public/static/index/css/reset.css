@@ -1,0 +1,27 @@
+/*
+  reser.css
+*/
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+img {
+  vertical-align: bottom;
+  border: none;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input {
+  border: none;
+  outline: 0;
+}
