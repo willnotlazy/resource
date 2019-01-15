@@ -1,4 +1,64 @@
 {include file='common/header'}
 
+    <div id="main" class="container">
+        <div class="row">
+            <div class="col-lg-8 content-left archive" role="main">
+                <div class="panel panel-default panel-archive" role="main">
+                    <div class="panel-body">
+                        {foreach $new as $foo}
+                            <div class="col-lg-12 article">
+                                <div class="post-title">
+                                    <a href=""><h4 class="">{$foo.title}</h4></a>
+                                </div>
+                                <div class="show-image">
+                                    <a href="">
+                                        <img src="/static/common/images/default.jpg" alt="" class="img-responsive img-thumbnail " width="200" height="200">
+                                    </a>
+                                </div>
+                                <div class="post-basic-info">
+                                    <ul>
+                                        <li class="post-master-view">
+                                            <span class="glyphicon glyphicon-user" data-toggle="tooltip" data-placement="bottom" title="发布者"></span>
+                                            <a href="">{$foo.username}</a>
+                                            <span class="glyphicon glyphicon-calendar" data-toggle="tooltip" data-placement="bottom" title="发布时间"></span>
+                                            <span>{:date('Y年m月d日',$foo.postTime)}</span>
+                                            <span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom" title="评论数"></span>
+                                            <span>0</span>
+                                            <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="bottom" title="浏览次数"></span>
+                                            <span>0 次浏览</span>
+                                        </li>
+                                        <li class="post-title">
+                                            <h5>{$foo.title}</h5>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-lg-4 content-right">
+                <div class="panel panel-default panel-archive">
+                    <div class="panel-body">
+                        <div class="col-lg-12 classify">
+                            <span>分类</span><br>
+                            <div>
+                            {foreach $classify as $value}
+                                <div>
+                                    <h4><span class="label label-danger"><a href="">{$value.text}</a></span></h4>
+                                </div>
+                                {if isset($value.children)}
+                                {foreach $value.children as $foo}
+                                <h5><span class="label label-info"><a href="">{$foo.text}</a></span></h5>
+                                {/foreach}
+                                {/if}
+                            {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {include file='common/footer'}

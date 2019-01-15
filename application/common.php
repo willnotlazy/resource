@@ -134,3 +134,55 @@ function getSalt()
     $salt = hash('md5',$str);
     return $salt;
 }
+
+
+
+// 分类函数
+function classify($arr)
+{
+    $maxNum = 1000;//设置最大循环次数
+    $count = -1;//设置计数
+    //默认根节点内容
+    $root = array(
+        'classifyID' => 0,
+        'text' => 'root',
+    );
+    //辅助，主要作用用于检测节点是否存在
+    //注：下面使用的技巧都是使用对象的引用，赋值的不是一个具体值，而是一个引用
+    $existsMap = array(
+        '0' => &$root,
+    );
+    //结果记录的长度
+    $len = count($arr);
+    //计数
+    $num = 0;
+    //遍历结果集
+    while ($num < $len) {
+        $count++;
+        //如果计数器超过了最大循环次数就退出循环
+        if ($count > $maxNum) break;
+        $i = $count % $len;//取得下标，取莫的作用是防止下标超出边界
+        $obj = $arr[$i];//取得当前节点
+        if (!$obj) continue;//不存在则跳过
+        $pidObj = & $existsMap[$obj['pid']];//检测辅助数组中是否有父节点数据并赋引用值给pidObj
+        //     相当于  在pid为 0 的时候 ,$pidObj = & $root，此后,相当于  $pidObj = & $root[][]...[]['children'],改变的是root 的children
+        if (!$pidObj) continue;     // 判断 $pidObj 是否存在 (不为空)
+
+        //如果存在pidObj，则设置当前节点在existsMap中   将当前节点存储到 $ existsMap[]  $existsMap = array('0'=>&$root,$obj['classifyID']=>array())
+        $existsMap[$obj['classifyID']] = array(
+            'classifyID' => $obj['classifyID'],
+            'text' => $obj['name'],
+        );
+        //设置子节点, 相当于  $root[][]...[]['children']
+        if (!isset($pidObj['children'])) {
+            $pidObj['children'] = array();
+        }
+        //设置子节点为刚刚存在辅助数组中得引用   将子节点的引用放入到父节点children里面,每次更改 $existsMap[]里面节点的children,都会引起$root里面的变化
+        $pidObj['children'][] = & $existsMap[$obj['classifyID']];
+        unset($arr[$i]);   // 删除已存在节点,避免产生额外循环代价
+        $num++;
+    }
+    //根据自己的需求，决定是否返回root节点
+    return $root['children'];
+
+}
