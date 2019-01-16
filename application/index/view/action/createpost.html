@@ -1,13 +1,55 @@
 {include file='common/header'}
-        <div><span>title</span><input type="text" name="title" class="title" autocomplete="off"></div>
-        <div><span>content</span><input type="text" name="content" class="content" autocomplete="off"></div>
-        <div><span>postAddress</span><input type="text" name="postAddress" class="postAddress" autocomplete="off"></div>
-        <div><span>classify</span><input type="text" name="classify" class="classify" autocomplete="off"></div>
-        <div><span>couldPost</span><input type="text" name="couldPost" class="couldPost" autocomplete="off"></div>
-        <div><span>isEffective</span><input type="text" name="isEffective" class="isEffective" autocomplete="off"></div>
-        <div><span>checkStatus</span><input type="text" name="checkStatus" class="checkStatus" autocomplete="off"></div>
-        <div><span>checked</span><input type="text" name="checked" class="checked"></div>
-        <!--<input type="hidden" name="__token__" class="__token__" value="{$Request.token}">-->
-        <input type="submit" onclick="addPost()">
+        <hr/>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form role="form" class="post-form">
+                                <div class="col-lg-12">
+                                    <p class="help-block">标题</p>
+                                    <input type="text" id="title" name="title" class="form-control" placeholder="标题 .." autocomplete="off">
+                                </div>
+                                <div class="main-classify col-lg-3">
+                                    <p class="help-block">主分类</p>
+                                    <div>
+                                        <select class="classify form-control" name="classify" id="classify">
+                                            <option value=""></option>
+                                            {foreach $classify[0] as $foo}
+                                            <option value="{$foo.classifyID}">{$foo.name}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p class="help-block">内容</p>
+                                    <textarea id="container">
 
+                                    </textarea>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p class="help-block">链接</p>
+                                    <textarea name="postAddress" id="postAddress" cols="30" rows="" class="form-control" placeholder="链接、密码、解压码"></textarea>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p class="help-block">转发注明来源,{link}:链接地址,{title}标题</p>
+                                    <textarea name="transpond" id="transpond" cols="30" rows="" class="form-control" placeholder="原文链接:<a href='{link}'>{title}</a>"></textarea>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p class="help-block">封面图</p>
+                                    <div>
+                                        <input type="file" name='cover' id="cover" class="form-control file-loading" accept="image/*">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-12 post-btn">
+                                    <button class="btn btn-primary" type="button" style="float: right;" onclick="addPost()">发布</button>
+                                </div>
+                                <input type="hidden" name="__token__" class="__token__" value="{$Request.token}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {include file='common/footer'}

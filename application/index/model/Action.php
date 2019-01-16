@@ -26,8 +26,12 @@ class Action extends Base
     // 发帖
     public function addPost($param,$id)
     {
-        $param['authorID'] = $id;
-        $param['postID'] = null;
+        $param['authorID']          = $id;
+        $param['postID']            = null;
+        $param['isEffective']       = 0;
+        $param['checked']           = null;
+        $param['checkStatus']       = null;
+        $param['couldPost']         = 0;
         $param['postTime'] = time();
         $this->table('res_user_post')->insert($param);
         Base::getModelInstance('Experience')->addExperienceByPost($id);

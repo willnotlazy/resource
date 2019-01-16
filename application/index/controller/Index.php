@@ -13,6 +13,7 @@ class Index extends Base
         $date = '今天是' . date('Y年m月d') . ','.$week[date('w',time())];
         $new = $this->getModelInstance('Index')->getNewestPost();
         $this->assign('classify',$this->getClassify());
+        $this->assign('model','Index');
         $this->assign('new',$new);
         $this->assign('name',$name);
         $this->assign('date',$date);

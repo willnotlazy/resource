@@ -1,4 +1,25 @@
 {include file='common/header'}
+    <!-- 首页导航 -->
+    <div class="navbar navbar-default navbar-static-top" role="banner">
+        <div class="container">
+            <nav id="navbar" class="collapse navbar-collapse header-navbar-collapse" role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#" itemprop="url"><font style="font-weight:bold;">最新投稿</font></a></li>
+                    <li><a href="#" itemprop="url"><font style="font-weight:bold;">最新回复</font></a></li>
+                    <li><a href="#" itemprop="url"><font style="font-weight:bold;">精品推荐</font></a></li>
+                    <li><a href="#" itemprop="url"><font style="font-weight:bold;">最热top10</font></a></li>
+                    <li><a href="#" itemprop="url"><font style="font-weight:bold;">投稿指南</font></a></li>
+                    <li><a href="#" itemprop="url"><font style="font-weight:bold">等级列表</font></a></li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search" method="get" id="searchform" action="http://www.newbiefly.com/">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="搜索 …" name="s" id="s" required="">
+                    </div>
+                    <button type="submit" class="btn btn-default" id="searchsubmit"><span class="glyphicon glyphicon-search"></span></button>
+                </form>
+            </nav>
+        </div>
+    </div>
 
     <div id="main" class="container">
         <div class="row">
@@ -12,7 +33,7 @@
                                 </div>
                                 <div class="show-image">
                                     <a href="">
-                                        <img src="/static/common/images/default.jpg" alt="" class="img-responsive img-thumbnail " width="200" height="200">
+                                        <img src="{$foo.cover}" alt="" class="img-responsive img-thumbnail " width="200" height="200">
                                     </a>
                                 </div>
                                 <div class="post-basic-info">

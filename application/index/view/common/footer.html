@@ -35,9 +35,132 @@
 <script src="/static/common/js/jquery.base64.js"></script>
 <script src="/static/common/js/jquery.md5.js"></script>
 <script src="/static/bootstrap-3.3.7/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/editor/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/editor/ueditor.js"></script>
+<script type="text/javascript" src="/static/editor/ueditor.all.js"></script>
+<script type="text/javascript" src="/fileinput/js/fileinput.js"></script>
 <script src="/static/common/js/common.js"></script>
+{if $model == 'User'}
 <script src="/static/index/js/login.js"></script>
-<script src="/static/index/js/createpost.js"></script>
+{/if}
+{if $model == 'Index'}
 <script src="/static/index/js/index.js"></script>
+{/if}
+{if $model == 'Action'}
+<script src="/static/index/js/createpost.js"></script>
+<script>
+    $('.classify').mouseleave(function () {
+       var classify = $('.classify').val();
+       if (classify == 1)
+       {
+           if ($('.second-classify')) $('.second-classify').remove();
+           var dlabel = '<p class="help-block">副分类</p>';
+           var text4 = '';
+           {foreach $classify[1] as $foo}
+                text4 += '<option value="{$foo.classifyID}">{$foo.name}</option>';
+           {/foreach}
+           var dselect = '<select class="form-control" name="second-classify">'+text4+'</select>';
+           var ddiv = '<div class="second-classify col-lg-3">'+dlabel+dselect+'</div>';
+           $('.main-classify').after(ddiv);
+       }
+       if (classify == 2)
+       {
+           if ($('.second-classify')) $('.second-classify').remove();
+           var dlabel = '<p class="help-block">副分类</p>';
+           var text4 = '';
+           {foreach $classify[2] as $foo}
+           text4 += '<option value="{$foo.classifyID}">{$foo.name}</option>';
+           {/foreach}
+           var dselect = '<select class="form-control" name="second-classify">'+text4+'</select>';
+           var ddiv = '<div class="second-classify col-lg-3">'+dlabel+dselect+'</div>';
+           $('.main-classify').after(ddiv);
+       }
+
+       if (classify == 3)
+       {
+           if ($('.second-classify')) $('.second-classify').remove();
+           var dlabel = '<p class="help-block">副分类</p>';
+           var text4 = '';
+           {foreach $classify[3] as $foo}
+           text4 += '<option value="{$foo.classifyID}">{$foo.name}</option>';
+           {/foreach}
+           var dselect = '<select class="form-control" name="second-classify">'+text4+'</select>';
+           var ddiv = '<div class="second-classify col-lg-3">'+dlabel+dselect+'</div>';
+           $('.main-classify').after(ddiv);
+       }
+
+       if (classify == 4)
+       {
+           if ($('.second-classify')) $('.second-classify').remove();
+           var dlabel = '<p class="help-block">副分类</p>';
+           var text4 = '';
+           {foreach $classify[4] as $foo}
+           text4 += '<option value="{$foo.classifyID}">{$foo.name}</option>';
+           {/foreach}
+           var dselect = '<select class="form-control" name="second-classify">'+text4+'</select>';
+           var ddiv = '<div class="second-classify col-lg-3">'+dlabel+dselect+'</div>';
+           $('.main-classify').after(ddiv);
+       }
+
+       if (classify == 5)
+       {
+           if ($('.second-classify')) $('.second-classify').remove();
+           var dlabel = '<p class="help-block">副分类</p>';
+           var text4 = '';
+           {foreach $classify[5] as $foo}
+           text4 += '<option value="{$foo.classifyID}">{$foo.name}</option>';
+           {/foreach}
+           var dselect = '<select class="form-control" name="second-classify">'+text4+'</select>';
+           var ddiv = '<div class="second-classify col-lg-3">'+dlabel+dselect+'</div>';
+           $('.main-classify').after(ddiv);
+       }
+
+       if (classify == 6)
+       {
+           if ($('.second-classify')) $('.second-classify').remove();
+           var dlabel = '<p class="help-block">副分类</p>';
+           var text4 = '';
+           {foreach $classify[6] as $foo}
+           text4 += '<option value="{$foo.classifyID}">{$foo.name}</option>';
+           {/foreach}
+           var dselect = '<select class="form-control" name="second-classify">'+text4+'</select>';
+           var ddiv = '<div class="second-classify col-lg-3">'+dlabel+dselect+'</div>';
+           $('.main-classify').after(ddiv);
+       }
+
+       if (classify == 8)
+       {
+           if ($('.second-classify')) $('.second-classify').remove();
+           var dlabel = '<p class="help-block">副分类</p>';
+           var text4 = '';
+           {foreach $classify[8] as $foo}
+           text4 += '<option value="{$foo.classifyID}">{$foo.name}</option>';
+           {/foreach}
+           var dselect = '<select class="form-control" name="second-classify">'+text4+'</select>';
+           var ddiv = '<div class="second-classify col-lg-3">'+dlabel+dselect+'</div>';
+           $('.main-classify').after(ddiv);
+       }
+
+       if (classify == 10)
+       {
+           if ($('.second-classify')) $('.second-classify').remove();
+           var dlabel = '<p class="help-block">副分类</p>';
+           var text4 = '';
+           {foreach $classify[10] as $foo}
+           text4 += '<option value="{$foo.classifyID}">{$foo.name}</option>';
+           {/foreach}
+           var dselect = '<select class="form-control second-classify" name="second-classify">'+text4+'</select>';
+           var ddiv = '<div class="second-classify col-lg-3">'+dlabel+dselect+'</div>';
+           $('.main-classify').after(ddiv);
+       }
+
+       if (!classify)
+       {
+            if ($('.second-classify')) $('.second-classify').remove();
+       }
+
+    });
+</script>
+{/if}
 </body>
 </html>

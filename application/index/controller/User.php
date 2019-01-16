@@ -19,7 +19,11 @@ class User extends Base
         $param = $this->request->param();
         $name = Session::get('name');
         if (!empty($name)) $this->success($name,'/info');
-        if(empty($param)) return $this->fetch('login');
+        if(empty($param))
+        {
+            $this->assign('model','User');
+            return $this->fetch('login');
+        }
         $userModel = $this->getModelInstance('User');
         $result = $userModel->LoginCheck($param);
         return json_encode($result);
@@ -57,6 +61,7 @@ class User extends Base
         }
         $name = Session::get('name');
         $this->assign('name',$name);
+        $this->assign('model','User');
         return $this->fetch();
     }
 
