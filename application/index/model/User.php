@@ -128,5 +128,16 @@ class User extends Base
         return true;
     }
 
-
+    // 获取但前用户的所有投稿
+    public function getSelfPost($id)
+    {
+        $result = Db::name('user_post')
+            ->field('p.*,u.username')
+            ->alias('p')
+            ->join('res_user u','p.authorID=u.id')
+            ->where('p.authorID',$id)
+            ->order('p.postTime','desc')
+            ->paginate(6);
+        return $result;
+    }
 }

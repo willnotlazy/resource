@@ -14,6 +14,8 @@
     {/if}
     <link rel="stylesheet" href="/fileinput/css/fileinput.css">
     <link rel="stylesheet" href="/fileinput/css/fileinput-rtl.css">
+    <link rel="stylesheet" href="/jquery-chosen/chosen.css">
+    <link rel="stylesheet" href="/static/index/css/viewpost.css">
 </head>
 <body>
     <div class="container header">
@@ -46,7 +48,7 @@
                         </li>
                         <li class="clearfix action">
                             <a href="/createpost"><span>投稿</span></a>
-                            <a href=""><span>我的投稿</span></a>
+                            <a href="/selfpost"><span>我的投稿</span></a>
                             <a href=""><span>消息</span></a>
                             <a href="#" onclick="layout('{$name}','{$Request.token}')"><span>登出</span></a>
                         </li>

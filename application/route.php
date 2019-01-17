@@ -17,6 +17,8 @@ Route::rule('createpost','index/Action/postSomething');
 Route::post('addpost','index/Action/addPost');
 Route::post('layout','index/User/layout');
 Route::rule('/','index/Index/index');
+Route::get('viewpost/postid/:postid$','index/Index/viewPost');
+Route::get('selfpost','index/User/viewMyPost');
 return [
     '__pattern__' => [
         'name' => '\w+',

@@ -1,0 +1,21 @@
+
+.show-basic ul
+{
+    padding: 0;
+    list-style: none;
+}
+
+.show-classify h4:not(.label-title),h5
+{
+    display: inline-block;
+}
+
+.show-classify h4.label-title
+{
+    margin: 0;
+}
+
+.show-classify a
+{
+    color: #e7e7e7;
+}

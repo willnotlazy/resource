@@ -14,18 +14,18 @@ class Index extends Base
     public function getNewestPost()
     {
         $result = Db::name('user_post')
-                    ->field('p.postID,p.authorID,p.title,p.postTime,p.cover,u.username')
+                    ->field('p.*,u.username')
                     ->alias('p')
                     ->join('res_user u','p.authorID=u.id')
                     ->order('p.postTime','desc')
-                    ->paginate(5);
+                    ->paginate(6);
         return $result;
     }
 
     public function getClassify()
     {
         $result = Db::name('user_resource_classify')->select();
-        return classify($result,0, 0);
+        return classify($result);
     }
 
 
@@ -38,6 +38,29 @@ class Index extends Base
             $group[$value['pid']][$value['classifyID']] = $value;
         }
         return $group;
+    }
+
+    public function getPostContent($postid)
+    {
+        $result = Db::name('user_post')
+            ->field('p.*,u.username')
+            ->alias('p')
+            ->join('res_user u','p.authorID=u.id')
+            ->where('p.postID', (int) $postid)
+            ->find();
+        return $result;
+    }
+
+
+    public function getAllClassify()
+    {
+        $result =  Db::name('user_resource_classify')->select();
+        $classify = array();
+        foreach ($result as $key =>$value)
+        {
+            $classify[$value['classifyID']] = $value;
+        }
+        return $classify;
     }
 }
 ?>

@@ -102,4 +102,17 @@ class User extends Base
         $param = $this->request->param('email');
         echo $this->getModelInstance('User')->getFromUserEmail($param);
     }
+    
+    
+    // 我的投稿
+    public function viewMyPost()
+    {
+        $id = Session::get('id');
+        $this->assign('model',$this->request->controller());
+        $selfpost = $this->getModelInstance('User')->getSelfPost($id);
+        $classify = $this->getModelInstance('Index')->getClassify();
+        $this->assign('classify',$classify);
+        $this->assign('selfpost',$selfpost);
+        return $this->fetch('viewmypost');
+    }
 }

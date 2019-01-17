@@ -8,15 +8,10 @@ class Index extends Base
 {
     public function index()
     {
-        $week = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
-        $name = empty(Session::get('name')) ? '' : Session::get('name');
-        $date = '今天是' . date('Y年m月d') . ','.$week[date('w',time())];
         $new = $this->getModelInstance('Index')->getNewestPost();
         $this->assign('classify',$this->getClassify());
         $this->assign('model','Index');
         $this->assign('new',$new);
-        $this->assign('name',$name);
-        $this->assign('date',$date);
         return $this->fetch();
     }
 
@@ -25,4 +20,13 @@ class Index extends Base
         return $this->getModelInstance('Index')->getClassify();
     }
 
+    public function viewPost($postid)
+    {
+        $this->assign('model',$this->request->controller());
+        $content = $this->getModelInstance('Index')->getPostContent($postid);
+        $classify = $this->getModelInstance('Index')->getAllClassify();
+        $this->assign('content',$content);
+        $this->assign('classify',$classify);
+        return $this->fetch('viewpost');
+    }
 }
