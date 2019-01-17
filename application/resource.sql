@@ -536,7 +536,7 @@ CREATE TABLE `res_user_post` (
   `postID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '帖子id',
   `authorID` int(10) unsigned NOT NULL COMMENT '作者',
   `title` varchar(256) NOT NULL COMMENT '标题',
-  `content` text NOT NULL COMMENT '内容',
+  `editorValue` text NOT NULL COMMENT '内容',
   `postAddress` varchar(256) DEFAULT NULL COMMENT '帖子地址',
   `classify` varchar(64) NOT NULL COMMENT '分类',
   `postTime` int(11) NOT NULL COMMENT '发帖时间',

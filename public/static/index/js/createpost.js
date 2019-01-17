@@ -12,11 +12,19 @@ function addPost()
         // contentType : "application/x-www-form-urlencoded",
         // data : {title:$('#title').val(),classify:$('.classify').val(),second_classify:$('.second.classify').val(),content:$('#container').val(),postAddress:$('#postAddress').val(),transpond:$('#transpond').val(),cover:$('#cover').val()},
         data: data,
-        success : function (data) {
-            alert(data);
+        success : function (data,status,xhr) {
+            var jdata = eval('('+data+')');
+            alert(jdata.msg);
+            if (jdata.code !== 20600)
+            {
+                $('.__token__').val(xhr.getResponseHeader('__token__'));
+            }
+            else{
+                window.location.href = '/';
+            }
         },
         error : function () {
-
+            alert('服务器错误，请刷新后重试');
         }
     });
 }

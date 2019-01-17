@@ -8,6 +8,7 @@
 namespace app\index\model;
 
 use think\Db;
+use think\Exception;
 use think\Request;
 
 class Action extends Base
@@ -33,7 +34,12 @@ class Action extends Base
         $param['checkStatus']       = null;
         $param['couldPost']         = 0;
         $param['postTime'] = time();
-        $this->table('res_user_post')->insert($param);
+        try{
+            $this->table('res_user_post')->insert($param);
+        } catch (Exception $e){
+            return ['code'=>UNLAWFUL_ACTION,'msg'=>map[UNLAWFUL_ACTION]];
+        }
+
         Base::getModelInstance('Experience')->addExperienceByPost($id);
         return $this->getInsertPostID($id);
     }

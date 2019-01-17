@@ -63,7 +63,10 @@ class Experience extends Base
     {
         $user = $this->getModelInstance('User')->get($id);
         $user->experience += 6;
+        $exp = $user->experience;
         $user->isUpdate()->save();
+        $this->islevelUp($id,$exp);
+
     }
 
     // 判断等级提升

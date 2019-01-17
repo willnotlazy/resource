@@ -18,8 +18,7 @@ class Index extends Base
                     ->alias('p')
                     ->join('res_user u','p.authorID=u.id')
                     ->order('p.postTime','desc')
-                    ->limit(0,5)
-                    ->select();
+                    ->paginate(5);
         return $result;
     }
 

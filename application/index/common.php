@@ -16,6 +16,13 @@ define('REGISTER_RULE', [
 ]);
 
 define('LAYOUT_RULE',[
-   ['username','require|token',"{code:".UNLAWFUL_ACTION.",mag:'".map[UNLAWFUL_ACTION]."'}|{code:".TOKEN_ERROR.",msg:'".map[TOKEN_ERROR]."'}"]
+   ['username','require|token',"{code:".UNLAWFUL_ACTION.",msg:'".map[UNLAWFUL_ACTION]."'}|{code:".TOKEN_ERROR.",msg:'".map[TOKEN_ERROR]."'}"]
+]);
+
+
+define('ADDPOST_RULE',[
+    ['title','require|token',"{code:".EMPTY_TITLE.",msg:'".addpostMap[EMPTY_TITLE]."'}|{code:".TOKEN_ERROR.",msg:'".map[TOKEN_ERROR]."'}"],
+    ['classify','require',"{code:".EMPTY_CLASSIFY.",msg:'".addpostMap[EMPTY_CLASSIFY]."'}"],
+    ['editorValue','require',"{code:".EMPTY_CONTENT.",msg:'".addpostMap[EMPTY_CONTENT]."'}"],
 ]);
 ?>

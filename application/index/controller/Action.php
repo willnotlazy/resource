@@ -32,26 +32,35 @@ class Action extends Base
         if (empty(Session::get('id'))) exit;
         $authorID = Session::get('id');
         $params = $this->request->post();
+        $valResult = $this->validate($params,'Addpost');
+        if ($valResult !== true)
+        {
+            $this->request->token();
+            return $valResult;
+        }
         unset($params['__token__']);
-        $params['second_classify'] = $params['second-classify'];
-        unset($params['second-classify']);
-        $params['content'] = $params['editorValue'];
-        unset($params['editorValue']);
         $file = $this->request->file('cover');
         if($file){
-            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $info = $file->validate(['size'=>6291456,'ext'=>'jpg,png,gif'])->move(ROOT_PATH . 'public' . DS . 'uploads');
             if($info){
                 // 成功上传后 获取上传信息
                 // 输出 jpg
                 $params['cover'] = str_replace('\\','/','uploads/' . $info->getSaveName());
             }else{
                 // 上传失败获取错误信息
-                return json($file->getError());
+                return json_encode($file->getError());
             }
+            unset($info);
         }
-        $postID = Action::getModelInstance('Action')->addPost($params,$authorID);
-        $data['postID'] = $postID;
-        return json($data);
+        $result = Action::getModelInstance('Action')->addPost($params,$authorID);
+        if (is_array($result))
+        {
+            $pic = str_replace('\\','/',ROOT_PATH . 'public' . DS .$params['cover']);
+            unlink($pic);
+            $this->request->token();
+            return json_encode($result);
+        }
+        return json_encode(['code'=>POST_SUCCESS,'msg'=>addpostMap[POST_SUCCESS]]);
     }
 }
 ?>
