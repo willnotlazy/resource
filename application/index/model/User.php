@@ -138,6 +138,13 @@ class User extends Base
             ->where('p.authorID',$id)
             ->order('p.postTime','desc')
             ->paginate(6);
-        return $result;
+
+        $postid = '';
+        foreach ($result as $value)
+        {
+            $postid .= $value['postID'] . ',';
+        }
+        $view = self::getModelInstance('Action')->getAllViewTimes($postid);
+        return array('result'=>$result,'postId'=>$postid,'views'=>$view);
     }
 }

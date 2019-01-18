@@ -43,14 +43,8 @@
 <script src="/static/common/js/common.js"></script>
 <script src="/jquery-chosen/chosen.jquery.js"></script>
 <script src="/jquery-chosen/chosen.proto.js"></script>
-{if $model == 'User'}
-<script src="/static/index/js/login.js"></script>
-{/if}
-{if $model == 'Index'}
-<script src="/static/index/js/index.js"></script>
-{/if}
-{if $model == 'Action'}
-<script src="/static/index/js/createpost.js"></script>
+<script src="/static/index/js/{$model}.js"></script>
+{if $model == 'createpost'}
 <script>
     function getSecondClassify() {
         var classify = $('.classify').val();
@@ -163,6 +157,5 @@
     });
 </script>
 {/if}
-<script src="/static/index/js/viewpost.js"></script>
 </body>
 </html>

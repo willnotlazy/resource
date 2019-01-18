@@ -22,7 +22,7 @@ class Action extends Base
         $classify = $this->getModelInstance('Index')->getClassifyByPidGroup();
         $this->assign('classify',$classify);
         $this->assign('name',Session::get('name'));
-        $this->assign('model','Action');
+        $this->assign('model','createpost');
         return $this->fetch('createpost');
     }
 

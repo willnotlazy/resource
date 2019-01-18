@@ -21,7 +21,7 @@ class User extends Base
         if (!empty($name)) $this->success($name,'/info');
         if(empty($param))
         {
-            $this->assign('model','User');
+            $this->assign('model','login');
             return $this->fetch('login');
         }
         $userModel = $this->getModelInstance('User');
@@ -61,7 +61,7 @@ class User extends Base
         }
         $name = Session::get('name');
         $this->assign('name',$name);
-        $this->assign('model','User');
+        $this->assign('model','info');
         return $this->fetch();
     }
 
@@ -108,7 +108,7 @@ class User extends Base
     public function viewMyPost()
     {
         $id = Session::get('id');
-        $this->assign('model',$this->request->controller());
+        $this->assign('model','viewmypost');
         $selfpost = $this->getModelInstance('User')->getSelfPost($id);
         $classify = $this->getModelInstance('Index')->getClassify();
         $this->assign('classify',$classify);

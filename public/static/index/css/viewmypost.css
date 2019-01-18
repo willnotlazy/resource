@@ -1,0 +1,57 @@
+.content-left
+{
+}
+.content-right
+{
+}
+
+
+/* index 最新回复 */
+.article:not(:last-child)
+{
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.show-image
+{
+    margin-bottom: 2em;
+    width: 200px;
+    height: 200px;
+}
+
+.post-basic-info
+{
+    position: absolute;
+    left: 200px;
+    top: 80px;
+}
+.post-basic-info ul
+{
+    list-style: none;
+
+}
+
+.post-basic-info ul > li:first-child
+{
+    border-bottom: 1px dotted #e7e7e7;
+    padding-bottom: .5em;
+}
+
+
+
+/* 分类标签 */
+.classify a
+{
+    color: #e7e7e7;
+}
+
+.classify a:hover
+{
+    text-decoration-line: none;
+}
+
+.classify h4,h5
+{
+    display: inline-block;
+}
+

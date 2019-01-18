@@ -10,7 +10,7 @@ class Index extends Base
     {
         $new = $this->getModelInstance('Index')->getNewestPost();
         $this->assign('classify',$this->getClassify());
-        $this->assign('model','Index');
+        $this->assign('model','index');
         $this->assign('new',$new);
         return $this->fetch();
     }
@@ -22,7 +22,7 @@ class Index extends Base
 
     public function viewPost($postid)
     {
-        $this->assign('model',$this->request->controller());
+        $this->assign('model','viewpost');
         $classify = $this->getModelInstance('Index')->getAllClassify();
         $content = $this->getModelInstance('Index')->getPostContent($postid);
         $viewTimes = $this->getModelInstance('Action')->logViewTimes($postid)->getViewTimes($postid);

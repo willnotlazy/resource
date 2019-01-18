@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col-lg-8 content-left archive" role="main">
             <div class="panel panel-default panel-archive" role="main">
-                <div class="panel-body">
-                    {foreach $selfpost as $foo}
+                <div class="panel-body self-views">
+                    {foreach $selfpost['result'] as $foo}
                     <div class="col-lg-12 article">
                         <div class="post-title">
                             <a href="viewpost/postid/{$foo.postID}"><h4 class="">{$foo.title}</h4></a>
@@ -25,7 +25,7 @@
                                     <span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom" title="评论数"></span>
                                     <span>0</span>
                                     <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="bottom" title="浏览次数"></span>
-                                    <span>0 次浏览</span>
+                                    <span class="views-time-{$foo.postID}"><span>{$selfpost['views'][$foo.postID]}</span> 次浏览</span>
                                 </li>
                                 <li class="post-title">
                                     <h5>{$foo.title}</h5>
@@ -34,7 +34,8 @@
                         </div>
                     </div>
                     {/foreach}
-                    {$selfpost->render()}
+                    <span class="hide">{$selfpost['postId']}</span>
+                    {$selfpost['result']->render()}
                 </div>
             </div>
         </div>
@@ -52,6 +53,9 @@
                             {foreach $value.children as $foo}
                             <h5><span class="label label-info"><a href="">{$foo.text}</a></span></h5>
                             {/foreach}
+                            {/if}
+                            {if $value.classifyID != 10}
+                            <hr>
                             {/if}
                             {/foreach}
                         </div>
