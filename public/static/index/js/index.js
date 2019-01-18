@@ -1,6 +1,6 @@
 $(function () { $("[data-toggle='tooltip']").tooltip(); });
 
-$('.index-views').everyTime('60s',function () {
+$('.index-views').everyTime('1439s',function () {
     $.ajax({
         type:'post',
         url:'/indexviewtimes',
@@ -9,7 +9,6 @@ $('.index-views').everyTime('60s',function () {
         data : {postid:$('span.hide').text()},
         success : function (data,status,xhr)
         {
-            console.log(data);
             for (i in data)
             {
                 $('.views-time-'+i+' span').text(data[i]);
