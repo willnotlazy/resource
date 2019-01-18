@@ -718,19 +718,3 @@ INSERT INTO `res_user_resource_classify` VALUES ('135', '8', '手游');
 INSERT INTO `res_user_resource_classify` VALUES ('136', '8', '端游');
 INSERT INTO `res_user_resource_classify` VALUES ('137', '6', 'gal');
 
--- ----------------------------
--- Table structure for `res_user_token`
--- ----------------------------
-DROP TABLE IF EXISTS `res_user_token`;
-CREATE TABLE `res_user_token` (
-  `userID` int(10) unsigned NOT NULL COMMENT '用户id',
-  `token` varchar(512) NOT NULL COMMENT '用户token',
-  `limit` int(11) NOT NULL COMMENT 'token过期时间',
-  `clientIp` varchar(256) NOT NULL COMMENT '客户端ip',
-  UNIQUE KEY `userID` (`userID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of res_user_token
--- ----------------------------
-INSERT INTO `res_user_token` VALUES ('1', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kZXYtcmVzb3VyY2UuY29tIiwiYXVkIjoiaHR0cDpcL1wvZGV2LXJlc291cmNlLmNvbVwvbG9naW4iLCJkYXRhIjoxfQ.tOBrBTYQBhlF6Lm6wO4BRYWhuo1LdKde-xZeq7sgqUw8yHi7eDQEcdSp4ev8EmA8ZqxYo-Och7puVC5Va4JwGW0OCESk-lOeSvccAH-FINRzd-kNmkKDJfH_CmuIP72Rz6Y0XsdZqjrtGgzzVZ630bQJlTBtB_FKSDK-07-DGAw', '1547100108', '127.0.0.1');

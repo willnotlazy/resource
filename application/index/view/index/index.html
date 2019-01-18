@@ -25,8 +25,8 @@
         <div class="row">
             <div class="col-lg-8 content-left archive" role="main">
                 <div class="panel panel-default panel-archive" role="main">
-                    <div class="panel-body">
-                        {foreach $new as $foo}
+                    <div class="panel-body index-views">
+                        {foreach $new['result'] as $foo}
                             <div class="col-lg-12 article">
                                 <div class="post-title">
                                     <a href="viewpost/postid/{$foo.postID}"><h4 class="">{$foo.title}</h4></a>
@@ -46,7 +46,7 @@
                                             <span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom" title="评论数"></span>
                                             <span>0</span>
                                             <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="bottom" title="浏览次数"></span>
-                                            <span>0 次浏览</span>
+                                            <span class="views-time-{$foo.postID}"><span>{$new['views'][$foo.postID]}</span> 次浏览</span>
                                         </li>
                                         <li class="post-title">
                                             <h5>{$foo.title}</h5>
@@ -55,7 +55,8 @@
                                 </div>
                             </div>
                         {/foreach}
-                        {$new->render()}
+                        <span class="hide">{$new['postId']}</span>
+                        {$new['result']->render()}
                     </div>
                 </div>
             </div>

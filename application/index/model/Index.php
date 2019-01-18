@@ -19,7 +19,13 @@ class Index extends Base
                     ->join('res_user u','p.authorID=u.id')
                     ->order('p.postTime','desc')
                     ->paginate(6);
-        return $result;
+        $postid = '';
+        foreach ($result as $value)
+        {
+            $postid .= $value['postID'] . ',';
+        }
+        $views = self::getModelInstance('Action')->getAllViewTimes($postid);
+        return array('result'=>$result,'postId'=>$postid,'views'=>$views);
     }
 
     public function getClassify()

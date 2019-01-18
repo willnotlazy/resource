@@ -62,5 +62,18 @@ class Action extends Base
         }
         return json_encode(['code'=>POST_SUCCESS,'msg'=>addpostMap[POST_SUCCESS]]);
     }
+
+
+    public function ajaxGetPostViewTimes()
+    {
+        $postId = $this->request->post('postid');
+        return $this->getModelInstance('Action')->getViewTimes($postId);
+    }
+
+    public function ajaxGetAllViewTimes()
+    {
+        $postId = $this->request->post('postid');
+        return $this->getModelInstance('Action')->getAllViewTimes($postId);
+    }
 }
 ?>

@@ -230,3 +230,12 @@ insert into `res_user_resource_classify` values(134,8,'主机');
 insert into `res_user_resource_classify` values(135,8,'手游');
 insert into `res_user_resource_classify` values(136,8,'端游');
 insert into `res_user_resource_classify` values(137,6,'gal');
+
+
+
+CREATE TABLE `res_view_history`(
+  `uid` int UNSIGNED DEFAULT 0,
+  `clientIP` varchar(256) DEFAULT NULL,
+  `postid` int UNSIGNED NOT NULL,
+  `viewtime` int UNSIGNED NOT NULL
+)ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;

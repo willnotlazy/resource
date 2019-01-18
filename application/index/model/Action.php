@@ -10,6 +10,7 @@ namespace app\index\model;
 use think\Db;
 use think\Exception;
 use think\Request;
+use think\Session;
 
 class Action extends Base
 {
@@ -84,6 +85,54 @@ class Action extends Base
                     ->limit(5)
                     ->select());
         return $nums == 5 ? true : false;
+    }
+
+    // 记录浏览次数
+    public function logViewTimes($postId)
+    {
+        $ip          = getIp();
+        $id          = empty(Session::get('id')) ? 0 : Session::get('id');
+        $touristView = Db::name('view_history')->where('clientIp',$ip)->where('uid',0)->where('postid',$postId)->find();
+        if ($id != 0) $userView    = Db::name('view_history')->where('uid',$id)->where('postid',$postId)->find();
+        $flag = (($id != 0 && empty($userView)) || ($id == 0 && empty($touristView))) ? true : false;
+        if ($flag === true)
+        {
+            $data = [
+                'uid'         => $id,
+                'clientIP'    => $ip,
+                'postid'      => $postId,
+                'viewtime'    => time()
+            ];
+            Db::name('view_history')->insert($data);
+        }
+
+        return self::getModelInstance('Action');
+    }
+
+    public function getViewTimes($postId)
+    {
+        $touristViews = Db::name('view_history')
+                            ->where('clientIP',getIp())
+                            ->where('postid',$postId)
+                            ->where('uid',0)
+                            ->count();
+        $userViews    = Db::name('view_history')
+                            ->where('uid','<>',0)
+                            ->where('postid',$postId)
+                            ->count();
+        return $touristViews + $userViews;
+    }
+
+    public function getAllViewTimes($postId)
+    {
+        $postId = substr($postId,0,strlen($postId)-1);
+        $postArray = explode(',',$postId);
+        $viewArray = array();
+        foreach ($postArray as $value)
+        {
+            $viewArray[$value] = $this->getViewTimes($value);
+        }
+        return $viewArray;
     }
 }
 ?>

@@ -19,6 +19,9 @@ Route::post('layout','index/User/layout');
 Route::rule('/','index/Index/index');
 Route::get('viewpost/postid/:postid$','index/Index/viewPost');
 Route::get('selfpost','index/User/viewMyPost');
+
+Route::post('viewtimes','index/Action/ajaxGetPostViewTimes');
+Route::post('indexviewtimes','index/Action/ajaxGetAllViewTimes');
 return [
     '__pattern__' => [
         'name' => '\w+',

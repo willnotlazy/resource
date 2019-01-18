@@ -23,9 +23,11 @@ class Index extends Base
     public function viewPost($postid)
     {
         $this->assign('model',$this->request->controller());
-        $content = $this->getModelInstance('Index')->getPostContent($postid);
         $classify = $this->getModelInstance('Index')->getAllClassify();
+        $content = $this->getModelInstance('Index')->getPostContent($postid);
+        $viewTimes = $this->getModelInstance('Action')->logViewTimes($postid)->getViewTimes($postid);
         $this->assign('content',$content);
+        $this->assign('viewTimes',$viewTimes);
         $this->assign('classify',$classify);
         return $this->fetch('viewpost');
     }
