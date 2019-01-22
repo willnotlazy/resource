@@ -25,7 +25,7 @@ class User extends Base
         if (empty($result)) return ['code' => USER_NOT_FOUND,'msg' => map[USER_NOT_FOUND]];
 
         // 用户是否可登录
-        if (!$this->cloudUserLogin($user) && Base::getModelInstance('Action')->getLoginFailTimesByUser($user))
+        if (!$this->cloudUserLogin($user) && Base::getModelInstance('Action')->getLoginFailTimesByUser($result['id']))
         {
             $data = [
                 'code' => LIMIT_LOGIN_FAIL_TIMES,
@@ -54,6 +54,7 @@ class User extends Base
             ];
         }
 
+        $this->redis->del('user_'.$result['id']);
         // 登录经验增加判断
         Base::getModelInstance('Experience')->addExperienceBylogin($result);
 

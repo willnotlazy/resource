@@ -11,21 +11,9 @@ use think\Db;
 use think\Exception;
 use think\Request;
 use think\Session;
-use Predis;
 
 class Action extends Base
 {
-    // 返回 Action 单例
-    private static $_action = null;
-    public static function getInstance()
-    {
-        if (is_null(self::$_action))
-        {
-            self::$_action = new Action();
-        }
-        return self::$_action;
-    }
-
     // 发帖
     public function addPost($param,$id)
     {
@@ -55,36 +43,27 @@ class Action extends Base
     // 记录登录失败的操作
     public function logLoginFailAction($id)
     {
-        $data = [
-            'actionID'    =>      null,
-            'id'          =>      $id,
-            'actionTime'  =>      time(),
-            'actionType'  =>      PWDERROR
-        ];
-        Db::name('user_action')->insert($data);
+        $this->redis->incr('user_'.$id);
+        $this->redis->expire('user_'.$id,3600);
         return $this->limitLoginAction($id);
     }
 
     // 获取1小时内该操作的次数和上限
     public function limitLoginAction($id)
     {
-        $actions = Db::name('user_action')->where('actionType',PWDERROR)->where('id',$id)->where('actionTime','between',[time() - 3600 - 2,time() + 2])->limit(5)->order('actionID','asc')->select();
-        $nums = count($actions);
         $result = null;
+        if (!$this->redis->exists('user_'.$id)) return false;
+        $nums = $this->redis->get('user_'.$id);
         if ($nums != 5) return ['errorType'=>PWDERROR,'errorTimes'=>$nums,'surplus'=>5-$nums];
+
         return ['errorType'=>PWDERROR,'errorTimes'=>$nums,'surplus'=>0];
     }
 
     // 根据用户名获取他已经登录失败的次数
-    public function getLoginFailTimesByUser($user)
+    public function getLoginFailTimesByUser($id)
     {
-        $nums = count(Db::table('res_user_action')
-                    ->alias('a')
-                    ->join('user u','a.id=u.id','LEFT')
-                    ->where("u.username",$user)
-                    ->where('actionTime','between',[time() - 3600 - 2,time() + 2])
-                    ->limit(5)
-                    ->select());
+        if (!$this->redis->exists('user_'.$id)) return true;
+        $nums = $this->redis->get('user_'.$id);
         return $nums == 5 ? true : false;
     }
 
@@ -93,17 +72,13 @@ class Action extends Base
     {
         $ip          = getIp();
         $id          = empty(Session::get('id')) ? 0 : Session::get('id');
-        $redis       = new Predis\Client([
-           'host'   => '127.0.0.1',
-           'post'   => 6379
-        ]);
         $redis_flag = true;
         $mysql_flag = true;
         // 判断在redis中是否存在  true === 不存在
-        if ($redis->exists('view_history'))
+        if ($this->redis->exists('view_history'))
         {
-            $this->redisToMySQL($redis);
-            $redis_flag = $this->isExistInRedis($postId, $id, $ip, $redis);
+            $this->redisToMySQL();
+            $redis_flag = $this->isExistInRedis($postId, $id, $ip);
         }
 
         // 判断在数据库中是否存在 true === 不存在
@@ -116,17 +91,13 @@ class Action extends Base
                 'postid'      => $postId,
                 'viewtime'    => time()
             ];
-            $redis->lpush('view_history',serialize($data));
+            $this->redis->lpush('view_history',serialize($data));
         }
         return self::getModelInstance('Action');
     }
 
     public function getViewTimes($postId)
     {
-        $redis = new Predis\Client([
-            'host'  => '127.0.0.1',
-            'post'  => 6379
-        ]);
         $count = 0;
         $touristViews = Db::name('view_history')
                             ->where('clientIP',getIp())
@@ -139,10 +110,9 @@ class Action extends Base
                             ->count();
 
         // 统计 redis 里面的浏览历史
-        if ($redis->exists('view_history'))
+        if ($this->redis->exists('view_history'))
         {
-            $result = $redis->lrange('view_history', 0, 10000);
-            $list = array();
+            $result = $this->redis->lrange('view_history', 0, 10000);
             foreach ($result as $value)
             {
                 $view = unserialize($value);
@@ -182,9 +152,9 @@ class Action extends Base
     }
 
     // 判断浏览历史是否在redis中存在
-    public function isExistInRedis($postId, $id, $ip, $redis)
+    public function isExistInRedis($postId, $id, $ip)
     {
-        $result = $redis->lrange('view_history', 0, 10000);
+        $result = $this->redis->lrange('view_history', 0, 10000);
         foreach ($result as $key => $value)
         {
             $history = unserialize($value);
@@ -195,9 +165,9 @@ class Action extends Base
 
 
     // 当redis里面数据数量超过500条时,数据入库
-    public function redisToMySQL($redis)
+    public function redisToMySQL()
     {
-        $result = $redis->lrange('view_history', 0, 499);
+        $result = $this->redis->lrange('view_history', 0, 499);
         if (count($result) < 500) return ;
         $list = array();
         foreach ($result as $value)
@@ -205,7 +175,7 @@ class Action extends Base
             $list[] = unserialize($value);
         }
         Db::name('view_history')->insertAll($list);
-        $redis->ltrim('view_history',500,10000);
+        $this->redis->ltrim('view_history',500,10000);
     }
 }
 ?>

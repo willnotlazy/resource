@@ -9,11 +9,16 @@ namespace app\index\model;
 
 use think\Db;
 use think\Model;
+use Predis;
 class Base extends Model
 {
+    protected $redis = null;
     public function initialize()
     {
-
+        $this->redis = new Predis\Client([
+            'host'  => '127.0.0.1',
+            'port'  => 6379
+        ]);
     }
 
     // 返回模型单例
@@ -25,7 +30,6 @@ class Base extends Model
         self::$model[$name] = new $modelName;
         return self::$model[$name];
     }
-
 
     public function checkTokenTrueAndFalse($token)
     {
