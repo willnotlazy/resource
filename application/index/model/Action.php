@@ -11,6 +11,7 @@ use think\Db;
 use think\Exception;
 use think\Request;
 use think\Session;
+use Predis;
 
 class Action extends Base
 {
@@ -92,10 +93,22 @@ class Action extends Base
     {
         $ip          = getIp();
         $id          = empty(Session::get('id')) ? 0 : Session::get('id');
-        $touristView = Db::name('view_history')->where('clientIp',$ip)->where('uid',0)->where('postid',$postId)->find();
-        if ($id != 0) $userView    = Db::name('view_history')->where('uid',$id)->where('postid',$postId)->find();
-        $flag = (($id != 0 && empty($userView)) || ($id == 0 && empty($touristView))) ? true : false;
-        if ($flag === true)
+        $redis       = new Predis\Client([
+           'host'   => '127.0.0.1',
+           'post'   => 6379
+        ]);
+        $redis_flag = true;
+        $mysql_flag = true;
+        // 判断在redis中是否存在  true === 不存在
+        if ($redis->exists('view_history'))
+        {
+            $this->redisToMySQL($redis);
+            $redis_flag = $this->isExistInRedis($postId, $id, $ip, $redis);
+        }
+
+        // 判断在数据库中是否存在 true === 不存在
+        if ($redis_flag === true) $mysql_flag = $this->isExistInMySQL($postId, $id, $ip);
+        if ($redis_flag && $mysql_flag)
         {
             $data = [
                 'uid'         => $id,
@@ -103,14 +116,18 @@ class Action extends Base
                 'postid'      => $postId,
                 'viewtime'    => time()
             ];
-            Db::name('view_history')->insert($data);
+            $redis->lpush('view_history',serialize($data));
         }
-
         return self::getModelInstance('Action');
     }
 
     public function getViewTimes($postId)
     {
+        $redis = new Predis\Client([
+            'host'  => '127.0.0.1',
+            'post'  => 6379
+        ]);
+        $count = 0;
         $touristViews = Db::name('view_history')
                             ->where('clientIP',getIp())
                             ->where('postid',$postId)
@@ -120,7 +137,19 @@ class Action extends Base
                             ->where('uid','<>',0)
                             ->where('postid',$postId)
                             ->count();
-        return $touristViews + $userViews;
+
+        // 统计 redis 里面的浏览历史
+        if ($redis->exists('view_history'))
+        {
+            $result = $redis->lrange('view_history', 0, 10000);
+            $list = array();
+            foreach ($result as $value)
+            {
+                $view = unserialize($value);
+                if ($view['postid'] == $postId) $count++;
+            }
+        }
+        return $touristViews + $userViews + $count;
     }
 
     public function getAllViewTimes($postId)
@@ -133,6 +162,50 @@ class Action extends Base
             $viewArray[$value] = $this->getViewTimes($value);
         }
         return $viewArray;
+    }
+
+    // 判断浏览历史是否在数据库中存在
+    public function isExistInMySQL($postId, $id, $ip)
+    {
+        $touristView = Db::name('view_history')
+                        ->where('clientIp',$ip)
+                        ->where('uid',0)
+                        ->where('postid',$postId)
+                        ->find();
+        if ($id != 0)
+            $userView    = Db::name('view_history')
+                            ->where('uid',$id)
+                            ->where('postid',$postId)
+                            ->find();
+        $flag = (($id != 0 && empty($userView)) || ($id == 0 && empty($touristView))) ? true : false;
+        return $flag;
+    }
+
+    // 判断浏览历史是否在redis中存在
+    public function isExistInRedis($postId, $id, $ip, $redis)
+    {
+        $result = $redis->lrange('view_history', 0, 10000);
+        foreach ($result as $key => $value)
+        {
+            $history = unserialize($value);
+            if ((in_array($id,$history)|| in_array($ip,$history)) && in_array($postId, $history)) return false;
+            return true;
+        }
+    }
+
+
+    // 当redis里面数据数量超过500条时,数据入库
+    public function redisToMySQL($redis)
+    {
+        $result = $redis->lrange('view_history', 0, 499);
+        if (count($result) < 500) return ;
+        $list = array();
+        foreach ($result as $value)
+        {
+            $list[] = unserialize($value);
+        }
+        Db::name('view_history')->insertAll($list);
+        $redis->ltrim('view_history',500,10000);
     }
 }
 ?>

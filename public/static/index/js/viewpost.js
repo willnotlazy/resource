@@ -1,4 +1,4 @@
-$('.view-times').everyTime('1439s',function () {
+$('.view-times').everyTime('30s',function () {
    $.ajax({
        type:'post',
        url:'/viewtimes',

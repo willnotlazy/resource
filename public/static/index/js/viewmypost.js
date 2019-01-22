@@ -1,4 +1,4 @@
-$('.self-views').everyTime('1439s',function () {
+$('.self-views').everyTime('30s',function () {
     $.ajax({
         type:'post',
         url:'/indexviewtimes',

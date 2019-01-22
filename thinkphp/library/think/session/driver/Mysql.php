@@ -9,13 +9,11 @@
 // | Author: ziiber <ziiber@foxmail.com>	2016.09.24
 // +----------------------------------------------------------------------
 namespace think\session\driver;
-
 use SessionHandler;
 use think\Db;
 use think\Config;
 use think\Exception;
 use think\Session;
-
 /**
  * 数据库方式Session驱动
  *    CREATE TABLE think_session (
@@ -25,7 +23,6 @@ use think\Session;
  *      UNIQUE KEY `session_id` (`session_id`)
  *    );
  */
-
 class Mysql extends SessionHandler
 {
     protected $handler = null;
@@ -46,7 +43,6 @@ class Mysql extends SessionHandler
         'charset'        => 'utf8',         // 数据库编码
         'debug'          => true,           // 数据库调试模式
     ];
-
     public function __construct($config = [])
     {
         // 获取数据库配置
@@ -64,11 +60,9 @@ class Mysql extends SessionHandler
             // 使用默认的数据库配置
             $database = Config::get('database');
         }
-
         $this->config   = array_merge($this->config, $config);
         $this->database = array_merge($this->database, $database);
     }
-
     /**
      * 打开Session
      * @access public
@@ -87,7 +81,6 @@ class Mysql extends SessionHandler
         $this->table_name = $this->database['prefix'] . $this->config['table_name'];
         return true;
     }
-
     /**
      * 关闭Session
      * @access public
@@ -98,7 +91,6 @@ class Mysql extends SessionHandler
         $this->handler = null;
         return true;
     }
-
     /**
      * 读取Session
      * @access public
@@ -118,7 +110,6 @@ class Mysql extends SessionHandler
         }
         return '';
     }
-
     /**
      * 写入Session
      * @access public
@@ -137,7 +128,6 @@ class Mysql extends SessionHandler
         $result = $this->handler->execute($sql, $params);
         return $result ? true : false;
     }
-
     /**
      * 删除Session
      * @access public
@@ -154,15 +144,12 @@ class Mysql extends SessionHandler
         $exSql = 'SELECT * FROM ' . $this->table_name . ' WHERE session_id = :session_id';
         $exist = $this->handler->query($exSql,$where);
         if (empty($exist)) return true;
-
         // 删除session
         $result = $this->handler->execute($sql, $where);
-        
+
         // 初始化用户登陆状态
         return $result ? true : false;
-
     }
-
     /**
      * Session 垃圾回收
      * @access public
@@ -177,5 +164,4 @@ class Mysql extends SessionHandler
         $sql = 'DELETE FROM ' . $this->table_name . ' WHERE session_expire < :session_expire';
         return $this->handler->execute($sql, $where);
     }
-
 }

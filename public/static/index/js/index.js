@@ -1,6 +1,6 @@
 $(function () { $("[data-toggle='tooltip']").tooltip(); });
 
-$('.index-views').everyTime('1439s',function () {
+$('.index-views').everyTime('30s',function () {
     $.ajax({
         type:'post',
         url:'/indexviewtimes',
