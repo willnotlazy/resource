@@ -17,6 +17,7 @@ class Index extends Base
                     ->field('p.*,u.username')
                     ->alias('p')
                     ->join('res_user u','p.authorID=u.id')
+//                    ->whereOr('authorID',0)
                     ->order('p.postTime','desc')
                     ->paginate(6);
         $postid = '';

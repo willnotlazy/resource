@@ -45,6 +45,7 @@ class Action extends Base
     {
         $this->redis->incr('user_'.$id);
         $this->redis->expire('user_'.$id,3600);
+        $this->redis->save();
         return $this->limitLoginAction($id);
     }
 
@@ -92,6 +93,7 @@ class Action extends Base
                 'viewtime'    => time()
             ];
             $this->redis->lpush('view_history',serialize($data));
+            $this->redis->save();
         }
         return self::getModelInstance('Action');
     }
@@ -176,6 +178,7 @@ class Action extends Base
         }
         Db::name('view_history')->insertAll($list);
         $this->redis->ltrim('view_history',500,10000);
+        $this->redis->save();
     }
 }
 ?>

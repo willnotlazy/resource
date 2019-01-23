@@ -55,6 +55,7 @@ class User extends Base
         }
 
         $this->redis->del('user_'.$result['id']);
+        $this->redis->save();
         // 登录经验增加判断
         Base::getModelInstance('Experience')->addExperienceBylogin($result);
 
