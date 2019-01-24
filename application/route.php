@@ -9,19 +9,28 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use think\Route;
-Route::rule('checkLogin','index/User/checkLogin');
-Route::rule('login','index/User/login');
-Route::rule('info','index/user/info');
-Route::post('register','index/User/register');
-Route::rule('createpost','index/Action/postSomething');
-Route::post('addpost','index/Action/addPost');
-Route::post('layout','index/User/layout');
-Route::rule('/','index/Index/index');
-Route::get('viewpost/postid/:postid$','index/Index/viewPost');
-Route::get('selfpost','index/User/viewMyPost');
 
-Route::post('viewtimes','index/Action/ajaxGetPostViewTimes');
-Route::post('indexviewtimes','index/Action/ajaxGetAllViewTimes');
+Route::get([
+    'group/classify/:classify/[:second_classify]'     => 'index/Index/groupByClassify'
+    ,'viewpost/postid/:postid$'     => 'index/Index/viewPost'
+    ,'selfpost'                     => 'index/User/viewMyPost'
+]);
+
+Route::post([
+    'viewtimes'                     =>  'index/Action/ajaxGetPostViewTimes'
+    ,'indexviewtimes'               => 'index/Action/ajaxGetAllViewTimes'
+    ,'layout'                       => 'index/User/layout'
+    ,'addpost'                      => 'index/Action/addPost'
+    ,'register'                     => 'index/User/register'
+]);
+
+Route::rule([
+    'checkLogin'                    => 'index/User/checkLogin'
+    ,'login'                        => 'index/User/login'
+    ,'info'                         => 'index/user/info'
+    ,'createpost'                   => 'index/Action/postSomething'
+    ,'/'                            => 'index/Index/index'
+]);
 
 return [
     '__pattern__' => [

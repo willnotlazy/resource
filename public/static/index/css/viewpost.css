@@ -19,3 +19,11 @@
 {
     color: #e7e7e7;
 }
+
+.col-centered
+{
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

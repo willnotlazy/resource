@@ -23,7 +23,7 @@ class Action extends Base
         $param['checked']           = null;
         $param['checkStatus']       = null;
         $param['couldPost']         = 0;
-        $param['postTime'] = time();
+        $param['postTime']          = time();
         try{
             $this->table('res_user_post')->insert($param);
         } catch (Exception $e){

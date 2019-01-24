@@ -45,7 +45,7 @@ class Action extends Base
             if($info){
                 // 成功上传后 获取上传信息
                 // 输出 jpg
-                $params['cover'] = str_replace('\\','/','uploads/' . $info->getSaveName());
+                $params['cover'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/' . $info->getSaveName());
             }else{
                 // 上传失败获取错误信息
                 return json_encode($file->getError());

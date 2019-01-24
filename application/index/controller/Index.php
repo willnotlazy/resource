@@ -31,4 +31,17 @@ class Index extends Base
         $this->assign('classify',$classify);
         return $this->fetch('viewpost');
     }
+
+
+    public function groupByClassify($classify, $second_classify = '')
+    {
+        $group = $this->getModelInstance('Index')->getByClassify($classify, $second_classify);
+        if (count($group) == 0)
+        {
+            $this->error('未找到该分类','/','','3');
+            exit;
+        }
+        $this->assign('model','group');
+        return $this->fetch('group');
+    }
 }

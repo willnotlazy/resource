@@ -1,62 +1,63 @@
 {include file='common/header'}
 <hr/>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="col-lg-12">
-                        <h3>{$content.title}</h3>
-                        <div class="show-basic">
-                            <ul>
-                                <li class="post-master-view">
-                                    <span class="glyphicon glyphicon-user" data-toggle="tooltip" data-placement="bottom" title="发布者"></span>
-                                    <a href="">{$content.username}</a>
-                                    <span class="glyphicon glyphicon-calendar" data-toggle="tooltip" data-placement="bottom" title="发布时间"></span>
-                                    <span>{:date('Y年m月d日',$content.postTime)}</span>
-                                    <span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom" title="评论数"></span>
-                                    <span>0</span>
-                                    <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="bottom" title="浏览次数"></span>
-                                    <span class="view-times"><span>{$viewTimes}</span> 次浏览</span>
-                                    <span class="hide">{$content.postID}</span>
-                                </li>
-                            </ul>
+
+    <div class="container-fluid">
+        <div class="row row-centered">
+            <div class="col-lg-8 col-centered">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-lg-12">
+                            <h3>{$content.title}</h3>
+                            <div class="show-basic">
+                                <ul>
+                                    <li class="post-master-view">
+                                        <span class="glyphicon glyphicon-user" data-toggle="tooltip" data-placement="bottom" title="发布者"></span>
+                                        <a href="">{$content.username}</a>
+                                        <span class="glyphicon glyphicon-calendar" data-toggle="tooltip" data-placement="bottom" title="发布时间"></span>
+                                        <span>{:date('Y年m月d日',$content.postTime)}</span>
+                                        <span class="glyphicon glyphicon-comment" data-toggle="tooltip" data-placement="bottom" title="评论数"></span>
+                                        <span>0</span>
+                                        <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="bottom" title="浏览次数"></span>
+                                        <span class="view-times"><span>{$viewTimes}</span> 次浏览</span>
+                                        <span class="hide">{$content.postID}</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 show-classify">
-                        <h4 class="label-title">分类:</h4>
-                        <h4><span class="label label-danger"><a href="">{$classify[$content.classify]['name']}</a></span></h4>
-                        {if isset($classify[$content.second_classify]['name'])}
-                        <h5><span class="label label-info"><a href="">{$classify[$content.second_classify]['name']}</a></span></h5>
-                        {/if}
-                    </div>
-                    <div class="col-lg-12 show-content">
-                        <fieldset>
-                            <legend><h4>描述</h4></legend>
-                            <div>
-                                {$content.editorValue}
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="col-lg-12 show-link">
-                        <fieldset>
-                            <legend><h4>链接</h4></legend>
-                            <div>
-                                {$content.postAddress}
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="col-lg-12 show-transpond">
-                        <fieldset>
-                            <legend><h4>转载地址</h4></legend>
-                            <div>
-                                {$content.transpond}
-                            </div>
-                        </fieldset>
+                        <div class="col-lg-12 show-classify">
+                            <h4 class="label-title">分类:</h4>
+                            <h4><span class="label label-danger"><a href="">{$classify[$content.classify]['name']}</a></span></h4>
+                            {if isset($classify[$content.second_classify]['name'])}
+                            <h5><span class="label label-info"><a href="">{$classify[$content.second_classify]['name']}</a></span></h5>
+                            {/if}
+                        </div>
+                        <div class="col-lg-12 show-content">
+                            <fieldset>
+                                <legend><h4>描述</h4></legend>
+                                <div>
+                                    {$content.editorValue}
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-lg-12 show-link">
+                            <fieldset>
+                                <legend><h4>链接</h4></legend>
+                                <div>
+                                    {$content.postAddress}
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-lg-12 show-transpond">
+                            <fieldset>
+                                <legend><h4>转载地址</h4></legend>
+                                <div>
+                                    {$content.transpond}
+                                </div>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {include file='common/footer'}

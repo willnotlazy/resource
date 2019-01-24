@@ -14,12 +14,22 @@ class Index extends Base
     public function getNewestPost()
     {
         $result = Db::name('user_post')
-                    ->field('p.*,u.username')
-                    ->alias('p')
-                    ->join('res_user u','p.authorID=u.id')
-//                    ->whereOr('authorID',0)
-                    ->order('p.postTime','desc')
-                    ->paginate(6);
+                    ->where('couldPost',1)
+                    ->order('postTime','desc')
+                    ->paginate(6)
+                    ->each(function ($item, $key){
+                        if ($item['authorID'] == 0)
+                        {
+                            $item['username'] = 'admin';
+                        }
+                        else
+                        {
+                            $authorID = $item['authorID'];
+                            $author = Db::name('user')->where('id',$authorID)->find()['username'];
+                            $item['username'] = $author;
+                        }
+                        return $item;
+                    });
         $postid = '';
         foreach ($result as $value)
         {
@@ -50,11 +60,10 @@ class Index extends Base
     public function getPostContent($postid)
     {
         $result = Db::name('user_post')
-            ->field('p.*,u.username')
-            ->alias('p')
-            ->join('res_user u','p.authorID=u.id')
-            ->where('p.postID', (int) $postid)
+            ->where('postID', (int) $postid)
+            ->where('couldPost',1)
             ->find();
+        $result['username'] = Db::name('user')->where('id',$result['authorID'])->find()['username'];
         return $result;
     }
 
@@ -68,6 +77,40 @@ class Index extends Base
             $classify[$value['classifyID']] = $value;
         }
         return $classify;
+    }
+
+    public function getByClassify($classify, $second_classify)
+    {
+        if (!empty($second_classify))
+        {
+            $result = Db::name('user_post')
+                        ->where([
+                           'classify'           => $classify
+                            ,'second_classify'  => $second_classify
+                            ,'couldPost'        => 1
+                        ])->order('postTime','desc')
+                        ->paginate(6)
+                        ->each(function ($item, $key) {
+                                $item['pidtext']    = Db::name('user_resource_classify')->where('classifyID',$item['classify'])->find()['name'];
+                                $item['childtext']  = Db::name('user_resource_classify')->where('classifyID',$item['second_classify'])->find()['name'];
+                                return $item;
+                        });
+            return $result;
+        }
+        else
+        {
+            $result = Db::name('user_post')
+                ->where([
+                    'classify'         => $classify
+                    ,'couldPost'       => 1
+                ])->order('postTime','desc')
+                ->paginate(6)
+                ->each(function ($item, $key){
+                    $item['pidtext']    = Db::name('user_resource_classify')->where('classifyID',$item['classify'])->find()['name'];
+                    return $item;
+                });
+            return $result;
+        }
     }
 }
 ?>
