@@ -17,6 +17,7 @@ class User extends Base
     public function login()
     {
         $param = $this->request->param();
+
         $name = Session::get('name');
         if (!empty($name)) $this->success($name,'/info');
         if(empty($param))
@@ -24,6 +25,9 @@ class User extends Base
             $this->assign('model','login');
             return $this->fetch('login');
         }
+        if (empty($param['code'])) return json_encode(array('code' => NULL_CAPTCHA, 'msg' => map[NULL_CAPTCHA]));
+        if (!captcha_check($param['code'],1)) return json_encode(array('code' => ERROR_CAPTCHA, 'msg' => map[ERROR_CAPTCHA]));
+        unset($param['code']);
         $userModel = $this->getModelInstance('User');
         $result = $userModel->LoginCheck($param);
         return json_encode($result);
@@ -69,6 +73,9 @@ class User extends Base
     public function register()
     {
         $params = $this->request->param();
+        if (empty($params['code'])) return json_encode(array('code' => NULL_CAPTCHA, 'msg' => map[NULL_CAPTCHA]));
+        if (!captcha_check($params['code'], 2)) return json_encode(array('code' => ERROR_CAPTCHA, 'msg' => map[ERROR_CAPTCHA]));
+        unset($params['code']);
         $result =  $this->validate($params,'Register');
         if ($result !== true) {
             $this->request->token();

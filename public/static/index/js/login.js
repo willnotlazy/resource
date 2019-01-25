@@ -1,6 +1,6 @@
 function doLogin()
 {
-    $.post('/login',{username:$('#username').val(),password:$.base64.encode($.md5($('#password').val()))},function(data,status){
+    $.post('/login',{username:$('#username').val(),password:$.base64.encode($.md5($('#password').val())),code:$('.login-code').val()},function(data,status){
         var jdata = eval('('+data+')');
         if (jdata.code === 20210)
         {
@@ -12,6 +12,7 @@ function doLogin()
             {
                 alert(jdata.msg + ',您已失败'+jdata.data.errorTimes + '次,剩余可尝试次数'+jdata.data.surplus+'次');
             }else{
+                refreshVerify('verify_img1',1);
                 alert(jdata.msg);
             }
         }
@@ -27,14 +28,14 @@ function doRegister()
         url :  "/register",
         dataType : "json",
         contentType : "application/x-www-form-urlencoded",
-        data : {username:$('#r-username').val(),password:$('#r-password').val(),email:$('#r-email').val(),__token__:$('#__token__').val()},
+        data : {username:$('#r-username').val(),password:$('#r-password').val(),email:$('#r-email').val(),code:$('.register-code').val(),__token__:$('#__token__').val()},
         success : function (data,status,xhr)
         {
             var jdata = eval('('+data+')');
             alert(jdata.msg);
             if(jdata.code !==20200)
             {
-
+                refreshVerify('verify_img2',2);
                 $("#__token__").val(xhr.getResponseHeader('__token__'));
             }
             else{
@@ -86,3 +87,10 @@ $('.register-div').keydown(function (e) {
         doRegister();
     }
 });
+
+
+function refreshVerify(d,f)
+{
+    var ts = Date.parse(new Date())/1000;
+    $('#'+d + ' img').attr('src',"/captcha/"+f+".html?id="+ts);
+}

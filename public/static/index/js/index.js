@@ -16,3 +16,6 @@ $('.index-views').everyTime('30s',function () {
         }
     });
 });
+
+
+$('.newLeast').addClass('active');

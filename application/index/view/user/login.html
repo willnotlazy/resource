@@ -34,6 +34,16 @@
 					placeholder="请输入密码"
 				/>
 			</div>
+			<div class="rl-captcha">
+				<input
+					type="text"
+					name="code"
+					class="login-code"
+					placeholder="请输入验证码"
+					autocomplete="off"
+				>
+				<div id="verify_img1" onclick="refreshVerify('verify_img1',1)">{:captcha_img(1)}</div>
+			</div>
 			<div class="rl-model-footer login">
 				<span>登陆</span>
 			</div>
@@ -63,6 +73,16 @@
 					id="r-password"
 					placeholder="请输入密码"
 				/>
+			</div>
+			<div class="rl-captcha">
+				<input
+						type="text"
+						name="code"
+						class="register-code"
+						placeholder="请输入验证码"
+						autocomplete="off"
+				>
+				<div id="verify_img2" onclick="refreshVerify('verify_img2',2)">{:captcha_img(2)}</div>
 			</div>
 			<div class="hide">
 				<input type="hidden" name="__token__" id="__token__" value="{$Request.token}">

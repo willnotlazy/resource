@@ -11,9 +11,15 @@
 use think\Route;
 
 Route::get([
-    'group/classify/:classify/[:second_classify]'     => 'index/Index/groupByClassify'
-    ,'viewpost/postid/:postid$'     => 'index/Index/viewPost'
-    ,'selfpost'                     => 'index/User/viewMyPost'
+    'group/classify/:classify/[:second_classify]'       => 'index/Index/groupByClassify'
+    ,'newLeast'                                         => 'index/Index/index'
+    ,'reply'                                            => 'index/Index/getReply'
+    ,'vigor'                                            => 'index/Index/getVigor'
+    ,'top10'                                            => 'index/Index/getTop10'
+    ,'compass'                                          => 'index/Index/showPostCompass'
+    ,'level'                                            => 'index/Index/showLevelList'
+    ,'viewpost/postid/:postid$'                         => 'index/Index/viewPost'
+    ,'selfpost'                                         => 'index/User/viewMyPost'
 ]);
 
 Route::post([

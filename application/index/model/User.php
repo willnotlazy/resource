@@ -149,4 +149,11 @@ class User extends Base
         $view = self::getModelInstance('Action')->getAllViewTimes($postid);
         return array('result'=>$result,'postId'=>$postid,'views'=>$view);
     }
+    
+    // 获取用户等级排行
+    public function getLevelRank()
+    {
+        $users = Db::name('user')->field('username,level,experience,accumulatedLoginDays,consecutiveLoginDays')->order('level','desc')->order('experience','desc')->select();
+        return $users;
+    }
 }

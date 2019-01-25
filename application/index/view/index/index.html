@@ -1,26 +1,4 @@
 {include file='common/header'}
-    <!-- 首页导航 -->
-    <div class="navbar navbar-default navbar-static-top" role="banner">
-        <div class="container">
-            <nav id="navbar" class="collapse navbar-collapse header-navbar-collapse" role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#" itemprop="url"><font style="font-weight:bold;">最新投稿</font></a></li>
-                    <li><a href="#" itemprop="url"><font style="font-weight:bold;">最新回复</font></a></li>
-                    <li><a href="#" itemprop="url"><font style="font-weight:bold;">精品推荐</font></a></li>
-                    <li><a href="#" itemprop="url"><font style="font-weight:bold;">最热top10</font></a></li>
-                    <li><a href="#" itemprop="url"><font style="font-weight:bold;">投稿指南</font></a></li>
-                    <li><a href="#" itemprop="url"><font style="font-weight:bold">等级列表</font></a></li>
-                </ul>
-                <form class="navbar-form navbar-right" role="search" method="get" id="searchform" action="http://www.newbiefly.com/">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="搜索 …" name="s" id="s" required="">
-                    </div>
-                    <button type="submit" class="btn btn-default" id="searchsubmit"><span class="glyphicon glyphicon-search"></span></button>
-                </form>
-            </nav>
-        </div>
-    </div>
-
     <div id="main" class="container">
         <div class="row">
             <div class="col-lg-8 content-left archive" role="main">
@@ -29,10 +7,10 @@
                         {foreach $new['result'] as $foo}
                             <div class="col-lg-12 article">
                                 <div class="post-title">
-                                    <a href="viewpost/postid/{$foo.postID}"><h4 class="">{$foo.title}</h4></a>
+                                    <a href="viewpost/postid/{$foo.postID}" itemprop="url"><h4 class="">{$foo.title}</h4></a>
                                 </div>
                                 <div class="show-image">
-                                    <a href="viewpost/postid/{$foo.postID}">
+                                    <a href="viewpost/postid/{$foo.postID}" itemprop="url">
                                         <img src="{$foo.cover}" alt="" class="img-responsive img-thumbnail " width="200" height="200">
                                     </a>
                                 </div>
@@ -69,11 +47,11 @@
                             <div>
                             {foreach $classify as $value}
                                 <div>
-                                    <h4><span class="label label-danger"><a href="group/classify/{$value.classifyID}">{$value.text}</a></span></h4>
+                                    <h4><span class="label label-danger"><a href="group/classify/{$value.classifyID}" itemprop="url">{$value.text}</a></span></h4>
                                 </div>
                                 {if isset($value.children)}
                                 {foreach $value.children as $foo}
-                                <h5><span class="label label-info"><a href="group/classify/{$value.classifyID}/{$foo.classifyID}">{$foo.text}</a></span></h5>
+                                <h5><span class="label label-info"><a href="group/classify/{$value.classifyID}/{$foo.classifyID}" itemprop="url">{$foo.text}</a></span></h5>
                                 {/foreach}
                                 {/if}
                                 {if $value.classifyID != 10}

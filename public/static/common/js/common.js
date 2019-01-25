@@ -19,3 +19,6 @@ function layout(name,token)
         }
     })
 }
+
+
+$('.nav li').removeClass('active');

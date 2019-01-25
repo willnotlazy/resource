@@ -93,9 +93,11 @@ class Index extends Base
                         ->each(function ($item, $key) {
                                 $item['pidtext']    = Db::name('user_resource_classify')->where('classifyID',$item['classify'])->find()['name'];
                                 $item['childtext']  = Db::name('user_resource_classify')->where('classifyID',$item['second_classify'])->find()['name'];
-                                return $item;
+                                $id = $item['authorID'];
+                                if ($id == 0) $item['username'] = 'admin';
+                                else $item['username'] = Db::name('user')->field('username')->where('id',$id)->find()['username'];
+                            return $item;
                         });
-            return $result;
         }
         else
         {
@@ -107,10 +109,20 @@ class Index extends Base
                 ->paginate(6)
                 ->each(function ($item, $key){
                     $item['pidtext']    = Db::name('user_resource_classify')->where('classifyID',$item['classify'])->find()['name'];
+                    $id = $item['authorID'];
+                    if ($id == 0) $item['username'] = 'admin';
+                    else $item['username'] = Db::name('user')->field('username')->where('id',$id)->find()['username'];
                     return $item;
                 });
-            return $result;
         }
+
+        $postid = '';
+        foreach ($result as $value)
+        {
+            $postid .= $value['postID'] . ',';
+        }
+        $view = self::getModelInstance('Action')->getAllViewTimes($postid);
+        return array('result'=>$result,'postId'=>$postid,'views'=>$view);
     }
 }
 ?>
