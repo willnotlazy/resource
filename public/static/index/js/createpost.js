@@ -43,8 +43,8 @@ var ue = UE.getEditor('container', {
         'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
         'print', 'preview', 'searchreplace', 'drafts', 'help'
     ]],
-    initialFrameHeight:366,
-    elementPathEnabled:false,
+    initialFrameHeight:366
+    ,elementPathEnabled:false
 });
 
 

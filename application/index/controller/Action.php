@@ -6,6 +6,7 @@
  * Time: 16:41
  */
 namespace app\index\controller;
+use think\Db;
 use think\Request;
 use think\Session;
 class Action extends Base
@@ -74,6 +75,18 @@ class Action extends Base
     {
         $postId = $this->request->post('postid');
         return $this->getModelInstance('Action')->getAllViewTimes($postId);
+    }
+    
+    
+    // 发布留言
+    public function addReply()
+    {
+        $id                 = Session::get('id');
+        $param              = $this->request->post();
+        $param['uid']       = $id;
+        $param['replyTime'] = time();
+        Db::name('user_reply')->insert($param);
+        return true;
     }
 }
 ?>

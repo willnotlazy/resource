@@ -23,11 +23,12 @@ Route::get([
 ]);
 
 Route::post([
-    'viewtimes'                     =>  'index/Action/ajaxGetPostViewTimes'
+    'viewtimes'                     => 'index/Action/ajaxGetPostViewTimes'
     ,'indexviewtimes'               => 'index/Action/ajaxGetAllViewTimes'
     ,'layout'                       => 'index/User/layout'
     ,'addpost'                      => 'index/Action/addPost'
     ,'register'                     => 'index/User/register'
+    ,'addreply'                     => 'index/Action/addReply'
 ]);
 
 Route::rule([

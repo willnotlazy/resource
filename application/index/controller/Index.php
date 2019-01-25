@@ -23,12 +23,27 @@ class Index extends Base
     public function viewPost($postid)
     {
         $this->assign('model','viewpost');
-        $classify = $this->getModelInstance('Index')->getAllClassify();
-        $content = $this->getModelInstance('Index')->getPostContent($postid);
-        $viewTimes = $this->getModelInstance('Action')->logViewTimes($postid)->getViewTimes($postid);
+        $classify       = $this->getModelInstance('Index')->getAllClassify();
+        $content        = $this->getModelInstance('Index')->getPostContent($postid);
+        $viewTimes      = $this->getModelInstance('Action')->logViewTimes($postid)->getViewTimes($postid);
+        $isLogin        = false;
+        $isShowAddress  = false;
+        $id = Session::get('id');
+        if (!empty($id))
+        {
+            $isLogin = true;
+            $isShowAddress  = $this->getModelInstance('Action')->isReply($postid, $id);
+        }
+        if ($isShowAddress == false)
+        {
+            unset($content['postAddress']);
+            unset($content['transpond']);
+        }
         $this->assign('content',$content);
         $this->assign('viewTimes',$viewTimes);
         $this->assign('classify',$classify);
+        $this->assign('isLogin',$isLogin);
+        $this->assign('isShowAddress', $isShowAddress);
         return $this->fetch('viewpost');
     }
 
@@ -58,5 +73,26 @@ class Index extends Base
         $this->assign('model', 'level');
         $this->assign('level',$level);
         return $this->fetch('level');
+    }
+
+    // 展示最新回复的稿件
+    public function showReplyLastly()
+    {
+
+        return $this->fetch();
+    }
+
+    // 展示精品的帖子
+    public function showVigor()
+    {
+
+        return $this->fetch();
+    }
+
+    // top10 最热top 3天访问量
+    public function showTop10()
+    {
+
+        return $this->fetch();
     }
 }

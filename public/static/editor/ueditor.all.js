@@ -28775,8 +28775,12 @@ UE.ui = baidu.editor.ui = {};
                 }
                 var count = editor.getContentLength(true);
                 if (count > max) {
-                    countDom.innerHTML = errMsg;
-                    editor.fireEvent("wordcountoverflow");
+                    // countDom.innerHTML = errMsg;
+                    // editor.fireEvent("wordcountoverflow");
+                    var content = editor.getContentTxt();
+                    editor.setContent(content.substring(0,max));
+                    editor.focus(true);
+
                 } else {
                     countDom.innerHTML = msg.replace("{#leave}", max - count).replace("{#count}", count);
                 }

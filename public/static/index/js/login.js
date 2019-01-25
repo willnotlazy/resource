@@ -10,6 +10,7 @@ function doLogin()
         } else{
             if (jdata.code === 40426)
             {
+                refreshVerify('verify_img1',1);
                 alert(jdata.msg + ',您已失败'+jdata.data.errorTimes + '次,剩余可尝试次数'+jdata.data.surplus+'次');
             }else{
                 refreshVerify('verify_img1',1);

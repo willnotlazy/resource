@@ -37,6 +37,23 @@
                                 </div>
                             </fieldset>
                         </div>
+                        {if !$isShowAddress}
+                        <div class="col-lg-12">
+                            <fieldset>
+                                <legend><h4>链接</h4></legend>
+                                <div>
+                            {if !$isLogin}
+                                    <p><a href="/login">请先登录</a></p>
+
+                            {/if}
+                            {if $isLogin}
+                                    <p><button type="button" class="btn btn-primary" onclick="showForm()">回复</button>后可以查看隐藏内容</p>
+                            {/if}
+                                </div>
+                            </fieldset>
+                        </div>
+                        {/if}
+                        {if $isShowAddress && $isLogin}
                         <div class="col-lg-12 show-link">
                             <fieldset>
                                 <legend><h4>链接</h4></legend>
@@ -53,6 +70,12 @@
                                 </div>
                             </fieldset>
                         </div>
+                        {/if}
+                        {if $isLogin && !$isShowAddress}
+                        <div class="col-lg-8">
+                            <textarea name="" id="content" class="edi" cols="30" rows="10"></textarea>
+                        </div>
+                        {/if}
                     </div>
                 </div>
             </div>

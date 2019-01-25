@@ -170,15 +170,22 @@ class Action extends Base
     public function redisToMySQL()
     {
         $result = $this->redis->lrange('view_history', 0, 499);
-        if (count($result) < 500) return ;
+        if (count($result) < 500) return;
         $list = array();
-        foreach ($result as $value)
-        {
+        foreach ($result as $value) {
             $list[] = unserialize($value);
         }
         Db::name('view_history')->insertAll($list);
-        $this->redis->ltrim('view_history',500,10000);
+        $this->redis->ltrim('view_history', 500, 10000);
         $this->redis->save();
+    }
+
+
+    // 检查是否有回复
+    public function isReply($postId, $id)
+    {
+        $reply = Db::name('user_reply')->where(['postID'=>$postId,'uid'=>$id])->find();
+        return empty($reply) ? false : true;
     }
 }
 ?>
