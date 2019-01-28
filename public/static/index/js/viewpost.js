@@ -24,8 +24,16 @@ function showForm()
         ,data: {postID:$('.hide').text(),editorValue:ue.getContent()}
         ,success: function (data,status,xhr)
         {
-            alert('回复成功');
-            location.reload();
+            var jdata = eval('(' + data + ')');
+            if (jdata.code != 20099)
+            {
+                alert(jdata.msg)
+            }
+            else
+            {
+                alert(jdata.msg);
+                location.reload();
+            }
         }
     });
 }

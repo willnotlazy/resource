@@ -26,6 +26,7 @@ class Index extends Base
         $classify       = $this->getModelInstance('Index')->getAllClassify();
         $content        = $this->getModelInstance('Index')->getPostContent($postid);
         $viewTimes      = $this->getModelInstance('Action')->logViewTimes($postid)->getViewTimes($postid);
+        $reply          = $this->getModelInstance('Index')->getReply($postid);
         $isLogin        = false;
         $isShowAddress  = false;
         $id = Session::get('id');
@@ -39,6 +40,7 @@ class Index extends Base
             unset($content['postAddress']);
             unset($content['transpond']);
         }
+        $this->assign('reply',$reply);
         $this->assign('content',$content);
         $this->assign('viewTimes',$viewTimes);
         $this->assign('classify',$classify);

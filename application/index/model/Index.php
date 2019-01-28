@@ -8,6 +8,7 @@
 namespace app\index\model;
 
 use think\Db;
+use think\Exception;
 use think\Paginator;
 class Index extends Base
 {
@@ -123,6 +124,25 @@ class Index extends Base
         }
         $view = self::getModelInstance('Action')->getAllViewTimes($postid);
         return array('result'=>$result,'postId'=>$postid,'views'=>$view);
+    }
+
+
+    // 获取回复
+    public function getReply($postid)
+    {
+        $replys = DB::name('user_reply')
+            ->where([
+                'postID' => $postid
+            ])
+            ->order('replyTime','desc')
+            ->paginate(6)
+            ->each(function ($item, $key){
+                $user = Db::name('user')->field('username')->where('id',$item['uid'])->find()['username'];
+                $item['user'] = $user;
+                return $item;
+            });
+        return $replys;
+
     }
 }
 ?>

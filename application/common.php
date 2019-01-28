@@ -46,8 +46,10 @@ define('NULL_CAPTCHA', 40001);
 define('ERROR_CAPTCHA', 40002);
 
 define('TOKEN_ERROR',40422);
-
 define('UNLAWFUL_ACTION',99999);
+
+
+
 /*
  *  定义状态码对应的返回信息   PHP VERSION >= 7.0.0
  */
@@ -77,17 +79,23 @@ define('map',[
 ]);
 
 
-// 定义发帖的状态码和提示
+// 定义发帖相关的状态码和提示
 define('EMPTY_TITLE',40601);
 define('EMPTY_CLASSIFY',40602);
 define('EMPTY_CONTENT',40603);
 define('POST_SUCCESS',20600);
+# reply
+define('EMPTY_REPLY', 40099);
+define('REPLY_SUCCESS', 20099);
+
 
 define('addpostMap',[
-    EMPTY_TITLE             => '标题不能为空',
-    EMPTY_CLASSIFY          => '请选择分类',
-    EMPTY_CONTENT           => '内容不能为空',
-    POST_SUCCESS            => '发布成功，请耐心等待管理员的审核',
+    EMPTY_TITLE              => '标题不能为空'
+    ,EMPTY_CLASSIFY          => '请选择分类'
+    ,EMPTY_CONTENT           => '内容不能为空'
+    ,POST_SUCCESS            => '发布成功，请耐心等待管理员的审核'
+    ,EMPTY_CONTENT           => '回复内容不能为空'
+    ,REPLY_SUCCESS           => '回复成功'
 ]);
 
 

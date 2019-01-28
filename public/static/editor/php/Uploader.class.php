@@ -7,6 +7,7 @@
  * Time: 上午11: 32
  * UEditor编辑器通用上传类
  */
+include "Thumb.class.php";
 class Uploader
 {
     private $fileField; //文件域名
@@ -122,6 +123,8 @@ class Uploader
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_MOVE");
         } else { //移动成功
             $this->stateInfo = $this->stateMap[0];
+            $percent = 1;  #原图压缩，不缩放
+            $image = (new Compress($this->filePath,$percent,$this->config))->compressImg($this->filePath);
         }
     }
 
@@ -162,6 +165,8 @@ class Uploader
             $this->stateInfo = $this->getStateInfo("ERROR_WRITE_CONTENT");
         } else { //移动成功
             $this->stateInfo = $this->stateMap[0];
+            $percent = 1;  #原图压缩，不缩放
+            $image = (new Compress($img,$percent,$this->config))->compressImg($img);
         }
 
     }

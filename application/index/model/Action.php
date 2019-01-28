@@ -187,5 +187,7 @@ class Action extends Base
         $reply = Db::name('user_reply')->where(['postID'=>$postId,'uid'=>$id])->find();
         return empty($reply) ? false : true;
     }
+
+
 }
 ?>

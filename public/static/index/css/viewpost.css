@@ -27,3 +27,32 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+
+/* 用户评论设置 */
+
+.user-head
+{
+    margin-right: -1em;
+}
+
+.user-reply
+{
+    padding: 0;
+    padding-top: .5em;
+}
+
+.user-reply span:first-child
+{
+    margin-right: 1em;
+}
+
+.user-reply span:nth-last-child(1)
+{
+    margin-left: .5em;
+}
+
+.user-reply-content
+{
+    margin-top: 1em;
+}

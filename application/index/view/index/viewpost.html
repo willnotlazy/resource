@@ -79,6 +79,47 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 用户回复内容显示 -->
+
+            <div>
+               <div class="col-lg-8 col-centered">
+                   <div class="panel panel-default">
+                       <div class="panel-body">
+                           <div class="col-lg-12">
+                               <h4>用户回复：</h4>
+                               {if isset($reply)}
+                               {foreach $reply as $value}
+                                <div class="col-lg-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="col-lg-12">
+                                                <div class="user-head col-lg-1">
+                                                    <img class="img-circle" width="56" src="/static/common/images/1547625613113565.jpg" alt="">
+                                                </div>
+                                                <div class="col-lg-11 user-reply">
+                                                    <div class="col-lg-12">
+                                                        <span>{$value.user}</span> <span class="user-reply-time glyphicon glyphicon-calendar"></span><span >{:date('Y年m月d日',$value.replyTime)}</span>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="col-lg-8 user-reply-content">
+                                                            {$value.editorValue}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               {/foreach}
+                               {$reply->render()}
+                               {/if}
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            </div>
         </div>
     </div>
 {include file='common/footer'}

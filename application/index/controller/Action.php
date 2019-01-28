@@ -83,10 +83,14 @@ class Action extends Base
     {
         $id                 = Session::get('id');
         $param              = $this->request->post();
+        if (empty($param['editorValue'])) return json_encode(['code' => EMPTY_CONTENT, 'msg' => addpostMap[EMPTY_CONTENT]]);
         $param['uid']       = $id;
         $param['replyTime'] = time();
         Db::name('user_reply')->insert($param);
-        return true;
+        return json_encode(['code' => REPLY_SUCCESS, 'msg' => addpostMap[REPLY_SUCCESS]]);
     }
+
+
+
 }
 ?>
