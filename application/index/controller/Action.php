@@ -82,6 +82,7 @@ class Action extends Base
     public function addReply()
     {
         $id                 = Session::get('id');
+        if (empty($id)) return json_encode(['code' => UNLAWFUL_ACTION, 'msg' => map[UNLAWFUL_ACTION]]);
         $param              = $this->request->post();
         if (empty($param['editorValue'])) return json_encode(['code' => EMPTY_CONTENT, 'msg' => addpostMap[EMPTY_CONTENT]]);
         $param['uid']       = $id;

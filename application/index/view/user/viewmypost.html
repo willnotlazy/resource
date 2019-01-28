@@ -27,7 +27,16 @@
                                     <span class="views-time-{$foo.postID}"><span>{$selfpost['views'][$foo.postID]}</span> 次浏览</span>
                                 </li>
                                 <li class="post-title">
-                                    <h5>{$foo.title}</h5>
+                                    <span><h5>{$foo.title}</h5></span>
+                                    {if $foo.couldPost == 1}
+                                    <span><button type="button" class="btn btn-success btn-xs">审核通过</button></span>
+                                    {/if}
+                                    {if $foo.couldPost == 0}
+                                    <span><button type="button" class="btn btn-primary btn-xs">审核中</button></span>
+                                    {/if}
+                                    {if $foo.couldPost == -1}
+                                    <span><button type="button" class="btn btn-danger btn-xs">审核失败</button></span>
+                                    {/if}
                                 </li>
                             </ul>
                         </div>
