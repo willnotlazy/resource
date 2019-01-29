@@ -10,6 +10,7 @@ use think\Controller;
 use think\Facade;
 use think\Request;
 use think\Session;
+use Workerman\Worker;
 class Base extends Controller
 {
     // 返回模型单例
@@ -21,6 +22,7 @@ class Base extends Controller
         $date = '今天是' . date('Y年m月d') . ','.$this->week[date('w',time())];
         $this->assign('name',$name);
         $this->assign('date',$date);
+
     }
 
     // 获取模型的唯一实例

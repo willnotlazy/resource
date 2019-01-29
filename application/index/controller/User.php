@@ -122,4 +122,14 @@ class User extends Base
         $this->assign('selfpost',$selfpost);
         return $this->fetch('viewmypost');
     }
+
+
+    // 查看自己的投稿
+    public function viewSelfPost($postId)
+    {
+        $id = Session::get('id');
+        if (empty($id)) return json_encode(['code','msg']);
+        $this->assign('model','viewselfpost');
+        return $this->fetch('selfcontent');
+    }
 }

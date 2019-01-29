@@ -20,6 +20,7 @@ Route::get([
     ,'level'                                            => 'index/Index/showLevelList'
     ,'viewpost/postid/:postid$'                         => 'index/Index/viewPost'
     ,'selfpost'                                         => 'index/User/viewMyPost'
+    ,'selfcontent/postId/:postId$'                     => 'index/User/viewSelfPost'
 ]);
 
 Route::post([

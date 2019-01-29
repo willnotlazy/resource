@@ -13,7 +13,7 @@
 
 
 
-
+define('WORKERUSER',[]);
 
 
 
