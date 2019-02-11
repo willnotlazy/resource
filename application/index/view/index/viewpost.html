@@ -32,7 +32,7 @@
                         <div class="col-lg-12 show-content">
                             <fieldset>
                                 <legend><h4>描述</h4></legend>
-                                <div>
+                                <div class="img-fit">
                                     {$content.editorValue}
                                 </div>
                             </fieldset>
@@ -102,7 +102,7 @@
                                                         <span>{$value.user}</span> <span class="user-reply-time glyphicon glyphicon-calendar"></span><span >{:date('Y年m月d日',$value.replyTime)}</span>
                                                     </div>
                                                     <div class="col-lg-12">
-                                                        <div class="col-lg-8 user-reply-content">
+                                                        <div class="col-lg-12 user-reply-content img-fit">
                                                             {$value.editorValue}
                                                         </div>
 

@@ -29,7 +29,7 @@ class Action extends Base
         } catch (Exception $e){
             return ['code'=>UNLAWFUL_ACTION,'msg'=>map[UNLAWFUL_ACTION]];
         }
-
+        $this->logAddPostBehavior($id);
         Base::getModelInstance('Experience')->addExperienceByPost($id);
         return $this->getInsertPostID($id);
     }
@@ -189,5 +189,30 @@ class Action extends Base
     }
 
 
+    // 记录当前发帖行为,在redis设置发帖单位时间发帖限时
+    public function logAddPostBehavior($id)
+    {
+        $this->redis->incr('user_addpost_'.$id);
+        $this->redis->expire('user_addpost_'.$id,3600);
+        $this->redis->save();
+    }
+
+    // 获取当前单位时间内发帖数
+    public function getPostLimits($id)
+    {
+        $result = null;
+        $limit = Db::name('user')
+                    ->field('l.postNums')
+                    ->alias('u')
+                    ->join('res_user_level l','l.level=u.level')
+                    ->where('u.id',$id)
+                    ->find();
+
+        if (!$this->redis->exists('user_addpost_'.$id)) return false;
+        $nums = $this->redis->get('user_addpost_'.$id);
+        if ($nums != $limit['postNums']) return false;
+
+        return true;
+    }
 }
 ?>

@@ -38,6 +38,14 @@
                                     <span><button type="button" class="btn btn-danger btn-xs">审核失败</button></span>
                                     {/if}
                                 </li>
+                                {if $foo.couldPost == -1}
+                                <li class="fail-reason" style="color: red;">
+                                    <div>
+                                    <h5>原因：</h5>
+                                    <span>{$foo.failReason}</span>
+                                    </div>
+                                </li>
+                                {/if}
                             </ul>
                         </div>
                     </div>

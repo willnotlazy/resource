@@ -15,11 +15,15 @@ class Action extends Base
     // 发帖
     public function postSomething()
     {
-        if (empty(Session::get('id')))
+        $id = Session::get('id');
+        if (empty($id))
         {
             $this->error('请先登录','/login');
             exit;
         }
+
+        $reachLimit = $this->getModelInstance('Action')->getPostLimits($id);
+        if ($reachLimit) $this->assign('hint',1);
         $classify = $this->getModelInstance('Index')->getClassifyByPidGroup();
         $this->assign('classify',$classify);
         $this->assign('name',Session::get('name'));
@@ -32,6 +36,8 @@ class Action extends Base
     {
         if (empty(Session::get('id'))) exit;
         $authorID = Session::get('id');
+        $reachLimit = $this->getModelInstance('Action')->getPostLimits($authorID);
+        if ($reachLimit) return json_encode(['code'=>POST_LIMIT,'msg'=>addpostMap[POST_LIMIT]]);
         $params = $this->request->post();
         $valResult = $this->validate($params,'Addpost');
         if ($valResult !== true)
@@ -42,7 +48,7 @@ class Action extends Base
         unset($params['__token__']);
         $file = $this->request->file('cover');
         if($file){
-            $info = $file->validate(['size'=>6291456,'ext'=>'jpg,png,gif'])->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $info = $file->validate(['size'=>6291456,'ext'=>'jpg,png,gif,bmp'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/images');
             if($info){
                 // 成功上传后 获取上传信息
                 // 输出 jpg
@@ -56,7 +62,7 @@ class Action extends Base
         $result = Action::getModelInstance('Action')->addPost($params,$authorID);
         if (is_array($result))
         {
-            $pic = str_replace('\\','/',ROOT_PATH . 'public' . DS .$params['cover']);
+            $pic   = str_replace('\\','/',ROOT_PATH . 'public' . DS .$params['cover']);
             unlink($pic);
             $this->request->token();
             return json_encode($result);

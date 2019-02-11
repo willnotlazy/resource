@@ -22,3 +22,24 @@ function layout(name,token)
 
 
 $('.nav li').removeClass('active');
+
+$(window).resize(function () {
+    var imgs = document.getElementsByTagName("img");
+    var contentLeft = document.getElementsByClassName("img-fit");
+    for (var j=0; j<contentLeft.length; j++){
+        for(var i=0; i<imgs.length; i++){
+            imgs[i].style["max-width"] = contentLeft[j].offsetWidth - 40 + "px";
+        }
+    }
+
+});
+
+$(function () {
+    var imgs = document.getElementsByTagName("img");
+    var contentLeft = document.getElementsByClassName("img-fit");
+    for (var j=0; j<contentLeft.length; j++){
+        for(var i=0; i<imgs.length; i++){
+            imgs[i].style["max-width"] = contentLeft[j].offsetWidth - 40 + "px";
+        }
+    }
+});

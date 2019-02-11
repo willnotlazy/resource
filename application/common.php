@@ -84,6 +84,7 @@ define('EMPTY_TITLE',40601);
 define('EMPTY_CLASSIFY',40602);
 define('EMPTY_CONTENT',40603);
 define('POST_SUCCESS',20600);
+define('POST_LIMIT',40604);
 # reply
 define('EMPTY_REPLY', 40099);
 define('REPLY_SUCCESS', 20099);
@@ -96,6 +97,7 @@ define('addpostMap',[
     ,POST_SUCCESS            => '发布成功，请耐心等待管理员的审核'
     ,EMPTY_CONTENT           => '回复内容不能为空'
     ,REPLY_SUCCESS           => '回复成功'
+    ,POST_LIMIT              => '你已达到当前等级一小时内可发布稿件次数,详情请参考等级列表'
 ]);
 
 

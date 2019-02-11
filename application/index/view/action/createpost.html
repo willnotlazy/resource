@@ -38,7 +38,6 @@
                                     <div>
                                         <input type="file" name='cover' id="cover" class="form-control file-loading" accept="image/*">
                                     </div>
-
                                 </div>
                                 <div class="col-lg-12 post-btn">
                                     <button class="btn btn-primary" type="button" style="float: right;" onclick="addPost()">发布</button>
@@ -50,4 +49,11 @@
                 </div>
             </div>
         </div>
+        {if isset($hint)}
+        <script>
+            window.onload = function () {
+                alert('你已达到当前等级一小时内可发布稿件次数,详情请参考等级列表');
+            }
+        </script>
+        {/if}
 {include file='common/footer'}
