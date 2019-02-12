@@ -20,7 +20,8 @@ Route::get([
     ,'level'                                            => 'index/Index/showLevelList'
     ,'viewpost/postid/:postid$'                         => 'index/Index/viewPost'
     ,'selfpost'                                         => 'index/User/viewMyPost'
-    ,'selfcontent/postId/:postId$'                     => 'index/User/viewSelfPost'
+    ,'selfcontent/postId/:postId$'                      => 'index/User/viewSelfPost'
+    ,'active/:email/:activation_key'                    => 'index/User/activeCheck'
 ]);
 
 Route::post([

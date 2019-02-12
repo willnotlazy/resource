@@ -22,6 +22,15 @@ class User extends Base
 
         // 用户是否存在
         $result = Db::table('res_user')->where('username',$user)->find();
+        
+        if ($result['activation'] != 'activated')
+        {
+            $activation_key=bin2hex(openssl_random_pseudo_bytes(32));
+            Db::name('user')->update(['id'=>$result['id'],'activation'=>$activation_key]);
+            $content = "<a href="."http://dev-resource.com/active/{$result['email']}/{$activation_key}".">http://dev-resource.com/active/{$result['email']}/{$activation_key}</a>";
+            send_activation_email($result['email'], '账号激活', $content);
+            return array('code'=>20666,'msg'=>'您的账号暂未激活,本站已发送激活邮件到您的邮箱,请注意.');
+        }
         if (empty($result)) return ['code' => USER_NOT_FOUND,'msg' => map[USER_NOT_FOUND]];
 
         // 用户是否可登录
@@ -155,5 +164,17 @@ class User extends Base
     {
         $users = Db::name('user')->field('username,level,experience,accumulatedLoginDays,consecutiveLoginDays')->order('level','desc')->order('experience','desc')->select();
         return $users;
+    }
+
+    // 邮件验证
+    public function mailCheck($email, $activation_key)
+    {
+        $user = Db::table('res_user')->where('email',$email)->find();
+        if ($user['activation'] != $activation_key) return false;
+        $user['activation'] = 'activated';
+        Db::name('user')->update($user);
+        Session::set('id',$user['id']);
+        Session::set('name',$user['username']);
+        return true;
     }
 }

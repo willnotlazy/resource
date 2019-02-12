@@ -47,23 +47,39 @@ class Action extends Base
         }
         unset($params['__token__']);
         $file = $this->request->file('cover');
+        $musicFile = $this->request->file('music');
         if($file){
             $info = $file->validate(['size'=>6291456,'ext'=>'jpg,png,gif,bmp'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/images');
             if($info){
                 // 成功上传后 获取上传信息
                 // 输出 jpg
-                $params['cover'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/' . $info->getSaveName());
+                $params['cover'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/images/' . $info->getSaveName());
+                $picName = $info->getSaveName();
             }else{
                 // 上传失败获取错误信息
                 return json_encode($file->getError());
             }
             unset($info);
         }
+
+        if ($musicFile) {
+            $musicInfo = $musicFile->validate(['size'=>31457280,'ext'=>'ogg,mp3,wav'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/musics');
+            if ($musicInfo){
+                $params['music'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/musics/' . $musicInfo->getSaveName());
+                $musicName = $musicInfo->getSaveName();
+            } else{
+                unlink(replace('\\','/',ROOT_PATH . 'public/uploads/images' . DS . $picName));
+                return json_encode($musicFile->getError());
+            }
+            unset($musicInfo);
+        }
         $result = Action::getModelInstance('Action')->addPost($params,$authorID);
         if (is_array($result))
         {
-            $pic   = str_replace('\\','/',ROOT_PATH . 'public' . DS .$params['cover']);
+            $pic   = str_replace('\\','/',ROOT_PATH . 'public/uploads/images' . DS . $picName);
+            $musicDir = str_replace('\\','/',ROOT_PATH . 'public/uploads/musics' . DS . $musicName);
             unlink($pic);
+            unlink($musicDir);
             $this->request->token();
             return json_encode($result);
         }
@@ -96,7 +112,6 @@ class Action extends Base
         Db::name('user_reply')->insert($param);
         return json_encode(['code' => REPLY_SUCCESS, 'msg' => addpostMap[REPLY_SUCCESS]]);
     }
-
 
 
 }

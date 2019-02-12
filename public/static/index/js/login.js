@@ -12,7 +12,11 @@ function doLogin()
             {
                 refreshVerify('verify_img1',1);
                 alert(jdata.msg + ',您已失败'+jdata.data.errorTimes + '次,剩余可尝试次数'+jdata.data.surplus+'次');
-            }else{
+            }else if (jdata.code === 20466) {
+                alert(jdata.msg);
+                window.location.href = '/';
+            }else
+            {
                 refreshVerify('verify_img1',1);
                 alert(jdata.msg);
             }

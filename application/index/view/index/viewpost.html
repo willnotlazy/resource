@@ -29,6 +29,15 @@
                             <h5><span class="label label-info"><a href="">{$classify[$content.second_classify]['name']}</a></span></h5>
                             {/if}
                         </div>
+
+                        <div class="col-lg-12">
+                            <audio controls autoplay="true">
+                                <source src="{$content.music}" type="audio/ogg"/>
+                                <source src="{$content.music}" type="audio/mpeg"/>
+                                <source src="{$content.music}" type="audio/wav"/>
+                            </audio>
+                        </div>
+
                         <div class="col-lg-12 show-content">
                             <fieldset>
                                 <legend><h4>描述</h4></legend>

@@ -132,4 +132,13 @@ class User extends Base
         $this->assign('model','viewselfpost');
         return $this->fetch('selfcontent');
     }
+
+
+    public function activeCheck($email='', $activation_key='')
+    {
+        if (empty($email) || empty($activation_key)) $this->error('无效的验证状态','/','','3');
+        $result = self::getModelInstance('User')->mailCheck($email, $activation_key);
+        if (!$result) $this->error('无效的验证状态','/','','3');
+        $this->success('账号激活成功!','/','','3');
+    }
 }

@@ -52,6 +52,10 @@ $('#cover').fileinput({
     language:'zh',
 });
 
+$('#music').fileinput({
+    language:'zh',
+});
+
 $('.fileinput-upload').remove();
 
 $(".chosen-select").chosen({
