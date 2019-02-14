@@ -140,7 +140,7 @@ class User extends Base
     }
 
     // 获取但前用户的所有投稿
-    public function getSelfPost($id)
+    public function getSelfPost($id, $size = 6)
     {
         $result = Db::name('user_post')
             ->field('p.*,u.username')
@@ -148,7 +148,15 @@ class User extends Base
             ->join('res_user u','p.authorID=u.id')
             ->where('p.authorID',$id)
             ->order('p.postTime','desc')
-            ->paginate(6);
+            ->paginate($size)
+            ->each(function ($item,$key){
+                $mainClassify = $item['classify'];
+                $assistantClassify = $item['second_classify'];
+                $ClassifyName = Db::name('user_resource_classify')->field('ClassifyID,name')->where('classifyID','in',[$mainClassify,$assistantClassify])->column('name','classifyID');
+                $item['mainClassify'] = $ClassifyName[$mainClassify];
+                $item['assistantClassify'] = $ClassifyName[$assistantClassify];
+                return $item;
+            });
 
         $postid = '';
         foreach ($result as $value)
@@ -176,5 +184,17 @@ class User extends Base
         Session::set('id',$user['id']);
         Session::set('name',$user['username']);
         return true;
+    }
+
+    // 根据 Id 获取非密码外的基础信息
+    public function getBasicInfo($id)
+    {
+        return Db::name('user')->field('username,thumb,level')->where('id',$id)->find();
+    }
+
+    // 获取用户个性化设置
+    public function getUserSpaceSet($id)
+    {
+        return Db::name('user_space_set')->where('uid',$id)->find();
     }
 }

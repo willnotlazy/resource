@@ -1,0 +1,52 @@
+.basic-info-left
+{
+    display: inline-block;
+    margin-right: 3em;
+}
+
+dd
+{
+    margin: .3em .5em;
+}
+
+.basic-info-right
+{
+    display: inline-block;
+}
+
+
+table h4,h5
+{
+    display: inline-block;
+}
+
+table a.classify
+{
+    color: #e7e7e7;
+}
+table a.classify:hover
+{
+    color: #e7e7e7;
+}
+
+.operation h4
+{
+    display: inline-block;
+}
+
+.operation a
+{
+    color: #000;
+}
+
+.operation a:hover
+{
+    text-decoration: none;
+    color: #000;
+}
+
+.operation a:visited
+{
+    text-decoration: none;
+    color: #000;
+}

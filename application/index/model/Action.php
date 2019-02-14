@@ -214,5 +214,54 @@ class Action extends Base
 
         return true;
     }
+
+    // 保存用户空间修改数据
+    public function saveEditData($params, $fileData, $musicName)
+    {
+        $data = array();
+        $data['uid'] = Session::get('id');
+        $data['thumbs'] = empty($fileData['thumbs']) ? null : $fileData['thumbs'];
+        $data['bgMusics'] = empty($fileData['bgMusics']) ? null : $fileData['bgMusics'];
+        $data['bgImages'] = empty($fileData['bgImages']) ? null : $fileData['bgImages'];
+        $data['word'] = $params['word'];
+        $data['bg_music_name'] = $musicName;
+
+        if ($data['thumbs'] == null) unset($data['thumbs']);
+        $oldData = Db::name('user_space_set')->find();
+        if (empty($oldData)) return Db::name('user_space_set')->insertGetId($data);
+
+        // 未上传文件且不保留上次上次文件
+        if ($params['autosave'] == 'no'){
+            if (file_exists(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgMusics'])))
+                unlink(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgMusics']));
+
+            if (file_exists(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgImages'])))
+                unlink(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgImages']));
+
+            if (!isset($data['thumbs'])){
+                if ($oldData['thumbs'] != 'http://dev-resource.com/static/common/images/1547625613113565.jpg' && file_exists(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['thumbs']))){
+                    unlink(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['thumbs']));
+                }
+                $data['thumbs'] = 'http://dev-resource.com/static/common/images/1547625613113565.jpg';
+            }
+            Db::name('user_space_set')->update($data);
+        }
+
+        // 未上传文件且保留上次上传文件
+        if ($params['autosave'] == 'yes')
+        {
+            if (isset($data['thumbs']) && $oldData['thumbs'] != 'http://dev-resource.com/static/common/images/1547625613113565.jpg' && file_exists(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['thumbs'])))
+                unlink(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['thumbs']));
+            if (isset($data['bgImages']) && file_exists(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgImages'])))
+                unlink(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgImages']));
+            if (isset($data['bgMusics']) && file_exists(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgMusics'])))
+                unlink(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgMusics']));
+            $data = array_filter($data);
+            Db::name('user_space_set')->update($data);
+        }
+        return true;
+    }
+
+
 }
 ?>

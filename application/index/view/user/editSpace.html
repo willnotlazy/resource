@@ -1,0 +1,42 @@
+{include file="common/header"}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form role="form" class="space-form">
+                            <div class="col-lg-12">
+                                <p class="help-block">背景图</p>
+                                <input type="file" name="bg_image" id="bg_image" class="form-control file-loading" accept="image/*">
+                            </div>
+                            <div class="col-lg-12">
+                                <p class="help-block">个人头像</p>
+                                <input type="file" name="thumb" id="thumb" class="form-control file-loading" accept="image/*">
+                            </div>
+                            <div class="col-lg-12">
+                                <p class="help-block">背景乐</p>
+                                <input type="file" name="bg_music" id="bg_music" class="form-control file-loading" accept="audio/*">
+                            </div>
+                            <div class="col-lg-12">
+                                <p class="help-block">个人留言</p>
+                                <input type="text" name="word" id="word" class="form-control file-loading">
+                            </div>
+                            <div class="col-lg-12">
+                                <p class="help-block">对未做新上传的选项是否保留上次上传文件</p>
+                                <label class="radio-inline">
+                                    <input type="radio" name="autosave" id="inlineRadio1" value="yes" class="" checked /> 是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="autosave" id="inlineRadio2" value="no" class="" /> 否
+                                </label>
+                            </div>
+                            <div class="col-lg-12 space-btn">
+                                <button class="btn btn-primary" type="button" style="float: right" onclick="editPost()">修改</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{include file="common/footer"}

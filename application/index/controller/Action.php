@@ -48,31 +48,58 @@ class Action extends Base
         unset($params['__token__']);
         $file = $this->request->file('cover');
         $musicFile = $this->request->file('music');
-        if($file){
-            $info = $file->validate(['size'=>6291456,'ext'=>'jpg,png,gif,bmp'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/images');
-            if($info){
-                // 成功上传后 获取上传信息
-                // 输出 jpg
-                $params['cover'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/images/' . $info->getSaveName());
-                $picName = $info->getSaveName();
-            }else{
-                // 上传失败获取错误信息
-                return json_encode($file->getError());
+
+        $move_result = move_upload_file([
+            [
+                'file'      =>  $file,
+                'size'      =>  6291456,
+                'ext'       =>  'jpg,png,gif,bmp',
+                'dir'       =>  'images'
+            ],
+            [
+                'file'      =>  $musicFile,
+                'size'      =>  31457280,
+                'ext'       =>  'ogg,mp3,wav',
+                'dir'       =>  'musics'
+            ]
+        ]);
+
+        if (!empty($move_result['errors'])){
+            foreach ($move_result['fileNames'] as $v)
+            {
+                unlink($v);
             }
-            unset($info);
+            unset($params);
+            return json_encode($move_result['errors']);
         }
 
-        if ($musicFile) {
-            $musicInfo = $musicFile->validate(['size'=>31457280,'ext'=>'ogg,mp3,wav'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/musics');
-            if ($musicInfo){
-                $params['music'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/musics/' . $musicInfo->getSaveName());
-                $musicName = $musicInfo->getSaveName();
-            } else{
-                unlink(replace('\\','/',ROOT_PATH . 'public/uploads/images' . DS . $picName));
-                return json_encode($musicFile->getError());
-            }
-            unset($musicInfo);
-        }
+        $params['cover'] = $move_result['fileData']['images'];
+        $params['music'] = $move_result['fileData']['musics'];
+//        if($file){
+//            $info = $file->validate(['size'=>6291456,'ext'=>'jpg,png,gif,bmp'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/images');
+//            if($info){
+//                // 成功上传后 获取上传信息
+//                // 输出 jpg
+//                $params['cover'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/images/' . $info->getSaveName());
+//                $picName = $info->getSaveName();
+//            }else{
+//                // 上传失败获取错误信息
+//                return json_encode($file->getError());
+//            }
+//            unset($info);
+//        }
+//
+//        if ($musicFile) {
+//            $musicInfo = $musicFile->validate(['size'=>31457280,'ext'=>'ogg,mp3,wav'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/musics');
+//            if ($musicInfo){
+//                $params['music'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/musics/' . $musicInfo->getSaveName());
+//                $musicName = $musicInfo->getSaveName();
+//            } else{
+//                unlink(replace('\\','/',ROOT_PATH . 'public/uploads/images' . DS . $picName));
+//                return json_encode($musicFile->getError());
+//            }
+//            unset($musicInfo);
+//        }
         $result = Action::getModelInstance('Action')->addPost($params,$authorID);
         if (is_array($result))
         {
@@ -113,6 +140,47 @@ class Action extends Base
         return json_encode(['code' => REPLY_SUCCESS, 'msg' => addpostMap[REPLY_SUCCESS]]);
     }
 
+    public function editMySpace()
+    {
+        $params   = $this->request->param();
+        $bg_image = $this->request->file("bg_image");
+        $bg_music = $this->request->file("bg_music");
+        $thumb    = $this->request->file("thumb");
 
+        $bg_music_name = empty($bg_music) ? '' : $bg_music->getInfo()['name'];
+        $moveResult = move_upload_file([
+            [
+                'file'  =>  $bg_image,
+                'size'  =>  6291456,
+                'ext'   =>  'jpg,png,gif,bmp',
+                'dir'   =>  'bgImages'
+            ],
+            [
+                'file'  =>  $bg_music,
+                'size'  =>  31457280,
+                'ext'   =>  'ogg,mp3,wav',
+                'dir'   =>  'bgMusics'
+            ],
+            [
+                'file'  =>  $thumb,
+                'size'  =>  6291456,
+                'ext'   =>  'jpg,png,gif,bmp',
+                'dir'   =>  'thumbs'
+            ]
+        ]);
+
+        if (!empty($moveResult['errors']))
+        {
+            foreach ($moveResult['fileNames'] as $v)
+            {
+                unlink($v);
+            }
+            unset($params);
+            return json_encode($moveResult['errors']);
+        }
+        $result = self::getModelInstance('Action')->saveEditData($params,$moveResult['fileData'],$bg_music_name);
+
+        return json_encode(['code'=>20000,'msg'=>'OK']);
+    }
 }
 ?>

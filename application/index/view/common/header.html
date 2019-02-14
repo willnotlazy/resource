@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="/jquery-chosen/chosen.css">
     <link rel="stylesheet" href="/static/common/css/footer.css">
     <link rel="stylesheet" href="/static/common/css/header.css">
+    {if isset($model)}
     <link rel="stylesheet" href="/static/index/css/{$model}.css">
+    {/if}
     <link rel="stylesheet" href="/static/common/css/chat.css">
 </head>
 <body>
@@ -46,6 +48,7 @@
                         <li class="clearfix action">
                             <a href="/createpost"><span>投稿</span></a>
                             <a href="/selfpost"><span>我的投稿</span></a>
+                            <a href="/info"><span>个人空间</span></a>
                             <a href=""><span>消息</span></a>
                             <a href="#" onclick="layout('{$name}','{$Request.token}')"><span>登出</span></a>
                         </li>

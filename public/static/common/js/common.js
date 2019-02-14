@@ -34,12 +34,13 @@ $(window).resize(function () {
 
 });
 
-$(function () {
-    var imgs = document.getElementsByTagName("img");
-    var contentLeft = document.getElementsByClassName("img-fit");
+// 图片自适应函数
+function responseImg(img,content,offset) {
+    var imgs = document.getElementsByTagName(img);
+    var contentLeft = document.getElementsByClassName(content);
     for (var j=0; j<contentLeft.length; j++){
         for(var i=0; i<imgs.length; i++){
-            imgs[i].style["max-width"] = contentLeft[j].offsetWidth - 40 + "px";
+            imgs[i].style["max-width"] = contentLeft[j].offsetWidth - parseInt(offset) + "px";
         }
     }
-});
+}

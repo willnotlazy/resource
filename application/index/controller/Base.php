@@ -22,8 +22,8 @@ class Base extends Controller
         $date = '今天是' . date('Y年m月d') . ','.$this->week[date('w',time())];
         $this->assign('name',$name);
         $this->assign('date',$date);
-
     }
+
 
     // 获取模型的唯一实例
     public function getModelInstance($model)

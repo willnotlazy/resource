@@ -14,3 +14,8 @@ $('.self-views').everyTime('30s',function () {
         }
     });
 });
+
+
+$(function () {
+    responseImg("img","img-fit",40);
+});

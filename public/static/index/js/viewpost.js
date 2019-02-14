@@ -57,3 +57,8 @@ var ue = UE.getEditor('content', {
     ,maximumWords: 30
     ,elementPathEnabled:false
 });
+
+
+$(function () {
+    responseImg("img","img-fit",40);
+});

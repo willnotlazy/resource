@@ -63,8 +63,13 @@ class User extends Base
             $this->error(map[NOTLOGIN],'/login');
             exit;
         }
-        $name = Session::get('name');
-        $this->assign('name',$name);
+        $id         = Session::get('id');
+        $info       = self::getModelInstance('User')->getBasicInfo($id);
+        $selfPost   = self::getModelInstance('User')->getSelfPost($id, 15);
+        $selfSet    = self::getModelInstance('User')->getUserSpaceSet($id);
+        $this->assign('selfSet',$selfSet);
+        $this->assign('selfPost',$selfPost);
+        $this->assign('info',$info);
         $this->assign('model','info');
         return $this->fetch();
     }
@@ -140,5 +145,18 @@ class User extends Base
         $result = self::getModelInstance('User')->mailCheck($email, $activation_key);
         if (!$result) $this->error('无效的验证状态','/','','3');
         $this->success('账号激活成功!','/','','3');
+    }
+
+    public function editSelfSpace()
+    {
+        $id = Session::get('id');
+        if (empty($id))
+        {
+            $this->error('页面找不到了','/','','3');
+            exit;
+        }
+        $this->assign('model','editSpace');
+        return $this->fetch('editSpace');
+
     }
 }

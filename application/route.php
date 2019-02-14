@@ -22,6 +22,7 @@ Route::get([
     ,'selfpost'                                         => 'index/User/viewMyPost'
     ,'selfcontent/postId/:postId$'                      => 'index/User/viewSelfPost'
     ,'active/:email/:activation_key'                    => 'index/User/activeCheck'
+    ,'editSpace'                                        => 'index/User/editSelfSpace'
 ]);
 
 Route::post([
@@ -31,6 +32,7 @@ Route::post([
     ,'addpost'                      => 'index/Action/addPost'
     ,'register'                     => 'index/User/register'
     ,'addreply'                     => 'index/Action/addReply'
+    ,'editMySpace'                  => 'index/Action/editMySpace'
 ]);
 
 Route::rule([
