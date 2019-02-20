@@ -220,6 +220,7 @@ class Action extends Base
     {
         $data = array();
         $data['uid'] = Session::get('id');
+        if (empty($data['uid'])) return false;
         $data['thumbs'] = empty($fileData['thumbs']) ? null : $fileData['thumbs'];
         $data['bgMusics'] = empty($fileData['bgMusics']) ? null : $fileData['bgMusics'];
         $data['bgImages'] = empty($fileData['bgImages']) ? null : $fileData['bgImages'];
@@ -227,7 +228,7 @@ class Action extends Base
         $data['bg_music_name'] = $musicName;
 
         if ($data['thumbs'] == null) unset($data['thumbs']);
-        $oldData = Db::name('user_space_set')->find();
+        $oldData = Db::name('user_space_set')->where('uid',$data['uid'])->find();
         if (empty($oldData)) return Db::name('user_space_set')->insertGetId($data);
 
         // 未上传文件且不保留上次上次文件
@@ -261,7 +262,6 @@ class Action extends Base
         }
         return true;
     }
-
 
 }
 ?>

@@ -1,0 +1,32 @@
+.basic-info-left
+{
+    display: inline-block;
+    margin-right: 3em;
+}
+
+dd
+{
+    margin: .3em .5em;
+}
+
+.basic-info-right
+{
+    display: inline-block;
+}
+
+
+table h4,h5
+{
+    display: inline-block;
+}
+
+table a.classify
+{
+    color: #e7e7e7;
+}
+table a.classify:hover
+{
+    color: #e7e7e7;
+}
+
+

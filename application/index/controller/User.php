@@ -6,6 +6,7 @@
  * Time: 10:53
  */
 namespace app\index\controller;
+use think\Db;
 use think\Facade;
 use think\Request;
 use think\Session;
@@ -43,7 +44,7 @@ class User extends Base
             $this->error(map[NOTLOGIN],'login');
             exit;
         }
-        $token = $this->request->post();
+        $token = $this->request->param('__token__');
         $result = $this->validate($token,'Layout');
         if ($result !== true)
         {
@@ -158,5 +159,22 @@ class User extends Base
         $this->assign('model','editSpace');
         return $this->fetch('editSpace');
 
+    }
+
+    public function showUserInfo($id)
+    {
+        if ((int)$id === (int)Session::get('id'))
+        {
+            $this->redirect('/info');
+            exit;
+        }
+        $info       = self::getModelInstance('User')->getBasicInfo($id);
+        $selfPost   = self::getModelInstance('User')->getSelfPost($id, 15);
+        $selfSet    = self::getModelInstance('User')->getUserSpaceSet($id);
+        $this->assign('selfSet',$selfSet);
+        $this->assign('selfPost',$selfPost);
+        $this->assign('info',$info);
+        $this->assign('model','showUser');
+        return $this->fetch('showUser');
     }
 }

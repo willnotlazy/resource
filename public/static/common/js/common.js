@@ -1,11 +1,12 @@
 function layout(name,token)
 {
+    console.log(token);
     $.ajax({
         type : "post",
         url : "/layout",
         dataType : "json",
         contentType : "application/x-www-form-urlencoded",
-        data : {username:name,__token__:token},
+        data : {__token__:token},
         success : function (data, status,xhr){
             var jdata = eval('('+data+')');
             alert(jdata.msg);

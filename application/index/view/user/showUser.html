@@ -1,0 +1,95 @@
+{include file="common/header"}
+{if $selfSet['bgImages'] != ''}
+<style>
+    .bg div {
+        opacity: 0.96;
+    }
+</style>
+{/if}
+<div class="jumbotron bg" style="
+    background: url({if $selfSet['bgImages'] != ''}{$selfSet['bgImages']}{/if}) no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-position: center 0;">
+
+    <div id="main" class="container">
+        <div class="row">
+            <div class="col-lg-12 archive">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-lg-12 self-info">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="col-lg-2 thumb">
+                                        {if $selfSet['thumbs'] == ''}
+                                        <img src="{$info.thumb}" alt="" width="200">
+                                        {/if}
+                                        {if $selfSet['thumbs'] != ''}
+                                        <img src="{$selfSet.thumbs}" alt="" width="200">
+                                        {/if}
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-12">
+                                            <dl class="basic-info-left">
+                                                <dt>用户</dt>
+                                                <dd>{$info.username}&nbsp;&nbsp;&nbsp;Level.{$info.level}&nbsp;&nbsp;&nbsp;发帖数.9999</dd>
+                                                <dt>空间留言</dt>
+                                                {if $selfSet.word == ''}
+                                                <dd>这个人什么都不想说</dd>
+                                                {/if}
+                                                {if $selfSet.word != ''}
+                                                <dd>{$selfSet.word}</dd>
+                                                {/if}
+                                            </dl>
+                                            {if $selfSet['bgMusics'] != ''}
+                                            <dl class="basic-info-right">
+                                                <dt>空间音乐</dt>
+                                                <dd>{$selfSet['bg_music_name']}</dd>
+                                                <dd>
+                                                    <audio controls autoplay loop>
+                                                        <source src="{$selfSet['bgMusics']}" type="audio/ogg"/>
+                                                        <source src="{$selfSet['bgMusics']}" type="audio/mpeg"/>
+                                                        <source src="{$selfSet['bgMusics']}" type="audio/wav"/>
+                                                    </audio>
+                                                </dd>
+                                            </dl>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 self-post">
+                            <div class="panel panel-default">
+                                <div class="panel-body" style="min-height: 50%">
+                                    <div class="col-lg-12">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <th>标题</th>
+                                                <th>发布时间</th>
+                                                <th>分类</th>
+                                            </tr>
+                                            {foreach $selfPost['result'] as $foo}
+                                            <tr>
+                                                <td style="vertical-align: middle"><a href="" target="_blank">{$foo.title}</a></td>
+                                                <td style="vertical-align: middle">{:date('Y年m月d日',$foo.postTime)}</td>
+                                                <td>
+                                                    <h4><span class="label label-danger"><a href="" class="classify">{$foo.mainClassify}</a></span></h4>
+                                                    <h5><span class="label label-info"><a href="" class="classify">{$foo.assistantClassify}</a></span></h5>
+                                                </td>
+                                            </tr>
+                                            {/foreach}
+                                        </table>
+                                        {$selfPost['result']->render()}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="common/footer"}
