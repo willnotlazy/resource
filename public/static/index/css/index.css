@@ -55,3 +55,28 @@
     display: inline-block;
 }
 
+
+#recent_user {
+    list-style: none;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+}
+#recent_user li {
+    border: 0;
+    display: inline-block;
+    margin: 4px 0 0 4px;
+    padding: 2px;
+}
+
+.avatar {
+    border-radius: 5%;
+}
+
+#recent_user {
+    margin: 6px 10px 10px 6px;
+    padding: 0;
+}

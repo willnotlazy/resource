@@ -1,12 +1,11 @@
-function layout(name,token)
+function layout()
 {
-    console.log(token);
     $.ajax({
         type : "post",
         url : "/layout",
         dataType : "json",
         contentType : "application/x-www-form-urlencoded",
-        data : {__token__:token},
+        data : {username:$('#uname').val(),__token__:$('#token').val()},
         success : function (data, status,xhr){
             var jdata = eval('('+data+')');
             alert(jdata.msg);
@@ -44,4 +43,12 @@ function responseImg(img,content,offset) {
             imgs[i].style["max-width"] = contentLeft[j].offsetWidth - parseInt(offset) + "px";
         }
     }
+}
+
+
+function showClassify(content)
+{
+    $('.'+content).animate({
+        height:'toggle'
+    })
 }

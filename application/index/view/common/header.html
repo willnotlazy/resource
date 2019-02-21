@@ -50,7 +50,9 @@
                             <a href="/selfpost"><span>我的投稿</span></a>
                             <a href="/info"><span>个人空间</span></a>
                             <a href=""><span>消息</span></a>
-                            <a href="javascript:layout('{$name}','{$Request.token}')"><span>登出</span></a>
+                            <a href="javascript:layout()"><span>登出</span></a>
+                            <input type="text" value="{$name}" id="uname" style="display:none;">
+                            <input type="text" value="{$Request.token}" id="token" style="display: none;">
                         </li>
                     </ul>
                 {/if}

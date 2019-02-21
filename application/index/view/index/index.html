@@ -41,27 +41,69 @@
             </div>
 
             <div class="col-lg-4 content-right">
-                <div class="panel panel-default panel-archive">
-                    <div class="panel-body">
-                        <div class="col-lg-12 classify">
-                            <span>分类</span><br>
-                            <div>
-                            {foreach $classify as $value}
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-success panel-archive c-content">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#classifyAll" class="collapsed" aria-expanded="false">查看所有分类</a>
+                            </h3>
+                        </div>
+                        <div class="panel-collapse collapse" id="classifyAll">
+                            <div class="panel-body">
+                            <div class="col-lg-12 classify" >
                                 <div>
-                                    <h4><span class="label label-danger"><a href="group/classify/{$value.classifyID}" itemprop="url">{$value.text}</a></span></h4>
-                                </div>
-                                {if isset($value.children)}
-                                {foreach $value.children as $foo}
-                                <h5><span class="label label-info"><a href="group/classify/{$value.classifyID}/{$foo.classifyID}" itemprop="url">{$foo.text}</a></span></h5>
+                                {foreach $classify as $value}
+                                    <div>
+                                        <h4><span class="label label-danger"><a href="group/classify/{$value.classifyID}" itemprop="url">{$value.text}</a></span></h4>
+                                    </div>
+                                    {if isset($value.children)}
+                                    {foreach $value.children as $foo}
+                                    <h5><span class="label label-info"><a href="group/classify/{$value.classifyID}/{$foo.classifyID}" itemprop="url">{$foo.text}</a></span></h5>
+                                    {/foreach}
+                                    {/if}
+                                    {if $value.classifyID != 10}
+                                    <hr>
+                                    {/if}
                                 {/foreach}
-                                {/if}
-                                {if $value.classifyID != 10}
-                                <hr>
-                                {/if}
-                            {/foreach}
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#most-view" class="collapsed" aria-expanded="false">最多浏览次数前十</a>
+                            </h3>
+                        </div>
+                        <div class="panel-collapse collapse" id="most-view">
+                            <div class="panel-body">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default u-login">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#lastest-user" class="collapsed" aria-expanded="false">最近登录用户</a>
+                            </h3>
+                        </div>
+                        <div class="panel-collapse collapse show-thumb in" id="lastest-user">
+                            <div class="panel-body" style="padding: 0;">
+                            <ul id="recent_user">
+                                {foreach $lastest_login as $value}
+                                <li>
+                                <a href="/showuser/{$value.id}"><img class="avatar" src="{$value.thumb}" data-original="{$value.thumb}" alt="" title="{$value.username}" width="55" height="55" style="display: inline;"></a>
+                                </li>
+                                {/foreach}
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 

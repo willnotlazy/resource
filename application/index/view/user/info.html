@@ -82,11 +82,11 @@
                                         </tr>
                                     {foreach $selfPost['result'] as $foo}
                                         <tr>
-                                            <td style="vertical-align: middle"><a href="" target="_blank">{$foo.title}</a></td>
+                                            <td style="vertical-align: middle"><a href="/viewpost/postid/{$foo.postID}" target="_blank">{$foo.title}</a></td>
                                             <td style="vertical-align: middle">{:date('Y年m月d日',$foo.postTime)}</td>
                                             <td>
-                                                <h4><span class="label label-danger"><a href="" class="classify">{$foo.mainClassify}</a></span></h4>
-                                                <h5><span class="label label-info"><a href="" class="classify">{$foo.assistantClassify}</a></span></h5>
+                                                <h4><span class="label label-danger"><a href="/group/classify/{$foo.classify}" class="classify">{$foo.mainClassify}</a></span></h4>
+                                                <h5><span class="label label-info"><a href="/group/classify/{$foo.classify}/{$foo.second_classify}" class="classify">{$foo.assistantClassify}</a></span></h5>
                                             </td>
                                         </tr>
                                     {/foreach}

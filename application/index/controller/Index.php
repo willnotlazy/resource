@@ -9,9 +9,11 @@ class Index extends Base
     public function index($main = '')
     {
         $new = $this->getModelInstance('Index')->getNewestPost();
+        $this->assign('lastest_login',showLastLoginUser());
         $this->assign('classify',$this->getClassify());
         $this->assign('model','index');
         $this->assign('new',$new);
+        self::getModelInstance('Range')->getAllPostRange();
         return $this->fetch();
     }
 

@@ -337,3 +337,12 @@ function httpStatus($num){//网页返回码
     header($http[$num]);
     exit();
 }
+
+
+// 找寻最近登录本站的人
+function showLastLoginUser()
+{
+    return \think\Db::name('user')->field('id,username,thumb,last_login_in')
+                            ->order('last_login_in','desc')
+                            ->limit(0,15)->select();
+}

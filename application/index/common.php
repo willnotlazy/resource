@@ -16,7 +16,7 @@ define('REGISTER_RULE', [
 ]);
 
 define('LAYOUT_RULE',[
-   ['username','require|token',"{code:".UNLAWFUL_ACTION.",msg:'".map[UNLAWFUL_ACTION]."'}|{code:".TOKEN_ERROR.",msg:'".map[TOKEN_ERROR]."'}"]
+   ['token','token',"{code:".TOKEN_ERROR.",msg:'".map[TOKEN_ERROR]."'}"]
 ]);
 
 

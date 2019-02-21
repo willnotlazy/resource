@@ -74,17 +74,13 @@ class Action extends Base
         $ip          = getIp();
         $id          = empty(Session::get('id')) ? 0 : Session::get('id');
         $redis_flag = true;
-        $mysql_flag = true;
         // 判断在redis中是否存在  true === 不存在
         if ($this->redis->exists('view_history'))
         {
-            $this->redisToMySQL();
             $redis_flag = $this->isExistInRedis($postId, $id, $ip);
         }
 
-        // 判断在数据库中是否存在 true === 不存在
-        if ($redis_flag === true) $mysql_flag = $this->isExistInMySQL($postId, $id, $ip);
-        if ($redis_flag && $mysql_flag)
+        if ($redis_flag)
         {
             $data = [
                 'uid'         => $id,
@@ -94,6 +90,7 @@ class Action extends Base
             ];
             $this->redis->lpush('view_history',serialize($data));
             $this->redis->save();
+            self::getModelInstance('Range')->allPostViewRange($postId);
         }
         return self::getModelInstance('Action');
     }
@@ -101,15 +98,6 @@ class Action extends Base
     public function getViewTimes($postId)
     {
         $count = 0;
-        $touristViews = Db::name('view_history')
-                            ->where('clientIP',getIp())
-                            ->where('postid',$postId)
-                            ->where('uid',0)
-                            ->count();
-        $userViews    = Db::name('view_history')
-                            ->where('uid','<>',0)
-                            ->where('postid',$postId)
-                            ->count();
 
         // 统计 redis 里面的浏览历史
         if ($this->redis->exists('view_history'))
@@ -121,7 +109,8 @@ class Action extends Base
                 if ($view['postid'] == $postId) $count++;
             }
         }
-        return $touristViews + $userViews + $count;
+//        return $touristViews + $userViews + $count;
+        return $count;
     }
 
     public function getAllViewTimes($postId)
@@ -136,22 +125,6 @@ class Action extends Base
         return $viewArray;
     }
 
-    // 判断浏览历史是否在数据库中存在
-    public function isExistInMySQL($postId, $id, $ip)
-    {
-        $touristView = Db::name('view_history')
-                        ->where('clientIp',$ip)
-                        ->where('uid',0)
-                        ->where('postid',$postId)
-                        ->find();
-        if ($id != 0)
-            $userView    = Db::name('view_history')
-                            ->where('uid',$id)
-                            ->where('postid',$postId)
-                            ->find();
-        $flag = (($id != 0 && empty($userView)) || ($id == 0 && empty($touristView))) ? true : false;
-        return $flag;
-    }
 
     // 判断浏览历史是否在redis中存在
     public function isExistInRedis($postId, $id, $ip)
@@ -160,7 +133,7 @@ class Action extends Base
         foreach ($result as $key => $value)
         {
             $history = unserialize($value);
-            if ((in_array($id,$history)|| in_array($ip,$history)) && in_array($postId, $history)) return false;
+            if (($history['uid'] == $id || $history['clientIP'] == $ip) && $history['postid'] == $postId) return false;
             return true;
         }
     }
@@ -229,6 +202,7 @@ class Action extends Base
 
         if ($data['thumbs'] == null) unset($data['thumbs']);
         $oldData = Db::name('user_space_set')->where('uid',$data['uid'])->find();
+        if (isset($data['thumbs'])) Db::name('user')->update(['id'=>$data['uid'],'thumb'=>$data['thumbs']]);
         if (empty($oldData)) return Db::name('user_space_set')->insertGetId($data);
 
         // 未上传文件且不保留上次上次文件
@@ -246,6 +220,7 @@ class Action extends Base
                 $data['thumbs'] = 'http://dev-resource.com/static/common/images/1547625613113565.jpg';
             }
             Db::name('user_space_set')->update($data);
+            Db::name('user')->update(['thumb'=>$data['thumbs'],'id'=>$data['uid']]);
         }
 
         // 未上传文件且保留上次上传文件
@@ -259,9 +234,12 @@ class Action extends Base
                 unlink(str_replace('http://dev-resource.com','E:/wamp64/www/resource/public',$oldData['bgMusics']));
             $data = array_filter($data);
             Db::name('user_space_set')->update($data);
+            if (isset($data['thumbs'])) Db::name('user')->update(['id'=>$data['uid'],'thumb'=>$data['thumbs']]);
         }
         return true;
     }
+
+
 
 }
 ?>

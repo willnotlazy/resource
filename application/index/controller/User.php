@@ -44,7 +44,7 @@ class User extends Base
             $this->error(map[NOTLOGIN],'login');
             exit;
         }
-        $token = $this->request->param('__token__');
+        $token = $this->request->param();
         $result = $this->validate($token,'Layout');
         if ($result !== true)
         {
