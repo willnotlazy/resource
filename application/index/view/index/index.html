@@ -45,7 +45,10 @@
                     <div class="panel panel-success panel-archive c-content">
                         <div class="panel-heading">
                             <h3 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#classifyAll" class="collapsed" aria-expanded="false">查看所有分类</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#classifyAll" class="collapsed" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-tasks"></span>
+                                    查看所有分类
+                                </a>
                             </h3>
                         </div>
                         <div class="panel-collapse collapse" id="classifyAll">
@@ -74,12 +77,26 @@
                     <div class="panel panel-danger">
                         <div class="panel-heading">
                             <h3 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#most-view" class="collapsed" aria-expanded="false">最多浏览次数前十</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#all_range" class="collapsed" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-fire"></span>
+                                    最多浏览次数前十
+                                </a>
                             </h3>
                         </div>
-                        <div class="panel-collapse collapse" id="most-view">
+                        <div class="panel-collapse collapse in" id="all_range">
                             <div class="panel-body">
-
+                                {if $all_range == ''}
+                                <p><span>暂无</span></p>
+                                {else}
+                                <div class="range">
+                                {foreach $all_range as $range}
+                                <li>
+                                    <span class="badge">{$range.views}</span>
+                                    <a href="">{$range.title}</a>
+                                </li>
+                                {/foreach}
+                                </div>
+                                {/if}
                             </div>
                         </div>
                     </div>
@@ -87,18 +104,21 @@
                     <div class="panel panel-default u-login">
                         <div class="panel-heading">
                             <h3 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#lastest-user" class="collapsed" aria-expanded="false">最近登录用户</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#lastest-user" class="collapsed" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    最近登录用户
+                                </a>
                             </h3>
                         </div>
                         <div class="panel-collapse collapse show-thumb in" id="lastest-user">
                             <div class="panel-body" style="padding: 0;">
-                            <ul id="recent_user">
+                            <div id="recent_user">
                                 {foreach $lastest_login as $value}
                                 <li>
                                 <a href="/showuser/{$value.id}"><img class="avatar" src="{$value.thumb}" data-original="{$value.thumb}" alt="" title="{$value.username}" width="55" height="55" style="display: inline;"></a>
                                 </li>
                                 {/foreach}
-                            </ul>
+                            </div>
                             </div>
                         </div>
                     </div>

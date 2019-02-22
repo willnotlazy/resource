@@ -75,31 +75,7 @@ class Action extends Base
 
         $params['cover'] = $move_result['fileData']['images'];
         $params['music'] = $move_result['fileData']['musics'];
-//        if($file){
-//            $info = $file->validate(['size'=>6291456,'ext'=>'jpg,png,gif,bmp'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/images');
-//            if($info){
-//                // 成功上传后 获取上传信息
-//                // 输出 jpg
-//                $params['cover'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/images/' . $info->getSaveName());
-//                $picName = $info->getSaveName();
-//            }else{
-//                // 上传失败获取错误信息
-//                return json_encode($file->getError());
-//            }
-//            unset($info);
-//        }
-//
-//        if ($musicFile) {
-//            $musicInfo = $musicFile->validate(['size'=>31457280,'ext'=>'ogg,mp3,wav'])->rule('md5')->move(ROOT_PATH . 'public' . DS . 'uploads/musics');
-//            if ($musicInfo){
-//                $params['music'] = $this->request->domain() . '/'. str_replace('\\','/','uploads/musics/' . $musicInfo->getSaveName());
-//                $musicName = $musicInfo->getSaveName();
-//            } else{
-//                unlink(replace('\\','/',ROOT_PATH . 'public/uploads/images' . DS . $picName));
-//                return json_encode($musicFile->getError());
-//            }
-//            unset($musicInfo);
-//        }
+
         $result = Action::getModelInstance('Action')->addPost($params,$authorID);
         if (is_array($result))
         {

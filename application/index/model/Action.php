@@ -74,24 +74,44 @@ class Action extends Base
         $ip          = getIp();
         $id          = empty(Session::get('id')) ? 0 : Session::get('id');
         $redis_flag = true;
+        $today_view = true;
         // 判断在redis中是否存在  true === 不存在
         if ($this->redis->exists('view_history'))
         {
-            $redis_flag = $this->isExistInRedis($postId, $id, $ip);
+            $redis_flag = $this->isExistInRedis($postId, $id, $ip,'view_history');
         }
-
+        // 判断用户今日是否浏览过，true === 未浏览
+        if ($this->redis->exists('today_view_history'))
+        {
+            $today_view = $this->isExistInRedis($postId, $id, $ip, 'today_view_history');
+        }
+        $data = [
+            'uid'         => $id,
+            'clientIP'    => $ip,
+            'postid'      => $postId,
+            'viewtime'    => time()
+        ];
         if ($redis_flag)
         {
-            $data = [
-                'uid'         => $id,
-                'clientIP'    => $ip,
-                'postid'      => $postId,
-                'viewtime'    => time()
-            ];
+
             $this->redis->lpush('view_history',serialize($data));
             $this->redis->save();
             self::getModelInstance('Range')->allPostViewRange($postId);
         }
+
+        if ($today_view)
+        {
+            if (!$this->redis->exists('today_view_history'))
+            {
+                $this->redis->lpush('today_view_history',serialize($data));
+                $this->redis->expire('today_view_history',strtotime(date('Y-m-d',strtotime('+1 day'))) - time());
+            } else {
+                $this->redis->lpush('today_view_history',serialize($data));
+            }
+            parent::getModelInstance('Range')->todayPostViewRange($postId);
+            $this->redis->save();
+        }
+
         return self::getModelInstance('Action');
     }
 
@@ -109,7 +129,7 @@ class Action extends Base
                 if ($view['postid'] == $postId) $count++;
             }
         }
-//        return $touristViews + $userViews + $count;
+
         return $count;
     }
 
@@ -127,9 +147,9 @@ class Action extends Base
 
 
     // 判断浏览历史是否在redis中存在
-    public function isExistInRedis($postId, $id, $ip)
+    public function isExistInRedis($postId, $id, $ip, $redis_key)
     {
-        $result = $this->redis->lrange('view_history', 0, 10000);
+        $result = $this->redis->lrange($redis_key, 0, 10000);
         foreach ($result as $key => $value)
         {
             $history = unserialize($value);

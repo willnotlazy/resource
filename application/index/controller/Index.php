@@ -9,11 +9,13 @@ class Index extends Base
     public function index($main = '')
     {
         $new = $this->getModelInstance('Index')->getNewestPost();
+        $all_range = self::getModelInstance('Range')->getAllPostRange('all_post_range');
+        $this->assign('all_range',!empty($all_range) ? $all_range : '');
         $this->assign('lastest_login',showLastLoginUser());
         $this->assign('classify',$this->getClassify());
         $this->assign('model','index');
         $this->assign('new',$new);
-        self::getModelInstance('Range')->getAllPostRange();
+
         return $this->fetch();
     }
 
@@ -96,7 +98,6 @@ class Index extends Base
     // top10 最热top 3天访问量
     public function showTop10()
     {
-
         return $this->fetch();
     }
 }
