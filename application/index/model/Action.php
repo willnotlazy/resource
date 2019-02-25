@@ -149,13 +149,17 @@ class Action extends Base
     // 判断浏览历史是否在redis中存在
     public function isExistInRedis($postId, $id, $ip, $redis_key)
     {
+        $flag = true;
         $result = $this->redis->lrange($redis_key, 0, 10000);
         foreach ($result as $key => $value)
         {
             $history = unserialize($value);
-            if (($history['uid'] == $id || $history['clientIP'] == $ip) && $history['postid'] == $postId) return false;
-            return true;
+            if (($history['uid'] == $id || $history['clientIP'] == $ip) && $history['postid'] == $postId){
+                $flag =  false;
+                break;
+            }
         }
+        return $flag;
     }
 
 

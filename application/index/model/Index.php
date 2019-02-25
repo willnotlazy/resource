@@ -17,7 +17,7 @@ class Index extends Base
         $result = Db::name('user_post')
                     ->where('couldPost',1)
                     ->order('postTime','desc')
-                    ->paginate(6)
+                    ->paginate(5)
                     ->each(function ($item, $key){
                         if ($item['authorID'] == 0)
                         {

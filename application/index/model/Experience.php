@@ -22,7 +22,7 @@ class Experience extends Base
                 'accumulatedLoginDays' => $result['accumulatedLoginDays'] + 1,
                 'consecutiveLoginDays' => $result['consecutiveLoginDays'] + 1,
                 'experience'           => $result['experience'] + 10 + $result['consecutiveLoginDays'],
-                'couldLogin'           => 1
+                'couldLogin'           => 1,
             ];
             Db::table('res_user')->update($userData);
             $this->islevelUp($result['id'],$result['experience'] + 10 + $result['consecutiveLoginDays']);
@@ -38,17 +38,16 @@ class Experience extends Base
                 'accumulatedLoginDays' => $result['accumulatedLoginDays'] + 1,
                 'consecutiveLoginDays' => 1,
                 'experience'           => $result['experience'] + 10,
-                'couldLogin'           => 1
+                'couldLogin'           => 1,
             ];
             Db::table('res_user')->update($userData);
             $this->islevelUp($result['id'],$result['experience'] + 10);
         }
         $data = [
-            'id'    =>  null,
-            'uid'   =>  $result['id'],
-            'signIn'=>  date('Y-m-d H:i:s',time())
+            'id'            =>  $result['id'],
+            'last_login_in' => time()
         ];
-        Db::table('res_user_login_log')->insert($data);
+        Db::table('res_user')->update($data);
         return $result;
     }
 

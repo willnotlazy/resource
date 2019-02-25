@@ -53,4 +53,13 @@ class Range extends Base
         }
         return $rangeList;
     }
+
+
+    // 用户发帖数量排行
+    public function getAnnounceRange()
+    {
+        $sql = 'SELECT username,authorID,count(*) AS nums FROM res_user_post p,res_user r WHERE r.id=p.authorID AND p.couldPost = 1 GROUP BY username ORDER BY nums DESC LIMIT 10';
+        $result = Db::query($sql);
+        return $result;
+    }
 }

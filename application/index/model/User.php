@@ -147,6 +147,7 @@ class User extends Base
             ->alias('p')
             ->join('res_user u','p.authorID=u.id')
             ->where('p.authorID',$id)
+            ->where('couldPost',1)
             ->order('p.postTime','desc')
             ->paginate($size)
             ->each(function ($item,$key){

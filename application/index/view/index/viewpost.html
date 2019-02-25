@@ -29,7 +29,7 @@
                             <h5><span class="label label-info"><a href="">{$classify[$content.second_classify]['name']}</a></span></h5>
                             {/if}
                         </div>
-
+                        {if $content.music != ''}
                         <div class="col-lg-12">
                             <audio controls autoplay="true">
                                 <source src="{$content.music}" type="audio/ogg"/>
@@ -37,12 +37,13 @@
                                 <source src="{$content.music}" type="audio/wav"/>
                             </audio>
                         </div>
+                        {/if}
 
                         <div class="col-lg-12 show-content">
                             <fieldset>
                                 <legend><h4>描述</h4></legend>
                                 <div class="img-fit">
-                                    {$content.editorValue}
+                                    {$content.editorValue|htmlspecialchars_decode}
                                 </div>
                             </fieldset>
                         </div>

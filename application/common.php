@@ -285,7 +285,7 @@ function move_upload_file($files)
                 $errors .= $file->getError();
             }
             unset($info);
-        }
+        } else $data["{$file['dir']}"] = '';
     }
 
     return array('fileData'=>$data,'fileNames'=>$fileNames,'errors'=>$errors);

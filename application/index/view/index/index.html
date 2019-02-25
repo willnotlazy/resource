@@ -1,7 +1,6 @@
 {include file='common/header'}
     <div id="main" class="container">
         <div class="row">
-
             <div class="col-lg-8 content-left archive" role="main">
                 <div class="panel panel-default panel-archive" role="main">
                     <div class="panel-body index-views">
@@ -74,6 +73,57 @@
                         </div>
                     </div>
 
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#announce_range" class="collapsed" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-stats"></span>
+                                    用户发帖排行
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel-collapse collapse" id="announce_range">
+                            {if $announce_range == ''}
+                            <p><span>暂无</span></p>
+                            {else}
+                            <div class="range">
+                                {foreach $announce_range as $arange}
+                                <li>
+                                    <span class="badge">{$arange.nums}</span>
+                                    <a href="/showUser/{$arange.authorID}">{$arange.username}</a>
+                                </li>
+                                {/foreach}
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#day_range" class="collapsed" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-fire"></span>
+                                    本日浏览次数前十
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel-collapse collapse" id="day_range">
+                            {if $day_range == ''}
+                            <p><span>暂无</span></p>
+                            {else}
+                            <div class="range">
+                                {foreach $day_range as $range}
+                                <li>
+                                    <span class="badge">{$range.views}</span>
+                                    <a href="/viewpost/postid/{$range.postID}">{$range.title}</a>
+                                </li>
+                                {/foreach}
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+
+
                     <div class="panel panel-danger">
                         <div class="panel-heading">
                             <h3 class="panel-title">
@@ -89,12 +139,12 @@
                                 <p><span>暂无</span></p>
                                 {else}
                                 <div class="range">
-                                {foreach $all_range as $range}
-                                <li>
-                                    <span class="badge">{$range.views}</span>
-                                    <a href="">{$range.title}</a>
-                                </li>
-                                {/foreach}
+                                    {foreach $all_range as $range}
+                                    <li>
+                                        <span class="badge">{$range.views}</span>
+                                        <a href="/viewpost/postid/{$range.postID}">{$range.title}</a>
+                                    </li>
+                                    {/foreach}
                                 </div>
                                 {/if}
                             </div>
@@ -126,7 +176,6 @@
 
                 </div>
             </div>
-
         </div>
     </div>
 {include file='common/footer'}
