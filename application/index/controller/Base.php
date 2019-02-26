@@ -19,8 +19,25 @@ class Base extends Controller
     public function _initialize()
     {
         $name = empty(Session::get('name')) ? '' : Session::get('name');
+        $thumb = \think\Db::name('user')->field('thumb')->where('id',Session::get('id'))->find();
         $date = '今天是' . date('Y年m月d') . ','.$this->week[date('w',time())];
+
+
+        $all_range = self::getModelInstance('Range')->getAllPostRange('all_post_range');
+        $day_range = self::getModelInstance('Range')->getAllPostRange('day_post_range');
+
+        $announce_range = self::getModelInstance('Range')->getAnnounceRange();
+
+        $this->assign('all_range',!empty($all_range) ? $all_range : '');
+        $this->assign('day_range',!empty($day_range) ? $day_range : '');
+        $this->assign('lastest_login',showLastLoginUser());
+        $this->assign('announce_range',$announce_range);
+
+        $this->assign('classify',$this->getModelInstance('Index')->getClassify());
+
+
         $this->assign('name',$name);
+        $this->assign('thumb',$thumb);
         $this->assign('date',$date);
     }
 

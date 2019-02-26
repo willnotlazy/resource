@@ -24,6 +24,7 @@ Route::get([
     ,'active/:email/:activation_key'                    => 'index/User/activeCheck'
     ,'editSpace'                                        => 'index/User/editSelfSpace'
     ,'showuser/:id'                                     => 'index/User/showUserInfo'
+    ,'darkroom'                                         => 'index/User/darkRoom'
 ]);
 
 Route::post([

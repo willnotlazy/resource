@@ -1,6 +1,6 @@
 .header
 {
-    margin-top: 2em;
+    margin-top: 1em;
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
@@ -47,8 +47,8 @@
 
 .thumbnail
 {
-    width: 20%;
-    height: 20%;
+    width: 66px;
+    height: 66px;
     border: 1px solid #e7e7e7;
 }
 
@@ -76,8 +76,37 @@
 }
 
 /* 导航栏设置 */
-.navbar-static-top
-{
+.navbar{
+    border-width: 1px 0;
+}
+
+.navbar-default{
+    border-color: #e7e7e7;
+}
+
+.navbar {
+    position: relative;
     border: 1px solid #e7e7e7;
+}
+#masthead .header-text .name{margin:20px 0 10px;font-size: 1.3em;line-height: 0.5;}
+#masthead .header-text{color:#444}
+#masthead .header-text .description{opacity: 0.9;}
+
+@media screen and (max-width: 768px){
+    #masthead {
+        height: 200px;
+    }
+    #masthead .info-basic,.user-profile{
+        padding-top: 2em;
+    }
+    #masthead .info-basic{
+        border-top: 1px solid #e7e7e7;
+    }
+}
+
+@media screen and (min-height: 769px){
+    #masthead{
+        height: 110px;
+    }
 }
 

@@ -1,0 +1,135 @@
+<div class="col-lg-4 content-right">
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-success panel-archive c-content">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#classifyAll" class="collapsed" aria-expanded="false">
+                        <span class="glyphicon glyphicon-tasks"></span>
+                        查看所有分类
+                    </a>
+                </h3>
+            </div>
+            <div class="panel-collapse collapse" id="classifyAll">
+                <div class="panel-body">
+                    <div class="col-lg-12 classify" >
+                        <div>
+                            {foreach $classify as $value}
+                            <div>
+                                <h4><span class="label label-danger"><a href="group/classify/{$value.classifyID}" itemprop="url">{$value.text}</a></span></h4>
+                            </div>
+                            {if isset($value.children)}
+                            {foreach $value.children as $foo}
+                            <h5><span class="label label-info"><a href="group/classify/{$value.classifyID}/{$foo.classifyID}" itemprop="url">{$foo.text}</a></span></h5>
+                            {/foreach}
+                            {/if}
+                            {if $value.classifyID != 10}
+                            <hr>
+                            {/if}
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#announce_range" class="collapsed" aria-expanded="false">
+                        <span class="glyphicon glyphicon-stats"></span>
+                        用户发帖排行
+                    </a>
+                </h3>
+            </div>
+            <div class="panel-collapse collapse" id="announce_range">
+                {if $announce_range == ''}
+                <p><span>暂无</span></p>
+                {else}
+                <div class="range">
+                    {foreach $announce_range as $arange}
+                    <li>
+                        <span class="badge">{$arange.nums}</span>
+                        <a href="/showUser/{$arange.authorID}">{$arange.username}</a>
+                    </li>
+                    {/foreach}
+                </div>
+                {/if}
+            </div>
+        </div>
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#day_range" class="collapsed" aria-expanded="false">
+                        <span class="glyphicon glyphicon-fire"></span>
+                        本日浏览次数前十
+                    </a>
+                </h3>
+            </div>
+            <div class="panel-collapse collapse" id="day_range">
+                {if $day_range == ''}
+                <p><span>暂无</span></p>
+                {else}
+                <div class="range">
+                    {foreach $day_range as $range}
+                    <li>
+                        <span class="badge">{$range.views}</span>
+                        <a href="/viewpost/postid/{$range.postID}">{$range.title}</a>
+                    </li>
+                    {/foreach}
+                </div>
+                {/if}
+            </div>
+        </div>
+
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#all_range" class="collapsed" aria-expanded="false">
+                        <span class="glyphicon glyphicon-fire"></span>
+                        最多浏览次数前十
+                    </a>
+                </h3>
+            </div>
+            <div class="panel-collapse collapse in" id="all_range">
+                <div class="panel-body">
+                    {if $all_range == ''}
+                    <p><span>暂无</span></p>
+                    {else}
+                    <div class="range">
+                        {foreach $all_range as $range}
+                        <li>
+                            <span class="badge">{$range.views}</span>
+                            <a href="/viewpost/postid/{$range.postID}">{$range.title}</a>
+                        </li>
+                        {/foreach}
+                    </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default u-login">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#lastest-user" class="collapsed" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user"></span>
+                        最近登录用户
+                    </a>
+                </h3>
+            </div>
+            <div class="panel-collapse collapse show-thumb in" id="lastest-user">
+                <div class="panel-body" style="padding: 0;">
+                    <div id="recent_user">
+                        {foreach $lastest_login as $value}
+                        <li>
+                            <a href="/showuser/{$value.id}"><img class="avatar" src="{$value.thumb}" data-original="{$value.thumb}" alt="" title="{$value.username}" width="55" height="55" style="display: inline;"></a>
+                        </li>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

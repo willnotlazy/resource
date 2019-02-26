@@ -34,7 +34,10 @@ class User extends Base
         if (empty($result)) return ['code' => USER_NOT_FOUND,'msg' => map[USER_NOT_FOUND]];
 
         // 用户是否可登录
-        if (!$this->cloudUserLogin($user) && Base::getModelInstance('Action')->getLoginFailTimesByUser($result['id']))
+
+        $flag = $this->cloudUserLogin($user);
+        if ( $flag === 'deny') return array('code'=>44666,'msg'=>'您已被管理员关入小黑屋');
+        if ($flag === 'no' && Base::getModelInstance('Action')->getLoginFailTimesByUser($result['id']))
         {
             $data = [
                 'code' => LIMIT_LOGIN_FAIL_TIMES,
@@ -135,8 +138,9 @@ class User extends Base
     public function cloudUserLogin($user)
     {
         $status = Db::name('user')->where('username',$user)->find();
-        if ((int)$status['couldLogin'] === 0) return false;
-        return true;
+        if ((int)$status['couldLogin'] === 0) return 'no';
+        if ((int) $status['couldLogin'] === -1) return 'deny';
+        return 'yes';
     }
 
     // 获取但前用户的所有投稿
@@ -197,5 +201,15 @@ class User extends Base
     public function getUserSpaceSet($id)
     {
         return Db::name('user_space_set')->where('uid',$id)->find();
+    }
+
+    // 获取被关小黑屋的人
+    public function getPrisoner()
+    {
+        $result = Db::name('user')
+                        ->field('username,prisoner')
+                        ->where('couldLogin',-1)
+                        ->paginate(10);
+        return $result;
     }
 }

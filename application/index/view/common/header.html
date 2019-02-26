@@ -11,13 +11,15 @@
     <link rel="stylesheet" href="/jquery-chosen/chosen.css">
     <link rel="stylesheet" href="/static/common/css/footer.css">
     <link rel="stylesheet" href="/static/common/css/header.css">
+    <link rel="stylesheet" href="/static/common/css/leftPanel.css">
     {if isset($model)}
     <link rel="stylesheet" href="/static/index/css/{$model}.css">
     {/if}
     <link rel="stylesheet" href="/static/common/css/chat.css">
 </head>
 <body>
-    <div class="container header">
+<header id="masthead" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="container header header-content">
         <div class="row">
             <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
                 <div class="header-text">
@@ -27,7 +29,7 @@
                     <div class="description" id="desc">资源共享-免费的资源共享平台</div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 info-basic">
                 <div class="header-profile">
                 {if isset($name) && $name == ''}
                     <ul class="user-login">
@@ -39,8 +41,9 @@
                 {/if}
                 {if isset($name) && $name != ''}
                     <a href="/info" class="thumbnail avatar">
-                        <img src="/static/common/images/default.jpg" alt="" class="avatar img-thumbnail" width="54" height="54">
+                        <img src="{$thumb.thumb}" alt="" class="avatar img-thumbnail" width="54" height="54">
                     </a>
+                    <div>
                     <ul class="user-profile">
                         <li class="u-info">
                             <a href="/info"><span>{$name},你好!</span></a>
@@ -55,29 +58,37 @@
                             <input type="text" value="{$Request.token}" id="token" style="display: none;">
                         </li>
                     </ul>
+                    </div>
                 {/if}
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- 首页导航 -->
-    <div class="navbar navbar-default navbar-static-top" role="banner">
-        <div class="container">
-            <nav id="navbar" class="collapse navbar-collapse header-navbar-collapse" role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
-                <ul class="nav navbar-nav">
-                    <li class="active newLeast"><a href="/newLeast" itemprop="url"><font style="font-weight:bold;">最新投稿</font></a></li>
-                    <li class="vigor"><a href="/vigor" itemprop="url"><font style="font-weight:bold;">精品推荐</font></a></li>
-                    <li class="compass"><a href="/compass" itemprop="url"><font style="font-weight:bold;">投稿指南</font></a></li>
-                    <li class="level"><a href="/level" itemprop="url"><font style="font-weight:bold">等级列表</font></a></li>
-                    <li class="smalldarkroom"><a href="/darkroom" itemprop="url"><font style="font-weight: bold">小黑屋</font></a></li>
-                </ul>
-                <form class="navbar-form navbar-right" role="search" method="get" id="searchform" action="http://www.newbiefly.com/">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="搜索 …" name="s" id="s" required="">
-                    </div>
-                    <button type="submit" class="btn btn-default" id="searchsubmit"><span class="glyphicon glyphicon-search"></span></button>
-                </form>
-            </nav>
+</header>
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".header-navbar-collapse">
+                <span class="sr-only">切换菜单</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
+        <nav id="navbar" class="collapse navbar-collapse header-navbar-collapse" style="height: 1px;">
+            <ul class="nav navbar-nav">
+                <li class="newLeast active"><a href="/newLeast" itemprop="url"><font style="font-weight:bold;">最新投稿</font></a></li>
+                <li class="vigor"><a href="/vigor" itemprop="url"><font style="font-weight:bold;">精品推荐</font></a></li>
+                <li class="compass"><a href="/compass" itemprop="url"><font style="font-weight:bold;">投稿指南</font></a></li>
+                <li class="level"><a href="/level" itemprop="url"><font style="font-weight:bold">等级列表</font></a></li>
+                <li class="darkroom"><a href="/darkroom" itemprop="url"><font style="font-weight: bold">小黑屋</font></a></li>
+            </ul>
+            <form class="navbar-form navbar-right" role="search" method="get" id="searchform" action="http://www.newbiefly.com/">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索 …" name="s" id="s" required="">
+                </div>
+                <button type="submit" class="btn btn-default" id="searchsubmit"><span class="glyphicon glyphicon-search"></span></button>
+            </form>
+        </nav>
     </div>
+</div>

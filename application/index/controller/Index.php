@@ -9,17 +9,7 @@ class Index extends Base
     public function index($main = '')
     {
         $new = $this->getModelInstance('Index')->getNewestPost();
-        $all_range = self::getModelInstance('Range')->getAllPostRange('all_post_range');
-        $day_range = self::getModelInstance('Range')->getAllPostRange('day_post_range');
 
-        $announce_range = self::getModelInstance('Range')->getAnnounceRange();
-
-        $this->assign('all_range',!empty($all_range) ? $all_range : '');
-        $this->assign('day_range',!empty($day_range) ? $day_range : '');
-        $this->assign('lastest_login',showLastLoginUser());
-        $this->assign('announce_range',$announce_range);
-
-        $this->assign('classify',$this->getClassify());
         $this->assign('model','index');
         $this->assign('new',$new);
 

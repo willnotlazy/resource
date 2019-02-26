@@ -177,4 +177,13 @@ class User extends Base
         $this->assign('model','showUser');
         return $this->fetch('showUser');
     }
+
+    // 小黑屋关着的人
+    public function darkRoom()
+    {
+        $this->assign('model','darkroom');
+        $prisoner = self::getModelInstance('User')->getPrisoner();
+        $this->assign('prisoner',empty($prisoner) ? '' : $prisoner);
+        return $this->fetch('darkroom');
+    }
 }
