@@ -1,28 +1,63 @@
 
-<div class="col-lg-2 content-left" style="border: solid #ccc 1px;padding: 0;">
-            <div class="col-lg-12" style="padding: 0;">
+<div>
+<div class="col-lg-2 reply">
+    <div class="panel-group" id="reply-group"></div>
+    <div class="panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#reply-group" href="#reply_content" class="collapsed" aria-expanded="false">
+                    <span class="glyphicon glyphicon-stats"></span>
+                    自由得聊天室
+                </a>
+            </h3>
+        </div>
+        <div class="panel-collapse collapse in" id="reply_content">
+        </div>
+    </div>
+    <div class="col-lg-12" style="padding: 0;">
+        <div class="panel panel-default">
+            <div class="panel-body">
                 <div id="chat-content" style="width: 100%;height: 300px;border: solid #ccc 1px;"></div>
-                <input type="text" name="" id="input-content">
+                <textarea type="text" name="" id="input-content" style="width: 100%;"></textarea>
                 <button type="button" id="send-btn" onclick="sendContent()">发送</button>
             </div>
+        </div>
+    </div>
 </div>
-<script type="text/javascript">
+</div>
+
+<script>
+
     function sendContent()
     {
-        var d = {user:'{$name}',data:document.getElementById('input-content').value};
-        console.log(d);
+        var d = {user:'{$name}',data:$('#input-content').val()};
         var djson = JSON.stringify(d);
         ws.send(djson);
+        $('#input-content').val('');
     }
-    ws = new WebSocket("ws://127.0.0.1:2347");
+    ws = new WebSocket("ws://127.0.0.1:2347?user={$name}");
+    // var cdiv = document.getElementById('chat-content');
     var sendBtn = document.getElementById("send-btn");
     var showContent = document.getElementById("chat-content");
     ws.onmessage = function(e) {
         var para = document.createElement("p");
-        var node = document.createTextNode(e.data);
-        para.appendChild(node);
+        var jdata = eval('('+e.data+')');
+        if (jdata.type == 'said'){
+            if ('{$name}' == jdata.user)
+                para.innerHTML = '<img class="user_reply_thumb img-thumbnail" width="36" height="36" src="'+jdata.img+'">'+ '&nbsp;<span style="font-weight: bold">你</span>&nbsp;&nbsp;' + '说:</br><div class="col-lg-12">'+jdata.content + '</div>';
+            else
+                para.innerHTML = '<img class="user_reply_thumb img-thumbnail" width="36" height="36" src="'+jdata.img+'">&nbsp;'+jdata.user + '&nbsp;说:</br><div class="col-lg-12">'+jdata.content + '</div>';
+        }
+        if (jdata.type == 'connect') {
+            para.innerHTML = '<span class="connection text-center"><div class="badge">'+jdata.user+'进入本站'+'</div></span>'
+        }
+        if (jdata.type == 'layout')
+        {
+            para.innerHTML = '<span class="connection text-center"><div class="badge">'+jdata.user+'离开本站'+'</div></span>'
+        }
         showContent.appendChild(para);
-        console.log(e.data);
+        // cdiv.scrollTop = cdiv.scrollHeight;
+        $('#chat-content').scrollTop($('#chat-content')[0].scrollHeight);
     };
 
 </script>

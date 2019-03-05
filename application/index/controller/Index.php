@@ -88,7 +88,6 @@ class Index extends Base
     // 展示精品的帖子
     public function showVigor()
     {
-
         return $this->fetch();
     }
 
@@ -96,5 +95,13 @@ class Index extends Base
     public function showTop10()
     {
         return $this->fetch();
+    }
+
+
+    // 投稿指南页面
+    public function showPostCompass()
+    {
+        $this->assign('model','compass');
+        return $this->fetch('compass');
     }
 }
