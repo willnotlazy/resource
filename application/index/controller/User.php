@@ -7,6 +7,7 @@
  */
 namespace app\index\controller;
 use think\Db;
+use think\Exception;
 use think\Facade;
 use think\Request;
 use think\Session;
@@ -161,9 +162,10 @@ class User extends Base
 
     }
 
-    public function showUserInfo($id)
+    public function showUserInfo()
     {
-        if ((int)$id === (int)Session::get('id'))
+        $username = $this->request->get('name');
+        if ($username == (int)Session::get('name'));
         {
             $this->redirect('/info');
             exit;
@@ -185,5 +187,35 @@ class User extends Base
         $prisoner = self::getModelInstance('User')->getPrisoner();
         $this->assign('prisoner',empty($prisoner) ? '' : $prisoner);
         return $this->fetch('darkroom');
+    }
+
+    // 显示msg
+    public function showMsg()
+    {
+        if (empty(Session::get('id'))) throw new Exception();
+        $id = Session::get('id');
+        $msg = parent::getModelInstance('User')->getMsg($id);
+        $this->assign('msg',$msg);
+
+        $this->assign('model','msg');
+        return $this->fetch('showmsg');
+    }
+
+    // 获取评论dialog
+    public function ajaxGetReplyDialog()
+    {
+        $id = $this->request->param('id');
+        $uid = Session::get('id');
+//        if ((int)$id !== (int)Session::get('id')) throw new Exception();
+        $dialog = Db::name('msg_reply')->where('id',$id)->find();
+        $nums = Db::name('msg_reply')->where('uid',$uid)->where('status',0)->count();
+        if((int)$dialog['status'] === 0 )
+        {
+            $dialog['status'] = 1;
+            Db::name('msg_reply')->update($dialog);
+        }
+
+        $dialog['nums'] = $nums;
+        return json_encode($dialog);
     }
 }

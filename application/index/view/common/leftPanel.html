@@ -15,11 +15,11 @@
                         <div>
                             {foreach $classify as $value}
                             <div>
-                                <h4><span class="label label-danger"><a href="group/classify/{$value.classifyID}" itemprop="url">{$value.text}</a></span></h4>
+                                <h4><span class="label label-danger"><a href="group?classify={$value.classifyID}" itemprop="url">{$value.text}</a></span></h4>
                             </div>
                             {if isset($value.children)}
                             {foreach $value.children as $foo}
-                            <h5><span class="label label-info"><a href="group/classify/{$value.classifyID}/{$foo.classifyID}" itemprop="url">{$foo.text}</a></span></h5>
+                            <h5><span class="label label-info"><a href="group?classify={$value.classifyID}&second_classify={$foo.classifyID}" itemprop="url">{$foo.text}</a></span></h5>
                             {/foreach}
                             {/if}
                             {if $value.classifyID != 10}

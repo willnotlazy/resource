@@ -144,5 +144,65 @@ class Index extends Base
         return $replys;
 
     }
+
+
+    // 返回搜索内容
+    public function getSearch($s)
+    {
+        $result = Db::name('user_post')
+            ->where('couldPost',1)
+            ->where('title','like','%'.$s.'%')
+            ->order('postTime','desc')
+            ->paginate(5)
+            ->each(function ($item, $key){
+                if ($item['authorID'] == 0)
+                {
+                    $item['username'] = 'admin';
+                }
+                else
+                {
+                    $authorID = $item['authorID'];
+                    $author = Db::name('user')->where('id',$authorID)->find()['username'];
+                    $item['username'] = $author;
+                }
+                return $item;
+            });
+        $postid = '';
+        foreach ($result as $value)
+        {
+            $postid .= $value['postID'] . ',';
+        }
+        $views = self::getModelInstance('Action')->getAllViewTimes($postid);
+        return array('result'=>$result,'postId'=>$postid,'views'=>$views);
+    }
+
+    public function getVigor()
+    {
+        $result = Db::name('user_post')
+            ->where('couldPost',1)
+            ->where('boutique',1)
+            ->order('postTime','desc')
+            ->paginate(5)
+            ->each(function ($item, $key){
+                if ($item['authorID'] == 0)
+                {
+                    $item['username'] = 'admin';
+                }
+                else
+                {
+                    $authorID = $item['authorID'];
+                    $author = Db::name('user')->where('id',$authorID)->find()['username'];
+                    $item['username'] = $author;
+                }
+                return $item;
+            });
+        $postid = '';
+        foreach ($result as $value)
+        {
+            $postid .= $value['postID'] . ',';
+        }
+        $views = self::getModelInstance('Action')->getAllViewTimes($postid);
+        return array('result'=>$result,'postId'=>$postid,'views'=>$views);
+    }
 }
 ?>

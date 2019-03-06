@@ -8,6 +8,7 @@
 namespace app\index\model;
 use think\Db;
 use Firebase\JWT\JWT;
+use think\Exception;
 use think\Request;
 use think\Session;
 
@@ -151,7 +152,6 @@ class User extends Base
             ->alias('p')
             ->join('res_user u','p.authorID=u.id')
             ->where('p.authorID',$id)
-            ->where('couldPost',1)
             ->order('p.postTime','desc')
             ->paginate($size)
             ->each(function ($item,$key){
@@ -211,5 +211,14 @@ class User extends Base
                         ->where('couldLogin',-1)
                         ->paginate(10);
         return $result;
+    }
+
+
+    // return msg
+    public function getMsg($id = '')
+    {
+        if (empty($id)) throw new Exception();
+        $msg = Db::name('msg_reply')->where('uid',$id)->order('status asc')->order('reply_time','desc')->paginate(20);
+        return $msg;
     }
 }

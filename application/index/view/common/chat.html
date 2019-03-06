@@ -7,7 +7,7 @@
             <h3 class="panel-title">
                 <a data-toggle="collapse" data-parent="#reply-group" href="#reply_content" class="collapsed" aria-expanded="false">
                     <span class="glyphicon glyphicon-stats"></span>
-                    自由得聊天室
+                    <span id="count">自由得聊天室</span>
                 </a>
             </h3>
         </div>
@@ -17,7 +17,15 @@
     <div class="col-lg-12" style="padding: 0;">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div id="chat-content" style="width: 100%;height: 300px;border: solid #ccc 1px;"></div>
+                <div id="chat-content" style="width: 100%;height: 300px;border: solid #ccc 1px;">
+                    {if $name == ''}
+                        <p>
+                            <span class="connection text-center">
+                                <div class="badge">登录后开放此功能</div>
+                            </span>
+                        </p>
+                    {/if}
+                </div>
                 <textarea type="text" name="" id="input-content" style="width: 100%;"></textarea>
                 <button type="button" id="send-btn" onclick="sendContent()">发送</button>
             </div>
@@ -26,10 +34,12 @@
 </div>
 </div>
 
+{if $name != ''}
 <script>
 
     function sendContent()
     {
+        if ($('#input-content').val() === '') return false;
         var d = {user:'{$name}',data:$('#input-content').val()};
         var djson = JSON.stringify(d);
         ws.send(djson);
@@ -56,8 +66,10 @@
             para.innerHTML = '<span class="connection text-center"><div class="badge">'+jdata.user+'离开本站'+'</div></span>'
         }
         showContent.appendChild(para);
+        $('#count').text('自由的聊天室(当前在线：'+jdata.online+')');
         // cdiv.scrollTop = cdiv.scrollHeight;
         $('#chat-content').scrollTop($('#chat-content')[0].scrollHeight);
     };
 
 </script>
+{/if}

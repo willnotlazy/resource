@@ -11,11 +11,10 @@
 use think\Route;
 
 Route::get([
-    'group/classify/:classify/[:second_classify]'       => 'index/Index/groupByClassify'
+    'group'                                             => 'index/Index/groupByClassify'
     ,'newLeast'                                         => 'index/Index/index'
     ,'reply'                                            => 'index/Index/getReply'
-    ,'vigor'                                            => 'index/Index/getVigor'
-    ,'top10'                                            => 'index/Index/getTop10'
+    ,'vigor'                                            => 'index/Index/showVigor'
     ,'compass'                                          => 'index/Index/showPostCompass'
     ,'level'                                            => 'index/Index/showLevelList'
     ,'viewpost/postid/:postid$'                         => 'index/Index/viewPost'
@@ -23,8 +22,10 @@ Route::get([
     ,'selfcontent/postId/:postId$'                      => 'index/User/viewSelfPost'
     ,'active/:email/:activation_key'                    => 'index/User/activeCheck'
     ,'editSpace'                                        => 'index/User/editSelfSpace'
-    ,'showuser/:id'                                     => 'index/User/showUserInfo'
+    ,'showuser'                                         => 'index/User/showUserInfo'
     ,'darkroom'                                         => 'index/User/darkRoom'
+    ,'search'                                           => 'index/Index/search'
+    ,'msg'                                              => 'index/User/showMsg'
 ]);
 
 Route::post([
@@ -35,6 +36,7 @@ Route::post([
     ,'register'                     => 'index/User/register'
     ,'addreply'                     => 'index/Action/addReply'
     ,'editMySpace'                  => 'index/Action/editMySpace'
+    ,'replyDialog'                  => 'index/User/ajaxGetReplyDialog'
 ]);
 
 Route::rule([

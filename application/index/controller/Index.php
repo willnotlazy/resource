@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Db;
+use think\Exception;
 use think\Session;
 use Predis;
 class Index extends Base
@@ -51,14 +52,13 @@ class Index extends Base
     }
 
 
-    public function groupByClassify($classify, $second_classify = '')
+    public function groupByClassify()
     {
+        $classify = $this->request->get('classify') ?: '';
+        $second_classify = $this->request->get('second_classify') ?: '';
+        if (empty($classify) && empty($second_classify)) throw new Exception();
         $group = $this->getModelInstance('Index')->getByClassify($classify, $second_classify);
-        if (count($group['result']) == 0)
-        {
-            $this->error('未找到该分类','/','','3');
-            exit;
-        }
+        if (count($group['result']) == 0) throw new Exception();
         $classify = $this->getModelInstance('Index')->getClassify();
         $this->assign('model','group');
         $this->assign('classifyPost', $group);
@@ -88,20 +88,34 @@ class Index extends Base
     // 展示精品的帖子
     public function showVigor()
     {
-        return $this->fetch();
+        $result = parent::getModelInstance('index')->getVigor();
+        if (empty($result['postId'])) throw new Exception();
+        $this->assign('model','index');
+        $this->assign('new',$result);
+        $this->assign('otherJs','vigor');
+        return $this->fetch('index');
     }
-
-    // top10 最热top 3天访问量
-    public function showTop10()
-    {
-        return $this->fetch();
-    }
-
 
     // 投稿指南页面
     public function showPostCompass()
     {
         $this->assign('model','compass');
         return $this->fetch('compass');
+    }
+
+
+    public function search()
+    {
+        $s = $this->request->get('title');
+        if (empty($s)) throw new Exception();
+
+        $result = parent::getModelInstance('index')->getSearch($s);
+
+
+        if (!$result['postId']) throw new Exception();
+        $this->assign('model','index');
+        $this->assign('new',$result);
+
+        return $this->fetch('index');
     }
 }

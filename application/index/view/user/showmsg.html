@@ -1,0 +1,39 @@
+{include file='common/header'}
+<div id="dialog" title="详情" style="background-color: #ccc">
+</div>
+<div id="main" class="container">
+<div class="row">
+    <div class="col-lg-8" role="main">
+        <div class="panel panel-default" role="main">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>审核结果通知</h4>
+                </div>
+            </div>
+            <div class="panel-body index-views">
+                {foreach $msg as $v}
+                <div class="col-lg-12">
+                    <div>
+                        {if $v.status == 0}
+                        <div class="msg-title">
+                            <span class="badge" style="color: red;">新</span>
+                            <a href="javascript:void(0)" onclick="showmiu('{$v.id}')">关于<span>{$v.post_title}</span>>的评审结果通知</a>
+                        </div>
+                        {/if}
+                        {if $v.status == 1}
+                        <div class="msg-title">
+                        <span class="badge">阅</span>
+                        <a href="javascript:void(0)" onclick="showmiu('{$v.id}')">关于<span>{$v.post_title}</span>>的评审结果通知</a>
+                        </div>
+                        {/if}
+                    </div>
+                </div>
+                {/foreach}
+                <div>{$msg->render()}</div>
+            </div>
+        </div>
+    </div>
+    {include file='common/leftPanel'}
+</div>
+</div>
+{include file='common/footer'}
