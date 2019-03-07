@@ -26,7 +26,7 @@ function handle_connection($connection)
             $global_user[++$global_uid] = $user;
             $connection->uid = $global_uid;
             $count++;
-            $msg = json_encode(['img'=>$users[$user],'user'=>$user,'content'=>'连接本站','type'=>'connect','online'=>$count]);
+            $msg = json_encode(['img'=>$users[$user],'user'=>$user,'content'=>'连接本站','type'=>'connect','online'=>$count,'time'=>date('Y-m-d H:i:s')]);
             foreach ($text_worker->connections as $conn)
             {
 
@@ -44,7 +44,7 @@ function handle_message($connection, $data)
     global $count;
     if (empty($data)) return ;
     $user = json_decode($data,true);
-    $msg = json_encode(['img'=>$users[$user['user']],'user'=>$user['user'],'content'=>$user['data'],'type'=>'said','online'=>$count]);
+    $msg = json_encode(['img'=>$users[$user['user']],'user'=>$user['user'],'content'=>$user['data'],'type'=>'said','online'=>$count,'time'=>date('Y-m-d H:i:s')]);
     foreach($text_worker->connections as $conn)
     {
         $conn->send($msg);

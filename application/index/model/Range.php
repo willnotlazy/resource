@@ -42,7 +42,7 @@ class Range extends Base
         $i = 0;
         if ($this->redis->exists($type))
         {
-            $range = $this->redis->zrange($type,0,9,array('withscores'=>true));
+            $range = $this->redis->zrevrange($type,0,9,array('withscores'=>true));
             arsort($range);
             foreach ($range as $key => $value)
             {

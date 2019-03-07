@@ -1,4 +1,4 @@
-<div class="col-lg-4 content-right">
+<div class="col-lg-4 content-right range-page">
     <div class="panel-group" id="accordion">
         <div class="panel panel-success panel-archive c-content">
             <div class="panel-heading">
@@ -124,7 +124,7 @@
                     <div id="recent_user">
                         {foreach $lastest_login as $value}
                         <li>
-                            <a href="/showuser/{$value.id}"><img class="avatar" src="{$value.thumb}" data-original="{$value.thumb}" alt="" title="{$value.username}" width="55" height="55" style="display: inline;"></a>
+                            <a href="/showuser?name={$value.username}"><img class="avatar" src="{$value.thumb}" data-original="{$value.thumb}" alt="" title="{$value.username}" width="55" height="55" style="display: inline;"></a>
                         </li>
                         {/foreach}
                     </div>

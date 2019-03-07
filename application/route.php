@@ -37,6 +37,8 @@ Route::post([
     ,'addreply'                     => 'index/Action/addReply'
     ,'editMySpace'                  => 'index/Action/editMySpace'
     ,'replyDialog'                  => 'index/User/ajaxGetReplyDialog'
+    ,'getReplyNum'                  => 'index/User/ajaxGetReplyNum'
+    ,'updateRange'                  => 'index/Range/ajaxGetNewRange'
 ]);
 
 Route::rule([

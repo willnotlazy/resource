@@ -154,7 +154,7 @@ class Action extends Base
         foreach ($result as $key => $value)
         {
             $history = unserialize($value);
-            if (($history['uid'] == $id || $history['clientIP'] == $ip) && $history['postid'] == $postId){
+            if (($history['uid'] == $id && $history['clientIP'] == $ip) && $history['postid'] == $postId){
                 $flag =  false;
                 break;
             }

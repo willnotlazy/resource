@@ -12,7 +12,7 @@
 }
 
 .user_reply_thumb{
-
+    margin-left: 0;
 }
 
 .connection {
@@ -28,7 +28,69 @@
     word-break:break-all;
 }
 
-#chat-content p img
+/*#chat-content p img*/
+/*{*/
+    /*margin-left: 1em;*/
+/*}*/
+
+/* 聊天室基本也是设置 */
+.user_reply_thumb
 {
-    margin-left: 1em;
+    float: left;
+}
+
+.msg-basic-info
+{
+    float: left;
+    margin-left: 8px;
+}
+
+.user-name
+{
+    margin-bottom: -.2em;
+    margin-top: 1px;
+    font-size: 12px
+}
+
+.send-day
+{
+    margin-bottom: 6px;
+}
+
+
+.chat-paopao
+{
+    float:left;
+    width: 200px;
+    background-color: skyblue;
+    border-bottom-color: skyblue;
+    /*为了给after伪元素自动继承*/
+    color: #fff;
+    font-size: 12px;
+    line-height: 18px;
+    padding: 5px 12px 5px 12px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    position: relative;
+    word-break: break-all;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.chat-paopao::before
+{
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 10px;
+    height: 10px;
+    margin-top: -10px;
+    background: inherit;
+    /*自动继承父元素的背景*/
+    transform: rotate(45deg);
+}
+
+p{
+    margin-bottom: 2px;
 }

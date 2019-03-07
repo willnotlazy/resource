@@ -15,6 +15,15 @@ use think\Cookie;
 
 class User extends Base
 {
+    private $self_model;
+
+    // 初始化对应的model
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->self_model = self::getModelInstance('User');
+    }
+
     // 登录
     public function login()
     {
@@ -165,11 +174,12 @@ class User extends Base
     public function showUserInfo()
     {
         $username = $this->request->get('name');
-        if ($username == (int)Session::get('name'));
+        if ($username == Session::get('name'))
         {
             $this->redirect('/info');
             exit;
         }
+        $id = Db::name('user')->field('id')->where('username',$username)->find()['id'];
         $info       = self::getModelInstance('User')->getBasicInfo($id);
         $selfPost   = self::getModelInstance('User')->getSelfPost($id, 15);
         $selfSet    = self::getModelInstance('User')->getUserSpaceSet($id);
@@ -217,5 +227,15 @@ class User extends Base
 
         $dialog['nums'] = $nums;
         return json_encode($dialog);
+    }
+
+
+    // ajax获取未读留言得条数
+    public function ajaxGetReplyNum()
+    {
+        $id = Session::get('id') ?: '';
+        if ($id == '') throw new Exception();
+        $nums = Db::name('msg_reply')->where('uid',$id)->where('status',0)->count();
+        return json_encode(['nums'=>$nums]);
     }
 }
