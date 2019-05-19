@@ -46,7 +46,7 @@
         $('#input-content').val('');
     }
     window.onload = function () {
-        ws = new WebSocket("ws://172.16.69.43:2347?user={$name}");
+        ws = new WebSocket("ws://127.0.0.1:2347?user={$name}");
         // var cdiv = document.getElementById('chat-content');
         var sendBtn = document.getElementById("send-btn");
         var showContent = document.getElementById("chat-content");

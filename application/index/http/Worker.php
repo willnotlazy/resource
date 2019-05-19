@@ -1,7 +1,7 @@
 <?php
 use Workerman\Worker;
 use think\Session;
-require_once 'E:/wamp64/www/resource/vendor/workerman/workerman/Autoloader.php';
+require_once 'D:/wamp64/www/resource/vendor/workerman/workerman/Autoloader.php';
 
 // 获取用户基本信息,定义计算在线用户数量的count
 $global_uid = 0;

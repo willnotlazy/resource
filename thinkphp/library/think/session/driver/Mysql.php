@@ -146,7 +146,6 @@ class Mysql extends SessionHandler
         if (empty($exist)) return true;
         // 删除session
         $result = $this->handler->execute($sql, $where);
-
         // 初始化用户登陆状态
         return $result ? true : false;
     }
